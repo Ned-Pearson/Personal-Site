@@ -13,9 +13,13 @@ interface WindowProps {
   maximized: boolean
   onFocus: () => void
   onMove: (x: number, y: number) => void
+  onResize: (w: number, h: number) => void
   onClose: () => void
   children?: ReactNode
 }
+
+const MIN_W = 320
+const MIN_H = 180
 
 // Minimise/maximise buttons render with the right bevel/pressed states but
 // aren't wired up yet — that lands with maximise/restore and minimise.
@@ -31,6 +35,7 @@ export function Window({
   maximized,
   onFocus,
   onMove,
+  onResize,
   onClose,
   children,
 }: WindowProps) {
@@ -44,6 +49,31 @@ export function Window({
       onMove(
         Math.max(0, Math.min(window.innerWidth - 80, ev.clientX - offsetX)),
         Math.max(0, Math.min(window.innerHeight - 60, ev.clientY - offsetY))
+      )
+    }
+    function up() {
+      document.removeEventListener('mousemove', move)
+      document.removeEventListener('mouseup', up)
+    }
+    document.addEventListener('mousemove', move)
+    document.addEventListener('mouseup', up)
+  }
+
+  // Grip is only rendered while !maximized, so no maximized guard needed here.
+  function startResize(e: React.MouseEvent) {
+    if (e.button !== 0) return
+    e.preventDefault()
+    e.stopPropagation()
+    onFocus()
+    const startX = e.clientX
+    const startY = e.clientY
+    const startW = w
+    const startH = h
+
+    function move(ev: MouseEvent) {
+      onResize(
+        Math.max(MIN_W, Math.min(window.innerWidth - x - 4, startW + (ev.clientX - startX))),
+        Math.max(MIN_H, Math.min(window.innerHeight - 30 - y - 4, startH + (ev.clientY - startY)))
       )
     }
     function up() {
@@ -76,6 +106,7 @@ export function Window({
         </div>
       </div>
       <div className={styles.body}>{children}</div>
+      {!maximized && <div className={styles.resizeGrip} onMouseDown={startResize} />}
     </div>
   )
 }

@@ -81,6 +81,7 @@ export function Desktop() {
               if (focused !== win.id) focus(win.id)
             }}
             onMove={(x, y) => patch(win.id, { x, y })}
+            onResize={(w, h) => patch(win.id, { w, h, max: false })}
             onClose={() => close(win.id)}
           >
             {win.kind} window — content lands in sections 5-8

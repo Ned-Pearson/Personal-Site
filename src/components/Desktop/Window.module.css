@@ -87,3 +87,20 @@
   font: var(--text-chrome-lg) var(--font-chrome);
   color: var(--color-ink);
 }
+
+.resizeGrip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(
+    135deg,
+    transparent 0 42%,
+    var(--color-bevel-mid) 42% 50%,
+    transparent 50% 58%,
+    var(--color-bevel-mid) 58% 66%,
+    transparent 66%
+  );
+}
