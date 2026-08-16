@@ -27,7 +27,6 @@ npm run dev
 
 ### 4. Window system (core engine)
 
-- Track recently-opened node ids (feeds Start menu's Recent list, section 10)
 - Z-order / focus: mousedown raises window via incrementing counter (base 10); drives title-bar gradient
 - Drag: title-bar mousedown (left button, not when maximised) → document mousemove/mouseup, clamped to keep ≥80px horiz / ≥60px vert on screen
 - Resize: 16px bottom-right grip (diagonal hatch), min 320×180, clamped to viewport, hidden when maximised
