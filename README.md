@@ -19,7 +19,6 @@ npm run dev
 
 ### 2. Data layer
 
-- Define `DOCS` map for text files (readme.txt content)
 - Structure data so the window system doesn't care where content comes from (future MDX/CMS swap)
 
 ### 3. Desktop (base page)
