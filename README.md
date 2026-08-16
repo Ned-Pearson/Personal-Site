@@ -19,10 +19,7 @@ npm run dev
 
 ### 2. Data layer
 
-- Define `NODES` map (id → name, kind, type, modified, colour, parent, children) as static JSON/TS data
-- Define `PROJECTS` map (blurb, tags, write-up paragraphs, media captions, date, status)
-- Define `DOCS` map for text files (readme.txt content)
-- Structure data so the window system doesn't care where content comes from (future MDX/CMS swap)
+- Done
 
 ### 3. Desktop (base page)
 
