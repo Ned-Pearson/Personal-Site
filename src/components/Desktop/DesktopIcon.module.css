@@ -1,0 +1,23 @@
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.icon:hover {
+  outline: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
+.label {
+  font: var(--text-chrome-sm) var(--font-chrome);
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+  padding: 1px var(--space-2);
+  text-align: center;
+}
+
+.selected {
+  background: var(--color-title-navy);
+  text-shadow: none;
+}
