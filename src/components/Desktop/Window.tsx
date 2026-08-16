@@ -10,17 +10,19 @@ interface WindowProps {
   w: number
   h: number
   z: number
+  onFocus: () => void
   onClose: () => void
   children?: ReactNode
 }
 
 // Minimise/maximise buttons render with the right bevel/pressed states but
 // aren't wired up yet — that lands with maximise/restore and minimise.
-export function Window({ title, iconColor, focused, x, y, w, h, z, onClose, children }: WindowProps) {
+export function Window({ title, iconColor, focused, x, y, w, h, z, onFocus, onClose, children }: WindowProps) {
   return (
     <div
       className={focused ? `${styles.window} ${styles.focused}` : styles.window}
       style={{ left: x, top: y, width: w, height: h, zIndex: z }}
+      onMouseDown={onFocus}
     >
       <div className={styles.titleBar}>
         <div className={styles.iconChip} style={{ background: iconColor }} />
