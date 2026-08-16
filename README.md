@@ -19,7 +19,7 @@ npm run dev
 
 ### 2. Data layer
 
-- Structure data so the window system doesn't care where content comes from (future MDX/CMS swap)
+- Done
 
 ### 3. Desktop (base page)
 
