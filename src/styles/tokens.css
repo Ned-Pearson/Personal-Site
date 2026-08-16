@@ -75,4 +75,8 @@
   /* Pressed buttons: sunken + darker inner edge, paired with transform: translate(1px, 1px) */
   --bevel-sunken-strong: inset 1px 1px 0 var(--color-bevel-dark), inset -1px -1px 0 var(--color-bevel-light);
   --bevel-window-drop: 3px 3px 0 rgba(0, 0, 0, 0.25);
+
+  /* Cursor: pixel arrow, 16x22, white fill / black stroke, hotspot 0 0 */
+  --cursor-pixel: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h0PScyMicgdmlld0JveD0nMCAwIDE2IDIyJz48cGF0aCBkPSdNMCAwIEwwIDE3IEw0IDEzIEw3IDIwIEw5IDE5IEw2IDEyIEwxMSAxMiBaJyBmaWxsPSd3aGl0ZScgc3Ryb2tlPSdibGFjaycgc3Ryb2tlLXdpZHRoPScxJyBzaGFwZS1yZW5kZXJpbmc9J2NyaXNwRWRnZXMnLz48L3N2Zz4=")
+    0 0, auto;
 }

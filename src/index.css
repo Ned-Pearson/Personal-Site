@@ -68,6 +68,11 @@ body {
   margin: 0;
 }
 
+html {
+  /* Global pixel cursor; resize grips keep nwse-resize, text inputs keep text */
+  cursor: var(--cursor-pixel);
+}
+
 h1,
 h2 {
   font-family: var(--heading);

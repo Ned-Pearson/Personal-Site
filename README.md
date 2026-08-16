@@ -15,7 +15,6 @@ npm run dev
 
 ### 1. Foundations
 
-- Add custom pixel-arrow cursor (inline SVG data URI, 16×22, hotspot 0 0) globally, `nwse-resize` on resize grips, `text` on search field
 - Decide on styling approach (CSS Modules / vanilla CSS / styled-components) and set up the convention
 
 ### 2. Data layer
