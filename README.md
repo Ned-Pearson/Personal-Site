@@ -24,6 +24,7 @@ npm run dev
 ### 3. Desktop (base page)
 
 - Desktop click closes start menu / context menu / open View menus
+  - come back to this one when the menus are present
 
 ### 4. Window system (core engine)
 
