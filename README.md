@@ -19,7 +19,6 @@ npm run dev
 
 ### 2. Data layer
 
-- Define `PROJECTS` map (blurb, tags, write-up paragraphs, media captions, date, status)
 - Define `DOCS` map for text files (readme.txt content)
 - Structure data so the window system doesn't care where content comes from (future MDX/CMS swap)
 
