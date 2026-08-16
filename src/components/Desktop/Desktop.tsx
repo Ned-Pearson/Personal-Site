@@ -1,18 +1,24 @@
 import { useState } from 'react'
 import { getNode } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
+import { useWindows } from './useWindows'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
 const readmeNode = getNode('readme')!
 
-// TODO: replace with real window-opening logic once the window system (section 4) exists.
-function openIcon(id: string) {
-  console.log('open', id)
-}
-
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
+  const { openWindow } = useWindows()
+
+  function openIcon(id: string) {
+    if (id === 'about') {
+      openWindow('about', 'about')
+      return
+    }
+    const node = getNode(id)
+    if (node) openWindow(node.id, node.kind)
+  }
 
   return (
     <div className={styles.desktop} onClick={() => setSelectedIcon(null)}>
