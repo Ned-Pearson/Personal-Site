@@ -1,0 +1,21 @@
+.folder {
+  position: relative;
+  width: 44px;
+  height: 34px;
+  background: var(--color-folder);
+  border: 1px solid var(--color-folder-edge);
+  box-shadow:
+    inset -2px -2px 0 var(--color-folder-lo),
+    inset 2px 2px 0 var(--color-folder-hi);
+}
+
+.tab {
+  position: absolute;
+  top: -6px;
+  left: 2px;
+  width: 18px;
+  height: 6px;
+  background: var(--color-folder);
+  border: 1px solid var(--color-folder-edge);
+  border-bottom: none;
+}
