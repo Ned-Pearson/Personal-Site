@@ -1,0 +1,78 @@
+/* Design tokens for the retro desktop UI — see Plan.md "Design Tokens" */
+
+:root {
+  /* Colours */
+  --color-wallpaper: #1f7a78;
+  --color-chrome: #d4d0c8;
+  --color-chrome-dark: #bdb9b1;
+  --color-bevel-light: #ffffff;
+  --color-bevel-mid: #808080;
+  --color-bevel-dark: #404040;
+  --color-outline: #000000;
+  --color-title-navy: #0a246a;
+  --color-title-blue: #3a6ea5;
+  --color-title-inactive-start: #6f7a8c;
+  --color-title-inactive-end: #9aa3af;
+  --color-folder: #f0c552;
+  --color-folder-edge: #6b4d0d;
+  --color-folder-hi: #ffe6a0;
+  --color-folder-lo: #c99a2c;
+  --color-doc: #f4f4f0;
+  --color-doc-edge: #55554e;
+  --color-category-ml: #8fd3c8;
+  --color-category-general: #e0b13a;
+  --color-ink: #232019;
+  --color-ink-muted: #6b675f;
+  --color-sheet-edge: #e2ded4;
+  --color-chip: #f2f0eb;
+  --color-chip-edge: #cfcabe;
+  --color-accent-red: #c1443c;
+  --color-accent-green: #2f7a35;
+
+  /* Spacing scale (px) */
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-22: 22px;
+
+  /* Radius: 0 everywhere, bevels only */
+  --radius: 0;
+
+  /* Type: chrome (Tahoma/Verdana/Geneva) */
+  --font-chrome: Tahoma, Verdana, Geneva, sans-serif;
+  --text-chrome-sm: 11px;
+  --text-chrome-base: 11.5px;
+  --text-chrome-lg: 12px;
+
+  /* Type: content (Inter Tight) */
+  --font-content: 'Inter Tight', sans-serif;
+  --text-content-xs: 12.5px;
+  --text-content-sm: 13px;
+  --text-content-base: 13.5px;
+  --text-content-2xl: 20px;
+  --text-content-3xl: 21px;
+  --text-content-4xl: 23px;
+  --tracking-heading: -0.02em;
+
+  /* Type: mono (IBM Plex Mono) — paths, dates, labels */
+  --font-mono: 'IBM Plex Mono', monospace;
+  --text-mono-xs: 9.5px;
+  --text-mono-sm: 10px;
+  --text-mono-base: 10.5px;
+  --text-mono-lg: 11px;
+  --tracking-label: 0.09em;
+
+  /* Bevels */
+  --bevel-raised: inset -1px -1px 0 var(--color-bevel-mid), inset 1px 1px 0 var(--color-bevel-light);
+  --bevel-raised-strong: inset -1px -1px 0 var(--color-bevel-dark), inset 1px 1px 0 var(--color-bevel-light);
+  --bevel-sunken: inset 1px 1px 0 var(--color-bevel-mid), inset -1px -1px 0 var(--color-bevel-light);
+  /* Pressed buttons: sunken + darker inner edge, paired with transform: translate(1px, 1px) */
+  --bevel-sunken-strong: inset 1px 1px 0 var(--color-bevel-dark), inset -1px -1px 0 var(--color-bevel-light);
+  --bevel-window-drop: 3px 3px 0 rgba(0, 0, 0, 0.25);
+}

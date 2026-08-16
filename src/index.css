@@ -1,3 +1,5 @@
+@import './styles/tokens.css';
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -14,8 +16,6 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
-  /* Desktop chrome (title bars, menus, taskbar, buttons) per Plan.md's design tokens */
-  --font-chrome: Tahoma, Verdana, Geneva, sans-serif;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
