@@ -111,5 +111,13 @@ export function useWindows() {
     setState((s) => focusInState(s, id, unminimize))
   }
 
-  return { windows: state.windows, focused: state.focused, recent: state.recent, openWindow, focus }
+  function close(id: number) {
+    setState((s) => ({
+      ...s,
+      windows: s.windows.filter((w) => w.id !== id),
+      focused: s.focused === id ? null : s.focused,
+    }))
+  }
+
+  return { windows: state.windows, focused: state.focused, recent: state.recent, openWindow, focus, close }
 }
