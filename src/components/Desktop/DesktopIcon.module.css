@@ -12,3 +12,8 @@
   padding: 1px var(--space-2);
   text-align: center;
 }
+
+.selected {
+  background: var(--color-title-navy);
+  text-shadow: none;
+}

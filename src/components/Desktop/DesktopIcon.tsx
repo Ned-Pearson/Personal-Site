@@ -7,13 +7,23 @@ export type DesktopIconGlyph = 'folder' | 'document'
 interface DesktopIconProps {
   label: string
   glyph: DesktopIconGlyph
+  selected: boolean
+  onSelect: () => void
 }
 
-export function DesktopIcon({ label, glyph }: DesktopIconProps) {
+export function DesktopIcon({ label, glyph, selected, onSelect }: DesktopIconProps) {
   return (
-    <div className={styles.icon}>
+    <div
+      className={styles.icon}
+      onClick={(e) => {
+        e.stopPropagation()
+        onSelect()
+      }}
+    >
       {glyph === 'folder' ? <FolderGlyph /> : <DocumentGlyph />}
-      <span className={styles.label}>{label}</span>
+      <span className={selected ? `${styles.label} ${styles.selected}` : styles.label}>
+        {label}
+      </span>
     </div>
   )
 }
