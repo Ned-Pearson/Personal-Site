@@ -1,3 +1,5 @@
+@import './styles/tokens.css';
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -64,6 +66,11 @@
 
 body {
   margin: 0;
+}
+
+html {
+  /* Global pixel cursor; resize grips keep nwse-resize, text inputs keep text */
+  cursor: var(--cursor-pixel);
 }
 
 h1,
