@@ -33,7 +33,7 @@ npm run dev
 - Maximise/restore: store previous x/y/w/h, toggle via button or title-bar double-click; maximised = full viewport minus taskbar
 - Minimise: hide window, track minimised state (taskbar button to restore it lands in section 9)
 - Cascading default position (132/40 + 30/28 per open window), clamped inside viewport
-- Generic window chrome component: title bar (gradient, icon chip, min/max/close buttons w/ bevel + pressed states), reusable across window kinds
+- ~~Generic window chrome component: title bar (gradient, icon chip, min/max/close buttons w/ bevel + pressed states), reusable across window kinds~~
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
