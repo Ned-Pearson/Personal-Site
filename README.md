@@ -23,18 +23,18 @@ npm run dev
 
 ### 3. Desktop (base page)
 
-- Desktop click closes start menu / context menu / open View menus
-  - come back to this one when the menus are present
+- Done — "closes start menu / context menu / View menus" is covered by section 12's menu-close behaviour once those menus exist
 
 ### 4. Window system (core engine)
 
 - `windows[]` state model: `{ id, node, kind, x, y, w, h, z, min, max, menu, view, tab, px/py/pw/ph }`
 - Open/focus logic: opening an already-open node focuses + un-minimises instead of duplicating
-- Z-order / focus: mousedown raises window via incrementing counter (base 10); drives title-bar gradient + taskbar button state
+- Track recently-opened node ids (feeds Start menu's Recent list, section 10)
+- Z-order / focus: mousedown raises window via incrementing counter (base 10); drives title-bar gradient
 - Drag: title-bar mousedown (left button, not when maximised) → document mousemove/mouseup, clamped to keep ≥80px horiz / ≥60px vert on screen
 - Resize: 16px bottom-right grip (diagonal hatch), min 320×180, clamped to viewport, hidden when maximised
 - Maximise/restore: store previous x/y/w/h, toggle via button or title-bar double-click; maximised = full viewport minus taskbar
-- Minimise: hide window, keep taskbar button, clicking active taskbar button minimises
+- Minimise: hide window, track minimised state (taskbar button to restore it lands in section 9)
 - Cascading default position (132/40 + 30/28 per open window), clamped inside viewport
 - Generic window chrome component: title bar (gradient, icon chip, min/max/close buttons w/ bevel + pressed states), reusable across window kinds
 
@@ -43,7 +43,6 @@ npm run dev
 - Layout shell: title bar → menu bar → toolbar → file pane → status bar → resize grip
 - Menu bar: File / Edit / View / Help with underlined accelerators
 - View menu dropdown (158px): checkmarked "as File list" / "as Icon grid", disabled Refresh
-- Help menu → opens readme.txt
 - Toolbar: disabled Back/Forward, divider, path field (mono, e.g. `C:\ned\projects\...`), list/icon view toggles
 - File pane — List view: header row (Name/Type/Modified), row hover/selected states
 - File pane — Icon view: grid layout, glyph + label
@@ -69,13 +68,13 @@ npm run dev
 ### 8. Text viewer (readme.txt)
 
 - White sheet layout, heading, paragraphs, "— end of file —" footer
-- Opens from desktop icon, Help menu, and Start menu
+- Opens from desktop icon and folder window's Help menu (Start menu entry wired in section 10)
 
 ### 9. Taskbar
 
 - Static shell: 30px bar, bevel/shadow treatment
-- Start button ("np" + 2×2 colour square) with pressed/open state
-- Per-window task buttons (icon chip + label), active = sunken + bold
+- Start button ("np" + 2×2 colour square) with pressed/open state (wired to actually open the menu in section 10)
+- Per-window task buttons (icon chip + label), active = sunken + bold, driven by window focus/minimised state from section 4; clicking active minimises, clicking inactive/minimised restores + focuses
 - Clock: sunken mono field, updates every 10s, 12h/24h
 
 ### 10. Start menu
@@ -87,6 +86,8 @@ npm run dev
 - Recent → three most recently opened projects
 - Search/filter: type-ahead filters by name/type/tag/status, "no matches" state
 - Shut Down closes all open windows
+- Wire Start button click to open/close this menu (updates the pressed/open state added in section 9)
+- Wire readme.txt row to open the text viewer (built in section 8)
 
 ### 11. Desktop context menu
 
