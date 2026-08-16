@@ -15,7 +15,7 @@ npm run dev
 
 ### 1. Foundations
 
-- Decide on styling approach (CSS Modules / vanilla CSS / styled-components) and set up the convention
+- Done
 
 ### 2. Data layer
 
