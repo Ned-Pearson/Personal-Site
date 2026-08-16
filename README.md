@@ -23,7 +23,6 @@ npm run dev
 
 ### 3. Desktop (base page)
 
-- Icon column (Projects, About Me, readme.txt) with correct glyphs (folder, document)
 - Icon label styling incl. selected state (`#0a246a` bg, shadow removed)
 - Icon hover (dotted outline) and single-click select vs double-click open behaviour
 - Desktop click closes start menu / context menu / open View menus
