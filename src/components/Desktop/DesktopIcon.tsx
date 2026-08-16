@@ -9,15 +9,20 @@ interface DesktopIconProps {
   glyph: DesktopIconGlyph
   selected: boolean
   onSelect: () => void
+  onOpen: () => void
 }
 
-export function DesktopIcon({ label, glyph, selected, onSelect }: DesktopIconProps) {
+export function DesktopIcon({ label, glyph, selected, onSelect, onOpen }: DesktopIconProps) {
   return (
     <div
       className={styles.icon}
       onClick={(e) => {
         e.stopPropagation()
         onSelect()
+      }}
+      onDoubleClick={(e) => {
+        e.stopPropagation()
+        onOpen()
       }}
     >
       {glyph === 'folder' ? <FolderGlyph /> : <DocumentGlyph />}

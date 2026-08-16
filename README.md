@@ -23,7 +23,6 @@ npm run dev
 
 ### 3. Desktop (base page)
 
-- Icon hover (dotted outline) and single-click select vs double-click open behaviour
 - Desktop click closes start menu / context menu / open View menus
 
 ### 4. Window system (core engine)
