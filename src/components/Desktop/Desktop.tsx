@@ -26,7 +26,7 @@ function windowIconColor(node: string, kind: WindowKind): string {
 
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close } = useWindows()
+  const { windows, focused, openWindow, focus, close, patch } = useWindows()
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -76,9 +76,11 @@ export function Desktop() {
             w={win.w}
             h={win.h}
             z={win.z}
+            maximized={win.max}
             onFocus={() => {
               if (focused !== win.id) focus(win.id)
             }}
+            onMove={(x, y) => patch(win.id, { x, y })}
             onClose={() => close(win.id)}
           >
             {win.kind} window — content lands in sections 5-8

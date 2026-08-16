@@ -119,5 +119,10 @@ export function useWindows() {
     }))
   }
 
-  return { windows: state.windows, focused: state.focused, recent: state.recent, openWindow, focus, close }
+  /** Merges arbitrary field updates into one window — used by drag, resize, maximise. */
+  function patch(id: number, updates: Partial<WindowState>) {
+    setState((s) => ({ ...s, windows: s.windows.map((w) => (w.id === id ? { ...w, ...updates } : w)) }))
+  }
+
+  return { windows: state.windows, focused: state.focused, recent: state.recent, openWindow, focus, close, patch }
 }

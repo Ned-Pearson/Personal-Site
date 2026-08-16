@@ -27,7 +27,6 @@ npm run dev
 
 ### 4. Window system (core engine)
 
-- Drag: title-bar mousedown (left button, not when maximised) → document mousemove/mouseup, clamped to keep ≥80px horiz / ≥60px vert on screen
 - Resize: 16px bottom-right grip (diagonal hatch), min 320×180, clamped to viewport, hidden when maximised
 - Maximise/restore: store previous x/y/w/h, toggle via button or title-bar double-click; maximised = full viewport minus taskbar
 - Minimise: hide window, track minimised state (taskbar button to restore it lands in section 9)
