@@ -15,11 +15,7 @@ npm run dev
 
 ### 1. Foundations
 
-- Self-host fonts (Inter Tight, IBM Plex Mono) instead of Google Fonts CDN
-- Add Tahoma/Verdana/Geneva system font stack fallback for chrome text
-- Set up global design tokens (CSS variables) for the palette, spacing scale, and bevel mixins in `## Design Tokens`
-- Add custom pixel-arrow cursor (inline SVG data URI, 16×22, hotspot 0 0) globally, `nwse-resize` on resize grips, `text` on search field
-- Decide on styling approach (CSS Modules / vanilla CSS / styled-components) and set up the convention
+- Done
 
 ### 2. Data layer
 
