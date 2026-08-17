@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { getNode } from '../../data'
+import { getNode, getPath, getChildren, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
-import { useWindows, type WindowKind } from './useWindows'
+import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
+import { FolderWindow } from './FolderWindow'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -24,9 +25,51 @@ function windowIconColor(node: string, kind: WindowKind): string {
   return getNode(node)?.colour ?? 'var(--color-doc)'
 }
 
+// e.g. getPath('machine-learning') -> "C:\ned\projects\machine-learning"
+function folderPath(node: string): string {
+  const segments = getPath(node).map((n) => n.name.toLowerCase().replace(/ /g, '-'))
+  return 'C:\\ned\\' + segments.join('\\')
+}
+
+function windowBody(
+  win: WindowState,
+  openWindow: (node: string, kind: WindowKind) => void,
+  toggleMenu: (id: number) => void,
+  patch: (id: number, updates: Partial<WindowState>) => void,
+  selectedIcon: string | null,
+  setSelectedIcon: (id: string) => void
+) {
+  if (win.kind === 'folder') {
+    const parentId = getNode(win.node)?.parent ?? null
+    const rowPrefix = `${win.id}:`
+    const selectedRow = selectedIcon?.startsWith(rowPrefix) ? selectedIcon.slice(rowPrefix.length) : null
+    return (
+      <FolderWindow
+        view={win.view}
+        menuOpen={win.menu}
+        path={folderPath(win.node)}
+        canGoBack={!!parentId}
+        items={getChildren(win.node)}
+        selectedRow={selectedRow}
+        modified={getNode(win.node)?.modified ?? ''}
+        onOpenReadme={() => openWindow('readme', 'document')}
+        onToggleMenu={() => toggleMenu(win.id)}
+        onSetView={(view) => patch(win.id, { view, menu: false })}
+        onBack={() => {
+          if (parentId) openWindow(parentId, 'folder')
+        }}
+        onSelectRow={(nodeId) => setSelectedIcon(rowPrefix + nodeId)}
+        onOpenRow={(node: Node) => openWindow(node.id, node.kind)}
+      />
+    )
+  }
+  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 6-8</div>
+}
+
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize } = useWindows()
+  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
+    useWindows()
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -38,7 +81,13 @@ export function Desktop() {
   }
 
   return (
-    <div className={styles.desktop} onClick={() => setSelectedIcon(null)}>
+    <div
+      className={styles.desktop}
+      onClick={() => {
+        setSelectedIcon(null)
+        closeMenus()
+      }}
+    >
       <div className={styles.iconColumn}>
         <DesktopIcon
           label={projectsNode.name}
@@ -86,7 +135,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {win.kind} window — content lands in sections 5-8
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon)}
           </Window>
         ))}
     </div>

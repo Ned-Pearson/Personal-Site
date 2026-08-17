@@ -76,14 +76,16 @@
   border-top-width: 2px;
 }
 
+/* Unstyled on purpose — each window kind's own content component (FolderWindow,
+   ProjectWindow, AboutWindow, TextViewer) owns its full body layout, since
+   Plan.md specs a different body treatment per kind (bare white sheet, sunken
+   chrome panel around a white sheet, multi-region shell, etc). */
 .body {
   flex: 1;
   min-height: 0;
-  margin: var(--space-4);
-  background: #fff;
-  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
-  overflow: auto;
-  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   font: var(--text-chrome-lg) var(--font-chrome);
   color: var(--color-ink);
 }

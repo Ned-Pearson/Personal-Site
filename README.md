@@ -31,15 +31,7 @@ npm run dev
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
-- Layout shell: title bar → menu bar → toolbar → file pane → status bar → resize grip
-- Menu bar: File / Edit / View / Help with underlined accelerators
-- View menu dropdown (158px): checkmarked "as File list" / "as Icon grid", disabled Refresh
-- Toolbar: disabled Back/Forward, divider, path field (mono, e.g. `C:\ned\projects\...`), list/icon view toggles
-- File pane — List view: header row (Name/Type/Modified), row hover/selected states
-- File pane — Icon view: grid layout, glyph + label
-- Icon glyphs by type: folder, project (window glyph w/ category colour bar), document
-- Category colours wired: Machine Learning `#8fd3c8`, General `#e0b13a`
-- Status bar: "N object(s)" + modified date fields
+- Done
 
 ### 6. Project windows (Overview / Write-up / Media)
 
