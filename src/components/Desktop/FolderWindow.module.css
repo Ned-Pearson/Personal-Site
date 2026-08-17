@@ -196,6 +196,9 @@
   width: 20px;
   height: 18px;
   flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rowName {
