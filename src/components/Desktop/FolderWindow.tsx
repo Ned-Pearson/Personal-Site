@@ -24,6 +24,8 @@ interface FolderWindowProps {
   canGoBack: boolean
   items: Node[]
   selectedRow: string | null
+  /** The current folder's own modified date, for the status bar's right field. */
+  modified: string
   onOpenReadme: () => void
   onToggleMenu: () => void
   onSetView: (view: WindowView) => void
@@ -33,8 +35,7 @@ interface FolderWindowProps {
 }
 
 // File and Edit are permanently inert (no dropdown, ever) — they still get
-// hover feedback, matching a genuine retro menu bar. Status-bar text is a
-// later point still.
+// hover feedback, matching a genuine retro menu bar.
 export function FolderWindow({
   view,
   menuOpen,
@@ -42,6 +43,7 @@ export function FolderWindow({
   canGoBack,
   items,
   selectedRow,
+  modified,
   onOpenReadme,
   onToggleMenu,
   onSetView,
@@ -176,8 +178,8 @@ export function FolderWindow({
         )}
       </div>
       <div className={styles.statusBar}>
-        <div className={styles.statusField} />
-        <div className={`${styles.statusField} ${styles.statusFieldRight}`} />
+        <div className={styles.statusField}>{items.length} object(s)</div>
+        <div className={`${styles.statusField} ${styles.statusFieldRight}`}>{modified}</div>
       </div>
     </>
   )

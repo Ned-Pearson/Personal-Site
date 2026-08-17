@@ -31,8 +31,7 @@ npm run dev
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
-- Category colours wired: Machine Learning `#8fd3c8`, General `#e0b13a`
-- Status bar: "N object(s)" + modified date fields
+- Done
 
 ### 6. Project windows (Overview / Write-up / Media)
 
