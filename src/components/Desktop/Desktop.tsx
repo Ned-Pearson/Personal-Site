@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode, getPath } from '../../data'
+import { getNode, getPath, getChildren, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -35,22 +35,30 @@ function windowBody(
   win: WindowState,
   openWindow: (node: string, kind: WindowKind) => void,
   toggleMenu: (id: number) => void,
-  patch: (id: number, updates: Partial<WindowState>) => void
+  patch: (id: number, updates: Partial<WindowState>) => void,
+  selectedIcon: string | null,
+  setSelectedIcon: (id: string) => void
 ) {
   if (win.kind === 'folder') {
     const parentId = getNode(win.node)?.parent ?? null
+    const rowPrefix = `${win.id}:`
+    const selectedRow = selectedIcon?.startsWith(rowPrefix) ? selectedIcon.slice(rowPrefix.length) : null
     return (
       <FolderWindow
         view={win.view}
         menuOpen={win.menu}
         path={folderPath(win.node)}
         canGoBack={!!parentId}
+        items={getChildren(win.node)}
+        selectedRow={selectedRow}
         onOpenReadme={() => openWindow('readme', 'document')}
         onToggleMenu={() => toggleMenu(win.id)}
         onSetView={(view) => patch(win.id, { view, menu: false })}
         onBack={() => {
           if (parentId) openWindow(parentId, 'folder')
         }}
+        onSelectRow={(nodeId) => setSelectedIcon(rowPrefix + nodeId)}
+        onOpenRow={(node: Node) => openWindow(node.id, node.kind)}
       />
     )
   }
@@ -126,7 +134,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {windowBody(win, openWindow, toggleMenu, patch)}
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon)}
           </Window>
         ))}
     </div>

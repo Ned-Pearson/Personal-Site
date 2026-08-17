@@ -57,7 +57,7 @@
 
 .check {
   width: 10px;
-  font-size: var(--text-mono-sm);
+  font-size: 10px;
 }
 
 .dropdownLabel {
@@ -87,7 +87,7 @@
   gap: var(--space-4);
   padding: var(--space-2) 7px;
   box-shadow: var(--bevel-raised);
-  font-size: var(--text-chrome-lg);
+  font-size: var(--text-chrome-sm);
 }
 
 .toolbarButtonActive {
@@ -118,14 +118,14 @@
   background: #fff;
   box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
   padding: var(--space-2) var(--space-4);
-  font: 400 var(--text-chrome-lg) var(--font-mono);
+  font: 400 var(--text-mono-lg) var(--font-mono);
   white-space: nowrap;
   overflow: hidden;
 }
 
 .viewToggle {
   padding: var(--space-2) 7px;
-  font-size: var(--text-chrome-lg);
+  font-size: var(--text-chrome-sm);
   box-shadow: var(--bevel-raised);
 }
 
@@ -152,6 +152,67 @@
   overflow: auto;
 }
 
+.listView {
+  padding: var(--space-4);
+}
+
+.listHeader {
+  display: flex;
+  padding: 2px var(--space-6);
+  font-size: var(--text-chrome-sm);
+  color: var(--color-bevel-dark);
+  border-bottom: 1px solid var(--color-chrome);
+}
+
+.headerName {
+  flex: 1;
+}
+
+.headerType {
+  width: 96px;
+}
+
+.headerModified {
+  width: 110px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-4) var(--space-6);
+}
+
+.row:hover {
+  filter: brightness(0.94);
+}
+
+.rowSelected {
+  background: var(--color-title-navy);
+  color: #fff;
+}
+
+.rowGlyph {
+  width: 20px;
+  height: 18px;
+  flex: none;
+}
+
+.rowName {
+  flex: 1;
+  font-size: var(--text-chrome-base);
+}
+
+.rowType {
+  width: 96px;
+  font-size: var(--text-chrome-sm);
+}
+
+.rowModified {
+  width: 110px;
+  font: 400 var(--text-mono-lg) var(--font-mono);
+}
+
 .statusBar {
   display: flex;
   gap: var(--space-3);
@@ -163,12 +224,12 @@
   flex: 1;
   padding: var(--space-2) var(--space-4);
   box-shadow: inset 1px 1px 0 var(--color-bevel-mid), inset -1px -1px 0 var(--color-bevel-light);
-  font-size: var(--text-chrome-lg);
+  font-size: var(--text-chrome-sm);
   min-height: 1em;
 }
 
 .statusFieldRight {
   flex: none;
   width: 120px;
-  font: 400 var(--text-chrome-lg) var(--font-mono);
+  font: 400 var(--text-mono-lg) var(--font-mono);
 }
