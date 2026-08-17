@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { getNode } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
-import { useWindows, type WindowKind } from './useWindows'
+import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
 import { FolderWindow } from './FolderWindow'
 import styles from './Desktop.module.css'
@@ -25,14 +25,30 @@ function windowIconColor(node: string, kind: WindowKind): string {
   return getNode(node)?.colour ?? 'var(--color-doc)'
 }
 
-function windowBody(win: { node: string; kind: WindowKind }, openWindow: (node: string, kind: WindowKind) => void) {
-  if (win.kind === 'folder') return <FolderWindow onOpenReadme={() => openWindow('readme', 'document')} />
+function windowBody(
+  win: WindowState,
+  openWindow: (node: string, kind: WindowKind) => void,
+  toggleMenu: (id: number) => void,
+  patch: (id: number, updates: Partial<WindowState>) => void
+) {
+  if (win.kind === 'folder') {
+    return (
+      <FolderWindow
+        view={win.view}
+        menuOpen={win.menu}
+        onOpenReadme={() => openWindow('readme', 'document')}
+        onToggleMenu={() => toggleMenu(win.id)}
+        onSetView={(view) => patch(win.id, { view, menu: false })}
+      />
+    )
+  }
   return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 6-8</div>
 }
 
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize } = useWindows()
+  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
+    useWindows()
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -44,7 +60,13 @@ export function Desktop() {
   }
 
   return (
-    <div className={styles.desktop} onClick={() => setSelectedIcon(null)}>
+    <div
+      className={styles.desktop}
+      onClick={() => {
+        setSelectedIcon(null)
+        closeMenus()
+      }}
+    >
       <div className={styles.iconColumn}>
         <DesktopIcon
           label={projectsNode.name}
@@ -92,7 +114,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {windowBody(win, openWindow)}
+            {windowBody(win, openWindow, toggleMenu, patch)}
           </Window>
         ))}
     </div>
