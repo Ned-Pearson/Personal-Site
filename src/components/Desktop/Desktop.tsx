@@ -3,6 +3,7 @@ import { getNode } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind } from './useWindows'
 import { Window } from './Window'
+import { FolderWindow } from './FolderWindow'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -22,6 +23,11 @@ function windowIconColor(node: string, kind: WindowKind): string {
   if (kind === 'folder') return 'var(--color-folder)'
   if (kind === 'about' || kind === 'document') return 'var(--color-doc)'
   return getNode(node)?.colour ?? 'var(--color-doc)'
+}
+
+function windowBody(win: { node: string; kind: WindowKind }) {
+  if (win.kind === 'folder') return <FolderWindow />
+  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 6-8</div>
 }
 
 export function Desktop() {
@@ -86,7 +92,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {win.kind} window — content lands in sections 5-8
+            {windowBody(win)}
           </Window>
         ))}
     </div>

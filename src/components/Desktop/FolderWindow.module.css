@@ -1,0 +1,48 @@
+.menuBar {
+  position: relative;
+  display: flex;
+  gap: var(--space-14);
+  padding: var(--space-3) 7px;
+  font-size: var(--text-chrome-base);
+  flex: none;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) 5px;
+  border-top: 1px solid var(--color-bevel-light);
+  border-bottom: 1px solid var(--color-bevel-mid);
+  flex: none;
+}
+
+.filePane {
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  margin: var(--space-4);
+  overflow: auto;
+}
+
+.statusBar {
+  display: flex;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+  flex: none;
+}
+
+.statusField {
+  flex: 1;
+  padding: var(--space-2) var(--space-4);
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid), inset -1px -1px 0 var(--color-bevel-light);
+  font-size: var(--text-chrome-lg);
+  min-height: 1em;
+}
+
+.statusFieldRight {
+  flex: none;
+  width: 120px;
+  font: 400 var(--text-chrome-lg) var(--font-mono);
+}
