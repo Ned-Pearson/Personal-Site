@@ -14,6 +14,7 @@ interface WindowProps {
   onFocus: () => void
   onMove: (x: number, y: number) => void
   onResize: (w: number, h: number) => void
+  onToggleMax: () => void
   onClose: () => void
   children?: ReactNode
 }
@@ -21,8 +22,8 @@ interface WindowProps {
 const MIN_W = 320
 const MIN_H = 180
 
-// Minimise/maximise buttons render with the right bevel/pressed states but
-// aren't wired up yet — that lands with maximise/restore and minimise.
+// Minimise button renders with the right bevel/pressed states but isn't
+// wired up yet — that lands with minimise.
 export function Window({
   title,
   iconColor,
@@ -36,6 +37,7 @@ export function Window({
   onFocus,
   onMove,
   onResize,
+  onToggleMax,
   onClose,
   children,
 }: WindowProps) {
@@ -90,14 +92,14 @@ export function Window({
       style={{ left: x, top: y, width: w, height: h, zIndex: z }}
       onMouseDown={onFocus}
     >
-      <div className={styles.titleBar} onMouseDown={startDrag}>
+      <div className={styles.titleBar} onMouseDown={startDrag} onDoubleClick={onToggleMax}>
         <div className={styles.iconChip} style={{ background: iconColor }} />
         <div className={styles.title}>{title}</div>
         <div className={styles.buttons}>
           <div className={styles.button}>
             <span className={styles.minGlyph} />
           </div>
-          <div className={styles.button}>
+          <div className={styles.button} onClick={onToggleMax}>
             <span className={styles.maxGlyph} />
           </div>
           <div className={styles.button} onClick={onClose}>
