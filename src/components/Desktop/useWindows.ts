@@ -166,6 +166,19 @@ export function useWindows() {
     }))
   }
 
+  /** Toggles one window's View-menu dropdown open, closing any other window's open menu. */
+  function toggleMenu(id: number) {
+    setState((s) => ({
+      ...s,
+      windows: s.windows.map((w) => (w.id === id ? { ...w, menu: !w.menu } : w.menu ? { ...w, menu: false } : w)),
+    }))
+  }
+
+  /** Closes any open View-menu dropdown across all windows — called when clicking outside one. */
+  function closeMenus() {
+    setState((s) => ({ ...s, windows: s.windows.map((w) => (w.menu ? { ...w, menu: false } : w)) }))
+  }
+
   return {
     windows: state.windows,
     focused: state.focused,
@@ -176,5 +189,7 @@ export function useWindows() {
     minimize,
     patch,
     toggleMaximize,
+    toggleMenu,
+    closeMenus,
   }
 }
