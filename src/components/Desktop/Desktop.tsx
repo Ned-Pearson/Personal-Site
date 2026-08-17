@@ -25,8 +25,8 @@ function windowIconColor(node: string, kind: WindowKind): string {
   return getNode(node)?.colour ?? 'var(--color-doc)'
 }
 
-function windowBody(win: { node: string; kind: WindowKind }) {
-  if (win.kind === 'folder') return <FolderWindow />
+function windowBody(win: { node: string; kind: WindowKind }, openWindow: (node: string, kind: WindowKind) => void) {
+  if (win.kind === 'folder') return <FolderWindow onOpenReadme={() => openWindow('readme', 'document')} />
   return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 6-8</div>
 }
 
@@ -92,7 +92,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {windowBody(win)}
+            {windowBody(win, openWindow)}
           </Window>
         ))}
     </div>

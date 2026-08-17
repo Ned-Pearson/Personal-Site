@@ -7,6 +7,16 @@
   flex: none;
 }
 
+.menuItem {
+  padding: 0 3px;
+  margin: 0 -3px;
+}
+
+.menuItem:hover {
+  background: var(--color-title-navy);
+  color: #fff;
+}
+
 .toolbar {
   display: flex;
   align-items: center;
