@@ -119,6 +119,15 @@ export function useWindows() {
     }))
   }
 
+  /** Hides a window and clears focus if it was the focused one. Restoring happens via openWindow's dedup path (un-minimises on reopen) or the taskbar (section 9). */
+  function minimize(id: number) {
+    setState((s) => ({
+      ...s,
+      windows: s.windows.map((w) => (w.id === id ? { ...w, min: true } : w)),
+      focused: s.focused === id ? null : s.focused,
+    }))
+  }
+
   /** Merges arbitrary field updates into one window — used by drag, resize, maximise. */
   function patch(id: number, updates: Partial<WindowState>) {
     setState((s) => ({ ...s, windows: s.windows.map((w) => (w.id === id ? { ...w, ...updates } : w)) }))
@@ -154,6 +163,7 @@ export function useWindows() {
     openWindow,
     focus,
     close,
+    minimize,
     patch,
     toggleMaximize,
   }

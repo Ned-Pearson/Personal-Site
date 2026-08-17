@@ -27,7 +27,6 @@ npm run dev
 
 ### 4. Window system (core engine)
 
-- Minimise: hide window, track minimised state (taskbar button to restore it lands in section 9)
 - Cascading default position (132/40 + 30/28 per open window), clamped inside viewport
 
 ### 5. Folder windows (Projects / General / Machine Learning)

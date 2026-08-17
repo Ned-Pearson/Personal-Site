@@ -26,7 +26,7 @@ function windowIconColor(node: string, kind: WindowKind): string {
 
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close, patch, toggleMaximize } = useWindows()
+  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize } = useWindows()
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -83,6 +83,7 @@ export function Desktop() {
             onMove={(x, y) => patch(win.id, { x, y })}
             onResize={(w, h) => patch(win.id, { w, h, max: false })}
             onToggleMax={() => toggleMaximize(win.id)}
+            onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
             {win.kind} window — content lands in sections 5-8
