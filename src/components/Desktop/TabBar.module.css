@@ -1,0 +1,28 @@
+.tabBar {
+  display: flex;
+  gap: 2px;
+  padding: var(--space-6) var(--space-6) 0;
+  flex: none;
+}
+
+.tab {
+  padding: var(--space-4) 12px;
+  font-size: var(--text-chrome-base);
+  background: #c8c4bc;
+  box-shadow: inset 1px 1px 0 #e8e4dc, inset -1px -1px 0 var(--color-bevel-mid);
+  color: var(--color-bevel-dark);
+}
+
+.tab:hover {
+  filter: brightness(1.05);
+}
+
+.tab:active {
+  transform: translate(1px, 1px);
+}
+
+.tabActive {
+  background: var(--color-chrome);
+  box-shadow: inset 1px 1px 0 #fff, inset -1px 0 0 var(--color-bevel-mid);
+  color: #000;
+}
