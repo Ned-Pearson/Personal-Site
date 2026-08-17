@@ -31,7 +31,6 @@ npm run dev
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
-- Menu bar: File / Edit / View / Help with underlined accelerators
 - View menu dropdown (158px): checkmarked "as File list" / "as Icon grid", disabled Refresh
 - Toolbar: disabled Back/Forward, divider, path field (mono, e.g. `C:\ned\projects\...`), list/icon view toggles
 - File pane — List view: header row (Name/Type/Modified), row hover/selected states

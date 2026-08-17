@@ -1,17 +1,29 @@
 import styles from './FolderWindow.module.css'
 
-// Layout shell only: menu bar, toolbar, file pane and status bar are all
-// present and correctly structured, but empty. Menu bar/View dropdown,
-// toolbar content, file pane content, and status bar text are separate,
-// later points in section 5.
-export function FolderWindow() {
+interface FolderWindowProps {
+  onOpenReadme: () => void
+}
+
+// File and Edit are permanently inert (no dropdown, ever) — they still get
+// hover feedback, matching a genuine retro menu bar. View's dropdown and
+// checkmarked items are the next point; toolbar/file-pane/status-bar content
+// are later points still.
+export function FolderWindow({ onOpenReadme }: FolderWindowProps) {
   return (
     <>
       <div className={styles.menuBar}>
-        <span>File</span>
-        <span>Edit</span>
-        <span>View</span>
-        <span>Help</span>
+        <span className={styles.menuItem}>
+          <u>F</u>ile
+        </span>
+        <span className={styles.menuItem}>
+          <u>E</u>dit
+        </span>
+        <span className={styles.menuItem}>
+          <u>V</u>iew
+        </span>
+        <span className={styles.menuItem} onClick={onOpenReadme}>
+          <u>H</u>elp
+        </span>
       </div>
       <div className={styles.toolbar} />
       <div className={styles.filePane} />
