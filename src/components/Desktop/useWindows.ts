@@ -124,5 +124,37 @@ export function useWindows() {
     setState((s) => ({ ...s, windows: s.windows.map((w) => (w.id === id ? { ...w, ...updates } : w)) }))
   }
 
-  return { windows: state.windows, focused: state.focused, recent: state.recent, openWindow, focus, close, patch }
+  /** Maximises to fill the viewport minus the taskbar, storing prior geometry to restore on toggle back. */
+  function toggleMaximize(id: number) {
+    setState((s) => ({
+      ...s,
+      windows: s.windows.map((w) => {
+        if (w.id !== id) return w
+        if (w.max) return { ...w, max: false, x: w.px ?? w.x, y: w.py ?? w.y, w: w.pw ?? w.w, h: w.ph ?? w.h }
+        return {
+          ...w,
+          max: true,
+          px: w.x,
+          py: w.y,
+          pw: w.w,
+          ph: w.h,
+          x: 0,
+          y: 0,
+          w: window.innerWidth,
+          h: window.innerHeight - 30,
+        }
+      }),
+    }))
+  }
+
+  return {
+    windows: state.windows,
+    focused: state.focused,
+    recent: state.recent,
+    openWindow,
+    focus,
+    close,
+    patch,
+    toggleMaximize,
+  }
 }
