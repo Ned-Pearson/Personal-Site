@@ -51,6 +51,7 @@ function windowBody(
         canGoBack={!!parentId}
         items={getChildren(win.node)}
         selectedRow={selectedRow}
+        modified={getNode(win.node)?.modified ?? ''}
         onOpenReadme={() => openWindow('readme', 'document')}
         onToggleMenu={() => toggleMenu(win.id)}
         onSetView={(view) => patch(win.id, { view, menu: false })}
