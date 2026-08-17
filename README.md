@@ -31,7 +31,6 @@ npm run dev
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
-- Toolbar: disabled Back/Forward, divider, path field (mono, e.g. `C:\ned\projects\...`), list/icon view toggles
 - File pane — List view: header row (Name/Type/Modified), row hover/selected states
 - File pane — Icon view: grid layout, glyph + label
 - Icon glyphs by type: folder, project (window glyph w/ category colour bar), document

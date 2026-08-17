@@ -4,15 +4,28 @@ import styles from './FolderWindow.module.css'
 interface FolderWindowProps {
   view: WindowView
   menuOpen: boolean
+  path: string
+  canGoBack: boolean
   onOpenReadme: () => void
   onToggleMenu: () => void
   onSetView: (view: WindowView) => void
+  onBack: () => void
 }
 
 // File and Edit are permanently inert (no dropdown, ever) — they still get
-// hover feedback, matching a genuine retro menu bar. Toolbar/file-pane/
-// status-bar content are later points still.
-export function FolderWindow({ view, menuOpen, onOpenReadme, onToggleMenu, onSetView }: FolderWindowProps) {
+// hover feedback, matching a genuine retro menu bar. File-pane/status-bar
+// content are later points still. Forward is permanently inert too — no
+// forward-history stack exists in this build.
+export function FolderWindow({
+  view,
+  menuOpen,
+  path,
+  canGoBack,
+  onOpenReadme,
+  onToggleMenu,
+  onSetView,
+  onBack,
+}: FolderWindowProps) {
   return (
     <>
       <div className={styles.menuBar}>
@@ -66,7 +79,29 @@ export function FolderWindow({ view, menuOpen, onOpenReadme, onToggleMenu, onSet
           </div>
         )}
       </div>
-      <div className={styles.toolbar} />
+      <div className={styles.toolbar}>
+        <div
+          className={`${styles.toolbarButton} ${canGoBack ? styles.toolbarButtonActive : styles.toolbarButtonDisabled}`}
+          onClick={canGoBack ? onBack : undefined}
+        >
+          ← Back
+        </div>
+        <div className={`${styles.toolbarButton} ${styles.toolbarButtonDisabled}`}>Forward →</div>
+        <div className={styles.toolbarDivider} />
+        <div className={styles.pathField}>{path}</div>
+        <div
+          className={view === 'list' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
+          onClick={() => onSetView('list')}
+        >
+          ≣
+        </div>
+        <div
+          className={view === 'grid' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
+          onClick={() => onSetView('grid')}
+        >
+          ▦
+        </div>
+      </div>
       <div className={styles.filePane} />
       <div className={styles.statusBar}>
         <div className={styles.statusField} />

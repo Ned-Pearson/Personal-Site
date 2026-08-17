@@ -81,6 +81,68 @@
   flex: none;
 }
 
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) 7px;
+  box-shadow: var(--bevel-raised);
+  font-size: var(--text-chrome-lg);
+}
+
+.toolbarButtonActive {
+  color: #000;
+}
+
+.toolbarButtonActive:hover {
+  background: #e0dcd4;
+}
+
+.toolbarButtonActive:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.toolbarButtonDisabled {
+  color: var(--color-bevel-mid);
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 16px;
+  background: var(--color-bevel-mid);
+}
+
+.pathField {
+  flex: 1;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  padding: var(--space-2) var(--space-4);
+  font: 400 var(--text-chrome-lg) var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.viewToggle {
+  padding: var(--space-2) 7px;
+  font-size: var(--text-chrome-lg);
+  box-shadow: var(--bevel-raised);
+}
+
+.viewToggle:hover {
+  background: #e0dcd4;
+}
+
+.viewToggle:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.viewToggleActive {
+  background: var(--color-chrome-dark);
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+}
+
 .filePane {
   flex: 1;
   min-height: 0;
