@@ -1,3 +1,4 @@
+import type { Node } from '../../data'
 import type { WindowView } from './useWindows'
 import styles from './FolderWindow.module.css'
 
@@ -6,25 +7,34 @@ interface FolderWindowProps {
   menuOpen: boolean
   path: string
   canGoBack: boolean
+  items: Node[]
+  selectedRow: string | null
   onOpenReadme: () => void
   onToggleMenu: () => void
   onSetView: (view: WindowView) => void
   onBack: () => void
+  onSelectRow: (nodeId: string) => void
+  onOpenRow: (node: Node) => void
 }
 
 // File and Edit are permanently inert (no dropdown, ever) — they still get
-// hover feedback, matching a genuine retro menu bar. File-pane/status-bar
-// content are later points still. Forward is permanently inert too — no
-// forward-history stack exists in this build.
+// hover feedback, matching a genuine retro menu bar. Icon glyphs (folder/
+// project/document shapes, category colours) and status-bar text are later
+// points still — rows reserve the glyph cell but leave it empty for now.
+// Icon grid view is also a later point; grid mode shows a placeholder here.
 export function FolderWindow({
   view,
   menuOpen,
   path,
   canGoBack,
+  items,
+  selectedRow,
   onOpenReadme,
   onToggleMenu,
   onSetView,
   onBack,
+  onSelectRow,
+  onOpenRow,
 }: FolderWindowProps) {
   return (
     <>
@@ -102,7 +112,38 @@ export function FolderWindow({
           ▦
         </div>
       </div>
-      <div className={styles.filePane} />
+      <div className={styles.filePane}>
+        {view === 'list' ? (
+          <div className={styles.listView}>
+            <div className={styles.listHeader}>
+              <div className={styles.headerName}>Name</div>
+              <div className={styles.headerType}>Type</div>
+              <div className={styles.headerModified}>Modified</div>
+            </div>
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className={item.id === selectedRow ? `${styles.row} ${styles.rowSelected}` : styles.row}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelectRow(item.id)
+                }}
+                onDoubleClick={(e) => {
+                  e.stopPropagation()
+                  onOpenRow(item)
+                }}
+              >
+                <div className={styles.rowGlyph} />
+                <div className={styles.rowName}>{item.name}</div>
+                <div className={styles.rowType}>{item.type}</div>
+                <div className={styles.rowModified}>{item.modified}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ padding: 8 }}>Icon grid view — next point</div>
+        )}
+      </div>
       <div className={styles.statusBar}>
         <div className={styles.statusField} />
         <div className={`${styles.statusField} ${styles.statusFieldRight}`} />
