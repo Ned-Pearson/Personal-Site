@@ -1,0 +1,106 @@
+.window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised), var(--bevel-window-drop);
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-3) var(--space-3) 5px;
+  background: linear-gradient(90deg, var(--color-title-inactive-start), var(--color-title-inactive-end));
+}
+
+.focused .titleBar {
+  background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
+}
+
+.iconChip {
+  width: 14px;
+  height: 12px;
+  border: 1px solid var(--color-doc-edge);
+  flex: none;
+}
+
+.title {
+  flex: 1;
+  color: #fff;
+  font: 700 var(--text-chrome-base) var(--font-chrome);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.button {
+  width: 17px;
+  height: 15px;
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 var(--text-chrome-lg) var(--font-chrome);
+  line-height: 1;
+}
+
+.button:hover {
+  background: #e0dcd4;
+}
+
+.button:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.minGlyph {
+  width: 8px;
+  height: 2px;
+  background: #000;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.maxGlyph {
+  width: 9px;
+  height: 8px;
+  border: 1px solid #000;
+  border-top-width: 2px;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  margin: var(--space-4);
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  overflow: auto;
+  padding: var(--space-8);
+  font: var(--text-chrome-lg) var(--font-chrome);
+  color: var(--color-ink);
+}
+
+.resizeGrip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(
+    135deg,
+    transparent 0 42%,
+    var(--color-bevel-mid) 42% 50%,
+    transparent 50% 58%,
+    var(--color-bevel-mid) 58% 66%,
+    transparent 66%
+  );
+}

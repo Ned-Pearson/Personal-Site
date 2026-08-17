@@ -23,20 +23,11 @@ npm run dev
 
 ### 3. Desktop (base page)
 
-- Done — "closes start menu / context menu / View menus" is covered by section 12's menu-close behaviour once those menus exist
+- Done 
 
 ### 4. Window system (core engine)
 
-- `windows[]` state model: `{ id, node, kind, x, y, w, h, z, min, max, menu, view, tab, px/py/pw/ph }`
-- Open/focus logic: opening an already-open node focuses + un-minimises instead of duplicating
-- Track recently-opened node ids (feeds Start menu's Recent list, section 10)
-- Z-order / focus: mousedown raises window via incrementing counter (base 10); drives title-bar gradient
-- Drag: title-bar mousedown (left button, not when maximised) → document mousemove/mouseup, clamped to keep ≥80px horiz / ≥60px vert on screen
-- Resize: 16px bottom-right grip (diagonal hatch), min 320×180, clamped to viewport, hidden when maximised
-- Maximise/restore: store previous x/y/w/h, toggle via button or title-bar double-click; maximised = full viewport minus taskbar
-- Minimise: hide window, track minimised state (taskbar button to restore it lands in section 9)
-- Cascading default position (132/40 + 30/28 per open window), clamped inside viewport
-- Generic window chrome component: title bar (gradient, icon chip, min/max/close buttons w/ bevel + pressed states), reusable across window kinds
+- Done
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
