@@ -213,6 +213,39 @@
   font: 400 var(--text-mono-lg) var(--font-mono);
 }
 
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-14) var(--space-10);
+}
+
+.gridCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: var(--space-10) var(--space-4);
+}
+
+.gridCell:hover {
+  filter: brightness(0.94);
+}
+
+.gridGlyph {
+  height: 42px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gridLabel {
+  font-size: var(--text-chrome-base);
+  text-align: center;
+  line-height: 1.3;
+}
+
 .statusBar {
   display: flex;
   gap: var(--space-3);
