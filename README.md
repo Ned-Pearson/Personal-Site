@@ -31,7 +31,6 @@ npm run dev
 
 ### 5. Folder windows (Projects / General / Machine Learning)
 
-- File pane — Icon view: grid layout, glyph + label
 - Icon glyphs by type: folder, project (window glyph w/ category colour bar), document
 - Category colours wired: Machine Learning `#8fd3c8`, General `#e0b13a`
 - Status bar: "N object(s)" + modified date fields

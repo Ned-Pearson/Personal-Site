@@ -20,8 +20,7 @@ interface FolderWindowProps {
 // File and Edit are permanently inert (no dropdown, ever) — they still get
 // hover feedback, matching a genuine retro menu bar. Icon glyphs (folder/
 // project/document shapes, category colours) and status-bar text are later
-// points still — rows reserve the glyph cell but leave it empty for now.
-// Icon grid view is also a later point; grid mode shows a placeholder here.
+// points still — rows/cells reserve the glyph cell but leave it empty for now.
 export function FolderWindow({
   view,
   menuOpen,
@@ -141,7 +140,25 @@ export function FolderWindow({
             ))}
           </div>
         ) : (
-          <div style={{ padding: 8 }}>Icon grid view — next point</div>
+          <div className={styles.iconGrid}>
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className={item.id === selectedRow ? `${styles.gridCell} ${styles.rowSelected}` : styles.gridCell}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelectRow(item.id)
+                }}
+                onDoubleClick={(e) => {
+                  e.stopPropagation()
+                  onOpenRow(item)
+                }}
+              >
+                <div className={styles.gridGlyph} />
+                <div className={styles.gridLabel}>{item.name}</div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
       <div className={styles.statusBar}>
