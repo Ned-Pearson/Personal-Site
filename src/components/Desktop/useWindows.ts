@@ -40,10 +40,13 @@ const DEFAULT_SIZE: Record<WindowKind, [number, number]> = {
   document: [500, 360],
 }
 
-// Placeholder open position — the cascading formula (132/40 + 30/28 per open
-// window, clamped to viewport) lands in a later point.
-const DEFAULT_X = 132
-const DEFAULT_Y = 40
+// Cascading default open position: 132/40 base, +30/+28 per already-open
+// window, cycling every 5 so it doesn't walk off-screen; clamped to viewport.
+const CASCADE_BASE_X = 132
+const CASCADE_BASE_Y = 40
+const CASCADE_STEP_X = 30
+const CASCADE_STEP_Y = 28
+const CASCADE_CYCLE = 5
 
 // Cap on stored recency history — the Start menu's Recent flyout (section 10)
 // only ever shows the top 3, this just bounds how far back we remember.
@@ -86,14 +89,21 @@ export function useWindows() {
       const existing = s.windows.find((w) => w.node === node)
       if (existing) return { ...focusInState(s, existing.id, true), recent }
 
-      const [w, h] = DEFAULT_SIZE[kind]
+      const vw = window.innerWidth
+      const vh = window.innerHeight - 30
+      const [sizeW, sizeH] = DEFAULT_SIZE[kind]
+      const w = Math.min(sizeW, vw - 16)
+      const h = Math.min(sizeH, vh - 16)
+      const n = s.windows.length
+      const x = Math.max(8, Math.min(CASCADE_BASE_X + (n % CASCADE_CYCLE) * CASCADE_STEP_X, vw - w - 8))
+      const y = Math.max(8, Math.min(CASCADE_BASE_Y + (n % CASCADE_CYCLE) * CASCADE_STEP_Y, vh - h - 8))
       const z = s.z + 1
       const win: WindowState = {
         id: s.nextId,
         node,
         kind,
-        x: DEFAULT_X,
-        y: DEFAULT_Y,
+        x,
+        y,
         w,
         h,
         z,
