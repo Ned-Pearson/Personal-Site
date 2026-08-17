@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode } from '../../data'
+import { getNode, getPath } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -25,6 +25,12 @@ function windowIconColor(node: string, kind: WindowKind): string {
   return getNode(node)?.colour ?? 'var(--color-doc)'
 }
 
+// e.g. getPath('machine-learning') -> "C:\ned\projects\machine-learning"
+function folderPath(node: string): string {
+  const segments = getPath(node).map((n) => n.name.toLowerCase().replace(/ /g, '-'))
+  return 'C:\\ned\\' + segments.join('\\')
+}
+
 function windowBody(
   win: WindowState,
   openWindow: (node: string, kind: WindowKind) => void,
@@ -32,13 +38,19 @@ function windowBody(
   patch: (id: number, updates: Partial<WindowState>) => void
 ) {
   if (win.kind === 'folder') {
+    const parentId = getNode(win.node)?.parent ?? null
     return (
       <FolderWindow
         view={win.view}
         menuOpen={win.menu}
+        path={folderPath(win.node)}
+        canGoBack={!!parentId}
         onOpenReadme={() => openWindow('readme', 'document')}
         onToggleMenu={() => toggleMenu(win.id)}
         onSetView={(view) => patch(win.id, { view, menu: false })}
+        onBack={() => {
+          if (parentId) openWindow(parentId, 'folder')
+        }}
       />
     )
   }
