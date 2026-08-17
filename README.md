@@ -35,7 +35,6 @@ npm run dev
 
 ### 6. Project windows (Overview / Write-up / Media)
 
-- Tab bar (active/inactive states) + tab switching
 - Overview tab: name, date/status line, screenshot placeholder, blurb, tag chips, Source/Live demo buttons
 - Write-up tab: label + paragraphs
 - Media tab: two-column striped placeholder grid

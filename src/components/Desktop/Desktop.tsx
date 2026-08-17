@@ -4,6 +4,7 @@ import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
 import { FolderWindow } from './FolderWindow'
+import { ProjectWindow } from './ProjectWindow'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -63,7 +64,10 @@ function windowBody(
       />
     )
   }
-  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 6-8</div>
+  if (win.kind === 'project') {
+    return <ProjectWindow tab={win.tab} onSelectTab={(tab) => patch(win.id, { tab })} />
+  }
+  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 7-8</div>
 }
 
 export function Desktop() {
