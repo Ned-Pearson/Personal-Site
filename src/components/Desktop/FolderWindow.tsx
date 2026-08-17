@@ -1,6 +1,21 @@
 import type { Node } from '../../data'
 import type { WindowView } from './useWindows'
+import { FolderGlyph } from './glyphs/FolderGlyph'
+import { DocumentGlyph } from './glyphs/DocumentGlyph'
+import { ProjectGlyph } from './glyphs/ProjectGlyph'
 import styles from './FolderWindow.module.css'
+
+function rowGlyph(item: Node) {
+  if (item.kind === 'folder') return <FolderGlyph size="row" />
+  if (item.kind === 'project') return <ProjectGlyph colour={item.colour ?? 'var(--color-bevel-mid)'} size="row" />
+  return <DocumentGlyph size="row" />
+}
+
+function gridGlyph(item: Node) {
+  if (item.kind === 'folder') return <FolderGlyph />
+  if (item.kind === 'project') return <ProjectGlyph colour={item.colour ?? 'var(--color-bevel-mid)'} size="grid" />
+  return <DocumentGlyph size="grid" />
+}
 
 interface FolderWindowProps {
   view: WindowView
@@ -18,9 +33,8 @@ interface FolderWindowProps {
 }
 
 // File and Edit are permanently inert (no dropdown, ever) — they still get
-// hover feedback, matching a genuine retro menu bar. Icon glyphs (folder/
-// project/document shapes, category colours) and status-bar text are later
-// points still — rows/cells reserve the glyph cell but leave it empty for now.
+// hover feedback, matching a genuine retro menu bar. Status-bar text is a
+// later point still.
 export function FolderWindow({
   view,
   menuOpen,
@@ -132,7 +146,7 @@ export function FolderWindow({
                   onOpenRow(item)
                 }}
               >
-                <div className={styles.rowGlyph} />
+                <div className={styles.rowGlyph}>{rowGlyph(item)}</div>
                 <div className={styles.rowName}>{item.name}</div>
                 <div className={styles.rowType}>{item.type}</div>
                 <div className={styles.rowModified}>{item.modified}</div>
@@ -154,7 +168,7 @@ export function FolderWindow({
                   onOpenRow(item)
                 }}
               >
-                <div className={styles.gridGlyph} />
+                <div className={styles.gridGlyph}>{gridGlyph(item)}</div>
                 <div className={styles.gridLabel}>{item.name}</div>
               </div>
             ))}
