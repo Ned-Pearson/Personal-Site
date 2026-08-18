@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, getProject, type Node } from '../../data'
+import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
 import { FolderWindow } from './FolderWindow'
 import { ProjectWindow } from './ProjectWindow'
+import { AboutWindow } from './AboutWindow'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -38,7 +39,8 @@ function windowBody(
   toggleMenu: (id: number) => void,
   patch: (id: number, updates: Partial<WindowState>) => void,
   selectedIcon: string | null,
-  setSelectedIcon: (id: string) => void
+  setSelectedIcon: (id: string) => void,
+  close: (id: number) => void
 ) {
   if (win.kind === 'folder') {
     const parentId = getNode(win.node)?.parent ?? null
@@ -77,7 +79,18 @@ function windowBody(
       )
     }
   }
-  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 7-8</div>
+  if (win.kind === 'about') {
+    return (
+      <AboutWindow
+        tab={win.tab}
+        about={getAbout()}
+        shippedCount={getShippedProjectCount()}
+        onSelectTab={(tab) => patch(win.id, { tab })}
+        onClose={() => close(win.id)}
+      />
+    )
+  }
+  return <div style={{ padding: 8 }}>{win.kind} window — content lands in section 8</div>
 }
 
 export function Desktop() {
@@ -149,7 +162,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon)}
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>
         ))}
     </div>

@@ -5,10 +5,12 @@
 import { NODES, type Node } from './nodes'
 import { PROJECTS, type ProjectContent } from './projects'
 import { DOCS, type DocContent } from './docs'
+import { ABOUT, type AboutContent } from './about'
 
 export type { Node, NodeKind } from './nodes'
 export type { ProjectContent, ProjectStatus } from './projects'
 export type { DocContent } from './docs'
+export type { AboutContent } from './about'
 
 export function getNode(id: string): Node | undefined {
   return NODES[id]
@@ -38,4 +40,13 @@ export function getProject(id: string): ProjectContent | undefined {
 
 export function getDoc(id: string): DocContent | undefined {
   return DOCS[id]
+}
+
+export function getAbout(): AboutContent {
+  return ABOUT
+}
+
+/** Real count, not the prototype's example number — only todo-app exists so far. */
+export function getShippedProjectCount(): number {
+  return Object.values(PROJECTS).filter((p) => p.status === 'shipped').length
 }
