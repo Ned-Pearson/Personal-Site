@@ -1,0 +1,30 @@
+.sheet {
+  flex: 1;
+  min-height: 0;
+  margin: var(--space-4);
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  padding: 24px 28px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.heading {
+  font: 700 var(--text-content-2xl) / 1.15 var(--font-content);
+  letter-spacing: var(--tracking-heading);
+}
+
+.paragraph {
+  margin: 0;
+  max-width: 520px;
+  font: 400 var(--text-content-base) / 1.7 var(--font-content);
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.endOfFile {
+  font: 400 var(--text-mono-lg) var(--font-mono);
+  color: #8a857a;
+}
