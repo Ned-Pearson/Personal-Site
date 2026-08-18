@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import styles from './Taskbar.module.css'
 
 export interface TaskButtonInfo {
@@ -12,11 +13,29 @@ interface TaskbarProps {
   onTaskButtonClick: (id: number, active: boolean) => void
 }
 
+// No UI anywhere toggles this — Plan.md doesn't spec a control for it — so
+// it's a fixed constant rather than user-facing state.
+const CLOCK_24H = false
+
+function formatClock(date: Date): string {
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  if (CLOCK_24H) return `${String(date.getHours()).padStart(2, '0')}:${minutes}`
+  const suffix = date.getHours() < 12 ? ' AM' : ' PM'
+  const hours = date.getHours() % 12 || 12
+  return `${hours}:${minutes}${suffix}`
+}
+
 // Start button's sticky "open" look needs a real startOpen boolean, which
 // belongs to the Start menu itself — that's section 10. For now this button
-// only has hover/press feedback, no click behaviour. The clock is its own
-// later point.
+// only has hover/press feedback, no click behaviour.
 export function Taskbar({ taskButtons, onTaskButtonClick }: TaskbarProps) {
+  const [clock, setClock] = useState(() => formatClock(new Date()))
+
+  useEffect(() => {
+    const id = setInterval(() => setClock(formatClock(new Date())), 10000)
+    return () => clearInterval(id)
+  }, [])
+
   return (
     <div className={styles.taskbar} onClick={(e) => e.stopPropagation()}>
       <div className={styles.startButton}>
@@ -42,6 +61,8 @@ export function Taskbar({ taskButtons, onTaskButtonClick }: TaskbarProps) {
           <div className={styles.taskLabel}>{tb.label}</div>
         </div>
       ))}
+      <div className={styles.spacer} />
+      <div className={styles.clock}>{clock}</div>
     </div>
   )
 }
