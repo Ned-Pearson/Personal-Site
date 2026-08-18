@@ -11,9 +11,9 @@ interface ProjectWindowProps {
   onSelectTab: (index: number) => void
 }
 
-// Tab bar + the shared sunken-panel/white-sheet body shell. Media tab
-// content is a later point still; Source/Live demo are static per spec/
-// prototype — neither is wired to actually open a URL anywhere.
+// Tab bar + the shared sunken-panel/white-sheet body shell. Source/Live
+// demo are static per spec/prototype — neither is wired to actually open
+// a URL anywhere.
 export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
   return (
     <>
@@ -53,7 +53,15 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
               ))}
             </div>
           )}
-          {tab === 2 && 'Media tab content — next point'}
+          {tab === 2 && (
+            <div className={styles.media}>
+              {project.media.map((item, i) => (
+                <div key={i} className={styles.mediaTile}>
+                  {item.caption}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -110,3 +110,21 @@
   box-shadow: var(--bevel-sunken-strong);
   transform: translate(1px, 1px);
 }
+
+.media {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10);
+}
+
+.mediaTile {
+  height: 132px;
+  background: repeating-linear-gradient(135deg, #e8e5dd 0 7px, #f2f0eb 7px 14px);
+  border: 1px solid var(--color-chip-edge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: 400 var(--text-mono-sm) / 1.5 var(--font-mono);
+  color: #8a857a;
+}
