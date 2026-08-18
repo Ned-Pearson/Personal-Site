@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, type Node } from '../../data'
+import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, getDoc, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
 import { FolderWindow } from './FolderWindow'
 import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
+import { TextViewer } from './TextViewer'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -90,7 +91,11 @@ function windowBody(
       />
     )
   }
-  return <div style={{ padding: 8 }}>{win.kind} window — content lands in section 8</div>
+  if (win.kind === 'document') {
+    const doc = getDoc(win.node)
+    if (doc) return <TextViewer doc={doc} />
+  }
+  return <div style={{ padding: 8 }}>{win.kind} window</div>
 }
 
 export function Desktop() {
