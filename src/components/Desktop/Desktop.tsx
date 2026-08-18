@@ -7,6 +7,7 @@ import { FolderWindow } from './FolderWindow'
 import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
+import { Taskbar } from './Taskbar'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -170,6 +171,8 @@ export function Desktop() {
             {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>
         ))}
+
+      <Taskbar />
     </div>
   )
 }
