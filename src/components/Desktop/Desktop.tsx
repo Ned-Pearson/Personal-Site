@@ -29,6 +29,13 @@ function windowIconColor(node: string, kind: WindowKind): string {
   return getNode(node)?.colour ?? 'var(--color-doc)'
 }
 
+// Short label for the taskbar button — unlike windowTitle, no " — Properties"/
+// "— Text Viewer" suffix.
+function windowLabel(node: string, kind: WindowKind): string {
+  if (kind === 'about') return 'About Me'
+  return getNode(node)?.name ?? node
+}
+
 // e.g. getPath('machine-learning') -> "C:\ned\projects\machine-learning"
 function folderPath(node: string): string {
   const segments = getPath(node).map((n) => n.name.toLowerCase().replace(/ /g, '-'))
@@ -172,7 +179,18 @@ export function Desktop() {
           </Window>
         ))}
 
-      <Taskbar />
+      <Taskbar
+        taskButtons={windows.map((win) => ({
+          id: win.id,
+          label: windowLabel(win.node, win.kind),
+          iconColor: windowIconColor(win.node, win.kind),
+          active: focused === win.id && !win.min,
+        }))}
+        onTaskButtonClick={(id, active) => {
+          if (active) minimize(id)
+          else focus(id, true)
+        }}
+      />
     </div>
   )
 }
