@@ -68,6 +68,26 @@
   font: 500 11px var(--font-content);
 }
 
+.writeup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  max-width: 520px;
+}
+
+.writeupLabel {
+  font: 600 var(--text-mono-sm) var(--font-mono);
+  letter-spacing: var(--tracking-label);
+  color: var(--color-ink-muted);
+}
+
+.writeupParagraph {
+  margin: 0;
+  font: 400 var(--text-content-base) / 1.75 var(--font-content);
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
 .footer {
   display: flex;
   gap: 7px;

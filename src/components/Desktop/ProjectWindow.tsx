@@ -11,16 +11,16 @@ interface ProjectWindowProps {
   onSelectTab: (index: number) => void
 }
 
-// Tab bar + the shared sunken-panel/white-sheet body shell. Write-up and
-// Media tab content are later points still; Source/Live demo are static
-// per spec/prototype — neither is wired to actually open a URL anywhere.
+// Tab bar + the shared sunken-panel/white-sheet body shell. Media tab
+// content is a later point still; Source/Live demo are static per spec/
+// prototype — neither is wired to actually open a URL anywhere.
 export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
   return (
     <>
       <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} />
       <div className={styles.bodyPanel}>
         <div className={styles.sheet}>
-          {tab === 0 ? (
+          {tab === 0 && (
             <>
               <div className={styles.header}>
                 <div className={styles.name}>{name}</div>
@@ -42,9 +42,18 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
                 <div className={styles.button}>Live demo</div>
               </div>
             </>
-          ) : (
-            `${TABS[tab]} tab content — next points`
           )}
+          {tab === 1 && (
+            <div className={styles.writeup}>
+              <div className={styles.writeupLabel}>WRITE-UP</div>
+              {project.writeUp.map((paragraph, i) => (
+                <p key={i} className={styles.writeupParagraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
+          {tab === 2 && 'Media tab content — next point'}
         </div>
       </div>
     </>

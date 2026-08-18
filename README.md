@@ -35,7 +35,6 @@ npm run dev
 
 ### 6. Project windows (Overview / Write-up / Media)
 
-- Write-up tab: label + paragraphs
 - Media tab: two-column striped placeholder grid
 - Wire up real project content for todo-app, sentiment-classifier, digit-recogniser, rec-engine-notes
 
