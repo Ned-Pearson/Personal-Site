@@ -58,7 +58,6 @@ npm run dev
 - Recent → three most recently opened projects
 - Search/filter: type-ahead filters by name/type/tag/status, "no matches" state
 - Shut Down closes all open windows
-- Wire Start button click to open/close this menu (updates the pressed/open state added in section 9)
 - Wire readme.txt row to open the text viewer (built in section 8)
 
 ### 11. Desktop context menu

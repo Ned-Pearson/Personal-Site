@@ -8,6 +8,7 @@ import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
 import { Taskbar } from './Taskbar'
+import { StartMenu } from './StartMenu'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -108,6 +109,7 @@ function windowBody(
 
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
+  const [startOpen, setStartOpen] = useState(false)
   const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
     useWindows()
 
@@ -126,6 +128,7 @@ export function Desktop() {
       onClick={() => {
         setSelectedIcon(null)
         closeMenus()
+        setStartOpen(false)
       }}
     >
       <div className={styles.iconColumn}>
@@ -190,7 +193,10 @@ export function Desktop() {
           if (active) minimize(id)
           else focus(id, true)
         }}
+        startOpen={startOpen}
+        onStartClick={() => setStartOpen((open) => !open)}
       />
+      {startOpen && <StartMenu />}
     </div>
   )
 }
