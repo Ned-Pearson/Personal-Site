@@ -39,10 +39,7 @@ npm run dev
 
 ### 7. About Me window (General / Skills / Contact)
 
-- General tab: portrait placeholder, name, role, bio, STACK chips, FACTS definition grid
-- Skills tab: labelled progress bars (82/74/58/44%) + caveat paragraph
-- Contact tab: definition grid (Email/GitHub/Location) + buttons
-- OK / Cancel footer buttons (both close window)
+- Done
 
 ### 8. Text viewer (readme.txt)
 
@@ -94,7 +91,7 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Design and build a separate stacked/mobile presentation (spec explicitly calls out desktop-only design)
+- Design and build a separate stacked/mobile presentation 
 - Breakpoint detection to switch between desktop-window UI and mobile layout
 
 ### 15. Assets & content finalization
