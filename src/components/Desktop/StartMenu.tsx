@@ -1,16 +1,28 @@
+import type { WindowKind } from './useWindows'
 import styles from './StartMenu.module.css'
+
+export interface FlyoutItem {
+  key: string
+  label: string
+  iconColor: string
+  arrow: string
+  kind: WindowKind
+}
 
 interface StartMenuProps {
   query: string
   onQueryChange: (value: string) => void
   hoveredRow: string | null
   onHoverRow: (key: string | null) => void
-  onOpenAbout: () => void
+  hoverCat: string | null
+  onHoverCat: (key: string | null) => void
+  projectFlyoutItems: FlyoutItem[]
+  subFlyoutItems: FlyoutItem[]
+  onOpenNode: (id: string, kind: WindowKind) => void
 }
 
-// Projects/Recent have no click target of their own in the prototype either —
-// they're purely hover-triggered flyouts, which are the next point. Filtering
-// the rows by query and Shut Down's actual click behaviour are later points too.
+// Recent's flyout content, filtering the rows by query, and Shut Down's
+// actual click behaviour are later points still.
 const ROWS = [
   { key: 'projects', label: 'Projects', iconColor: 'var(--color-folder)', arrow: '▶' },
   { key: 'recent', label: 'Recent', iconColor: 'var(--color-category-ml)', arrow: '▶' },
@@ -19,9 +31,29 @@ const ROWS = [
   { key: 'contact', label: 'Contact…', iconColor: 'var(--color-accent-red)', arrow: '' },
 ]
 
+// Hand-tuned to align each flyout with the row it opens from, matching the
+// prototype exactly rather than deriving it from row heights.
+const PROJECTS_FLYOUT_BOTTOM = 118
+const SUB_FLYOUT_BOTTOM_GENERAL = 118
+const SUB_FLYOUT_BOTTOM_OTHER = 92
+
 // Stops its own click from bubbling to the desktop's close-everything handler,
 // matching Taskbar/menu surfaces elsewhere.
-export function StartMenu({ query, onQueryChange, hoveredRow, onHoverRow, onOpenAbout }: StartMenuProps) {
+export function StartMenu({
+  query,
+  onQueryChange,
+  hoveredRow,
+  onHoverRow,
+  hoverCat,
+  onHoverCat,
+  projectFlyoutItems,
+  subFlyoutItems,
+  onOpenNode,
+}: StartMenuProps) {
+  function openRow(key: string) {
+    if (key === 'about' || key === 'contact') onOpenNode('about', 'about')
+  }
+
   return (
     <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
       <div className={styles.rail}>
@@ -46,7 +78,7 @@ export function StartMenu({ query, onQueryChange, hoveredRow, onHoverRow, onOpen
             onMouseEnter={() => onHoverRow(row.key)}
             onClick={(e) => {
               e.stopPropagation()
-              if (row.key === 'about' || row.key === 'contact') onOpenAbout()
+              openRow(row.key)
             }}
           >
             <div className={styles.rowIcon} style={{ background: row.iconColor }} />
@@ -65,6 +97,50 @@ export function StartMenu({ query, onQueryChange, hoveredRow, onHoverRow, onOpen
           </div>
         </div>
       </div>
+
+      {hoveredRow === 'projects' && (
+        // Category items highlight via hoverCat, not CSS :hover — matching the
+        // prototype exactly, which means readme.txt (no arrow, so hoverCat
+        // always clears to null on hover) never actually highlights here.
+        <div className={styles.flyout} style={{ bottom: PROJECTS_FLYOUT_BOTTOM }}>
+          {projectFlyoutItems.map((item) => (
+            <div
+              key={item.key}
+              className={hoverCat === item.key ? `${styles.flyoutItem} ${styles.rowHover}` : styles.flyoutItem}
+              onMouseEnter={() => onHoverCat(item.arrow ? item.key : null)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onOpenNode(item.key, item.kind)
+              }}
+            >
+              <div className={styles.flyoutIcon} style={{ background: item.iconColor }} />
+              <div className={styles.flyoutLabel}>{item.label}</div>
+              <div className={styles.rowArrow}>{item.arrow}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hoverCat && subFlyoutItems.length > 0 && (
+        <div
+          className={styles.subFlyout}
+          style={{ bottom: hoverCat === 'general' ? SUB_FLYOUT_BOTTOM_GENERAL : SUB_FLYOUT_BOTTOM_OTHER }}
+        >
+          {subFlyoutItems.map((item) => (
+            <div
+              key={item.key}
+              className={styles.subFlyoutItem}
+              onClick={(e) => {
+                e.stopPropagation()
+                onOpenNode(item.key, item.kind)
+              }}
+            >
+              <div className={styles.subFlyoutIcon} style={{ background: item.iconColor }} />
+              <div className={styles.flyoutLabel}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
