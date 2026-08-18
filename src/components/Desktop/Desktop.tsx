@@ -7,6 +7,7 @@ import { FolderWindow } from './FolderWindow'
 import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
+import { Taskbar } from './Taskbar'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -26,6 +27,13 @@ function windowIconColor(node: string, kind: WindowKind): string {
   if (kind === 'folder') return 'var(--color-folder)'
   if (kind === 'about' || kind === 'document') return 'var(--color-doc)'
   return getNode(node)?.colour ?? 'var(--color-doc)'
+}
+
+// Short label for the taskbar button — unlike windowTitle, no " — Properties"/
+// "— Text Viewer" suffix.
+function windowLabel(node: string, kind: WindowKind): string {
+  if (kind === 'about') return 'About Me'
+  return getNode(node)?.name ?? node
 }
 
 // e.g. getPath('machine-learning') -> "C:\ned\projects\machine-learning"
@@ -170,6 +178,19 @@ export function Desktop() {
             {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>
         ))}
+
+      <Taskbar
+        taskButtons={windows.map((win) => ({
+          id: win.id,
+          label: windowLabel(win.node, win.kind),
+          iconColor: windowIconColor(win.node, win.kind),
+          active: focused === win.id && !win.min,
+        }))}
+        onTaskButtonClick={(id, active) => {
+          if (active) minimize(id)
+          else focus(id, true)
+        }}
+      />
     </div>
   )
 }
