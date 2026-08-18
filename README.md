@@ -52,7 +52,6 @@ npm run dev
 ### 10. Start menu
 
 - Panel shell: left rail gradient + vertical "ned pearson" label
-- Search field (placeholder "find a project…") + separator
 - Rows: Projects ▶, Recent ▶, About Me, Résumé.pdf, Contact…, Shut Down…
 - Flyouts: Projects → categories → project list (hover-triggered, correct offsets)
 - Recent → three most recently opened projects
