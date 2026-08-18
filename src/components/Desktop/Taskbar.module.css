@@ -88,3 +88,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.spacer {
+  flex: 1;
+}
+
+.clock {
+  padding: 3px 8px;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid), inset -1px -1px 0 #fff;
+  font: 400 var(--text-mono-lg) var(--font-mono);
+}

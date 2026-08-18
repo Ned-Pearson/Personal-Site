@@ -47,7 +47,7 @@ npm run dev
 
 ### 9. Taskbar
 
-- Clock: sunken mono field, updates every 10s, 12h/24h
+- Done
 
 ### 10. Start menu
 
