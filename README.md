@@ -76,19 +76,31 @@ npm run dev
 - Items: Open Projects, Open readme.txt, Cascade windows, Close all windows, Properties (→ About Me)
 - Cascade/Close greyed out when nothing is open
 
-### 12. Interactions & polish pass
+### 12. Animation
+
+- Global keyframes (declared once): `winOpen`, `winClose`, `winMin`, `winRestore`, `menuOpen`
+- Window `phase` field (`'opening' | 'closing' | 'minimizing' | 'restoring' | null`) added to window state, mapped to animation/duration/easing/transform-origin per phase (`animation-fill-mode: both`)
+- Open/close sequencing: open plays immediately on push to state; close sets `phase:'closing'` then removes the window after 140ms (don't unmount immediately, or there's nothing to animate)
+- Minimise/restore sequencing: minimise clears `focused` immediately and flies out over 180ms before setting `min:true`; restore clears `min` immediately and flies in over 190ms
+- Genie origin: minimise/restore scale toward the window's own taskbar button position (computed from button index/position, or measured via `getBoundingClientRect()`) rather than screen centre
+- Drag/resize interrupt: starting a drag or resize clears any active `phase` first, so a half-finished animation can't fight the pointer transform
+- Menu/popover open animation (`menuOpen`, no exit animation): View dropdown + desktop context menu (90ms, `top left`), Start menu (110ms, `bottom left`), Projects/Recent and category flyouts (90ms, `bottom left`)
+- Confirm NOT animated (instant, plain CSS state changes): maximise/restore-down, focus changes, view switching, tab changes, hover/press
+- `animations` toggle (default true) disables all motion — animation resolves to `none` and close/minimise timers are skipped so state changes apply synchronously; wire to `prefers-reduced-motion: reduce` too
+
+### 13. Interactions & polish pass
 
 - Global hover/pressed states match spec (beveled buttons, menu items, list rows)
 - Menu-close behaviour: clicking desktop or outside closes start/context/View menus; menu surfaces stop mousedown propagation
 - Keyboard accessibility pass (tab order, escape to close menus/windows) — decide scope beyond visual spec
 - Cross-browser check (Chrome/Firefox/Safari) for bevel rendering, drag/resize smoothness
 
-### 13. Responsive / mobile fallback
+### 14. Responsive / mobile fallback
 
 - Design and build a separate stacked/mobile presentation (spec explicitly calls out desktop-only design)
 - Breakpoint detection to switch between desktop-window UI and mobile layout
 
-### 14. Assets & content finalization
+### 15. Assets & content finalization
 
 - Replace project screenshot placeholders (800×260) with real images
 - Replace media grid placeholders (4× 640×420) with real images
@@ -96,7 +108,7 @@ npm run dev
 - Replace all placeholder bios, blurbs, write-ups, links, and dates with Ned's real content
 - Real résumé PDF linked from Start menu
 
-### 15. Deployment
+### 16. Deployment
 
 - Choose hosting (Vercel/Netlify/GitHub Pages/etc.)
 - Configure custom domain (nedpearson.dev)
