@@ -12,7 +12,7 @@ interface AboutWindowProps {
 }
 
 // Tab bar + body shell (About's own padding/gap — distinct from ProjectWindow's).
-// Skills and Contact tab content are later points still.
+// Contact tab content is a later point still.
 export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWindowProps) {
   return (
     <>
@@ -34,8 +34,8 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWind
                 <div className={styles.column}>
                   <div className={styles.label}>STACK</div>
                   <div className={styles.chips}>
-                    {about.stack.map((item) => (
-                      <div key={item} className={styles.chip}>
+                    {about.stack.map((item, i) => (
+                      <div key={i} className={styles.chip}>
                         {item}
                       </div>
                     ))}
@@ -55,7 +55,12 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWind
               </div>
             </>
           )}
-          {tab === 1 && 'Skills tab content — next point'}
+          {tab === 1 && (
+            <div className={styles.skills}>
+              <div className={styles.label}>SKILLS</div>
+              <p className={styles.skillsPlaceholder}>Placeholder</p>
+            </div>
+          )}
           {tab === 2 && 'Contact tab content — next point'}
         </div>
       </div>
