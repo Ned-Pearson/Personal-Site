@@ -39,7 +39,8 @@ function windowBody(
   toggleMenu: (id: number) => void,
   patch: (id: number, updates: Partial<WindowState>) => void,
   selectedIcon: string | null,
-  setSelectedIcon: (id: string) => void
+  setSelectedIcon: (id: string) => void,
+  close: (id: number) => void
 ) {
   if (win.kind === 'folder') {
     const parentId = getNode(win.node)?.parent ?? null
@@ -85,6 +86,7 @@ function windowBody(
         about={getAbout()}
         shippedCount={getShippedProjectCount()}
         onSelectTab={(tab) => patch(win.id, { tab })}
+        onClose={() => close(win.id)}
       />
     )
   }
@@ -160,7 +162,7 @@ export function Desktop() {
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon)}
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>
         ))}
     </div>

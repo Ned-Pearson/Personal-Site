@@ -39,7 +39,7 @@ npm run dev
 
 ### 7. About Me window (General / Skills / Contact)
 
-- OK / Cancel footer buttons (both close window)
+- Done
 
 ### 8. Text viewer (readme.txt)
 
