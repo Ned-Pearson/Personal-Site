@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, type Node } from '../../data'
+import { getNode, getPath, getChildren, getProject, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -65,7 +65,17 @@ function windowBody(
     )
   }
   if (win.kind === 'project') {
-    return <ProjectWindow tab={win.tab} onSelectTab={(tab) => patch(win.id, { tab })} />
+    const project = getProject(win.node)
+    if (project) {
+      return (
+        <ProjectWindow
+          tab={win.tab}
+          name={getNode(win.node)?.name ?? win.node}
+          project={project}
+          onSelectTab={(tab) => patch(win.id, { tab })}
+        />
+      )
+    }
   }
   return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 7-8</div>
 }
