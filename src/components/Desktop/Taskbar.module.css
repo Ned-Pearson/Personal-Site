@@ -47,3 +47,44 @@
   background: var(--color-bevel-mid);
   margin: 0 2px;
 }
+
+.taskButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 158px;
+  padding: 3px 6px;
+  font-size: var(--text-chrome-sm);
+  font-weight: 400;
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+}
+
+.taskButton:hover {
+  background: #e0dcd4;
+}
+
+.taskButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.taskButtonActive {
+  background: var(--color-chrome-dark);
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  font-weight: 700;
+}
+
+.taskIconChip {
+  width: 12px;
+  height: 10px;
+  border: 1px solid #2b2822;
+  flex: none;
+}
+
+.taskLabel {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

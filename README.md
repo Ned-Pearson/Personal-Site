@@ -47,7 +47,6 @@ npm run dev
 
 ### 9. Taskbar
 
-- Per-window task buttons (icon chip + label), active = sunken + bold, driven by window focus/minimised state from section 4; clicking active minimises, clicking inactive/minimised restores + focuses
 - Clock: sunken mono field, updates every 10s, 12h/24h
 
 ### 10. Start menu
