@@ -7,6 +7,9 @@ export interface AboutContent {
   stack: string[]
   since: string
   status: string
+  email: string
+  github: string
+  location: string
 }
 
 export const ABOUT: AboutContent = {
@@ -15,4 +18,7 @@ export const ABOUT: AboutContent = {
   stack: ['Placeholder', 'Placeholder'],
   since: '2021',
   status: 'available',
+  email: 'Placeholder',
+  github: 'Placeholder',
+  location: 'Placeholder',
 }

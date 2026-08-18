@@ -120,3 +120,40 @@
   font: 400 var(--text-content-base) / 1.7 var(--font-content);
   color: var(--color-ink);
 }
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  max-width: 430px;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px 16px;
+  font: 400 var(--text-content-sm) / 1.5 var(--font-content);
+}
+
+.footer {
+  display: flex;
+  gap: 7px;
+  padding-top: var(--space-10);
+  border-top: 1px solid var(--color-sheet-edge);
+}
+
+.button {
+  padding: 5px 16px;
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  font-size: var(--text-chrome-base);
+}
+
+.button:hover {
+  background: #e0dcd4;
+}
+
+.button:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}

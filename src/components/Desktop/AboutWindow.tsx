@@ -12,7 +12,7 @@ interface AboutWindowProps {
 }
 
 // Tab bar + body shell (About's own padding/gap — distinct from ProjectWindow's).
-// Contact tab content is a later point still.
+// OK/Cancel footer buttons are a later point still.
 export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWindowProps) {
   return (
     <>
@@ -61,7 +61,23 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWind
               <p className={styles.skillsPlaceholder}>Placeholder</p>
             </div>
           )}
-          {tab === 2 && 'Contact tab content — next point'}
+          {tab === 2 && (
+            <div className={styles.contact}>
+              <div className={styles.label}>GET IN TOUCH</div>
+              <div className={styles.contactGrid}>
+                <div className={styles.factLabel}>Email</div>
+                <div>{about.email}</div>
+                <div className={styles.factLabel}>GitHub</div>
+                <div>{about.github}</div>
+                <div className={styles.factLabel}>Location</div>
+                <div>{about.location}</div>
+              </div>
+              <div className={styles.footer}>
+                <div className={styles.button}>Send email</div>
+                <div className={styles.button}>Resume.pdf</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
