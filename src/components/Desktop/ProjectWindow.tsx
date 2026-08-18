@@ -31,8 +31,8 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
               <div className={styles.screenshot}>screenshot — 800×260</div>
               <p className={styles.blurb}>{project.blurb}</p>
               <div className={styles.tags}>
-                {project.tags.map((tag) => (
-                  <div key={tag} className={styles.tag}>
+                {project.tags.map((tag, i) => (
+                  <div key={i} className={styles.tag}>
                     {tag}
                   </div>
                 ))}

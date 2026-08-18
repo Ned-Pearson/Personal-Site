@@ -107,3 +107,16 @@
 .factLabel {
   color: var(--color-ink-muted);
 }
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  max-width: 470px;
+}
+
+.skillsPlaceholder {
+  margin: 0;
+  font: 400 var(--text-content-base) / 1.7 var(--font-content);
+  color: var(--color-ink);
+}

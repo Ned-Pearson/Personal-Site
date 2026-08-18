@@ -39,7 +39,6 @@ npm run dev
 
 ### 7. About Me window (General / Skills / Contact)
 
-- Skills tab: labelled progress bars (82/74/58/44%) + caveat paragraph
 - Contact tab: definition grid (Email/GitHub/Location) + buttons
 - OK / Cancel footer buttons (both close window)
 
