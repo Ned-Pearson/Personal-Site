@@ -13,3 +13,37 @@
   gap: var(--space-4);
   padding: 0 3px;
 }
+
+.startButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 5px;
+  font-weight: 700;
+  font-size: var(--text-chrome-base);
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+}
+
+.startButton:hover {
+  background: #e0dcd4;
+}
+
+.startButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.colourGrid {
+  display: grid;
+  grid-template-columns: 6px 6px;
+  grid-template-rows: 6px 6px;
+  gap: 1px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--color-bevel-mid);
+  margin: 0 2px;
+}
