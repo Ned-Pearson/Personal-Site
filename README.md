@@ -43,7 +43,7 @@ npm run dev
 
 ### 8. Text viewer (readme.txt)
 
-- White sheet layout, heading, paragraphs, "— end of file —" footer
+- Done
 
 ### 9. Taskbar
 
