@@ -9,11 +9,11 @@ interface AboutWindowProps {
   about: AboutContent
   shippedCount: number
   onSelectTab: (index: number) => void
+  onClose: () => void
 }
 
 // Tab bar + body shell (About's own padding/gap — distinct from ProjectWindow's).
-// OK/Cancel footer buttons are a later point still.
-export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWindowProps) {
+export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: AboutWindowProps) {
   return (
     <>
       <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} />
@@ -78,6 +78,14 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab }: AboutWind
               </div>
             </div>
           )}
+        </div>
+      </div>
+      <div className={styles.windowFooter}>
+        <div className={styles.button} onClick={onClose}>
+          OK
+        </div>
+        <div className={styles.button} onClick={onClose}>
+          Cancel
         </div>
       </div>
     </>

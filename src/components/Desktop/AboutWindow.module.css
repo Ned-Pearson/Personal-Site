@@ -157,3 +157,15 @@
   box-shadow: var(--bevel-sunken-strong);
   transform: translate(1px, 1px);
 }
+
+.windowFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 0 8px 9px;
+  flex: none;
+}
+
+.windowFooter .button {
+  padding: 4px 18px;
+}
