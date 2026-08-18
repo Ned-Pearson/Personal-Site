@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, getProject, type Node } from '../../data'
+import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, type Node } from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
 import { FolderWindow } from './FolderWindow'
 import { ProjectWindow } from './ProjectWindow'
+import { AboutWindow } from './AboutWindow'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -77,7 +78,17 @@ function windowBody(
       )
     }
   }
-  return <div style={{ padding: 8 }}>{win.kind} window — content lands in sections 7-8</div>
+  if (win.kind === 'about') {
+    return (
+      <AboutWindow
+        tab={win.tab}
+        about={getAbout()}
+        shippedCount={getShippedProjectCount()}
+        onSelectTab={(tab) => patch(win.id, { tab })}
+      />
+    )
+  }
+  return <div style={{ padding: 8 }}>{win.kind} window — content lands in section 8</div>
 }
 
 export function Desktop() {

@@ -1,0 +1,109 @@
+.bodyPanel {
+  flex: 1;
+  min-height: 0;
+  margin: 0 6px 6px;
+  padding: var(--space-8);
+  background: var(--color-chrome);
+  box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 var(--color-bevel-mid);
+  overflow: auto;
+}
+
+.sheet {
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+}
+
+.top {
+  display: flex;
+  gap: var(--space-18);
+  align-items: flex-start;
+}
+
+.portrait {
+  width: 104px;
+  height: 126px;
+  flex: none;
+  background: repeating-linear-gradient(135deg, #e8e5dd 0 7px, #f2f0eb 7px 14px);
+  border: 1px solid var(--color-chip-edge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: 400 var(--text-mono-xs) / 1.4 var(--font-mono);
+  color: #8a857a;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.name {
+  font: 700 var(--text-content-4xl) / 1.1 var(--font-content);
+  letter-spacing: var(--tracking-heading);
+}
+
+.role {
+  font: 400 var(--text-mono-base) var(--font-mono);
+  color: var(--color-ink-muted);
+}
+
+.bio {
+  margin: 0;
+  font: 400 var(--text-content-sm) / 1.65 var(--font-content);
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-sheet-edge);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.label {
+  font: 600 var(--text-mono-sm) var(--font-mono);
+  letter-spacing: var(--tracking-label);
+  color: var(--color-ink-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  padding: 3px 9px;
+  background: var(--color-chip);
+  border: 1px solid var(--color-chip-edge);
+  font: 500 11px var(--font-content);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-6) 12px;
+  font: 400 var(--text-content-xs) / 1.45 var(--font-content);
+}
+
+.factLabel {
+  color: var(--color-ink-muted);
+}
