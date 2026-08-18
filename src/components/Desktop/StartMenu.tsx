@@ -18,11 +18,12 @@ interface StartMenuProps {
   onHoverCat: (key: string | null) => void
   projectFlyoutItems: FlyoutItem[]
   subFlyoutItems: FlyoutItem[]
+  recentFlyoutItems: FlyoutItem[]
   onOpenNode: (id: string, kind: WindowKind) => void
 }
 
-// Recent's flyout content, filtering the rows by query, and Shut Down's
-// actual click behaviour are later points still.
+// Filtering the rows by query and Shut Down's actual click behaviour are
+// later points still.
 const ROWS = [
   { key: 'projects', label: 'Projects', iconColor: 'var(--color-folder)', arrow: '▶' },
   { key: 'recent', label: 'Recent', iconColor: 'var(--color-category-ml)', arrow: '▶' },
@@ -34,6 +35,7 @@ const ROWS = [
 // Hand-tuned to align each flyout with the row it opens from, matching the
 // prototype exactly rather than deriving it from row heights.
 const PROJECTS_FLYOUT_BOTTOM = 118
+const RECENT_FLYOUT_BOTTOM = 92
 const SUB_FLYOUT_BOTTOM_GENERAL = 118
 const SUB_FLYOUT_BOTTOM_OTHER = 92
 
@@ -48,6 +50,7 @@ export function StartMenu({
   onHoverCat,
   projectFlyoutItems,
   subFlyoutItems,
+  recentFlyoutItems,
   onOpenNode,
 }: StartMenuProps) {
   function openRow(key: string) {
@@ -116,6 +119,26 @@ export function StartMenu({
               <div className={styles.flyoutIcon} style={{ background: item.iconColor }} />
               <div className={styles.flyoutLabel}>{item.label}</div>
               <div className={styles.rowArrow}>{item.arrow}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hoveredRow === 'recent' && recentFlyoutItems.length > 0 && (
+        // No hover feedback at all here, state-driven or CSS — matching the
+        // prototype, which hardcodes bg/fg to transparent/black for every item.
+        <div className={styles.flyout} style={{ bottom: RECENT_FLYOUT_BOTTOM }}>
+          {recentFlyoutItems.map((item) => (
+            <div
+              key={item.key}
+              className={styles.flyoutItem}
+              onClick={(e) => {
+                e.stopPropagation()
+                onOpenNode(item.key, item.kind)
+              }}
+            >
+              <div className={styles.flyoutIcon} style={{ background: item.iconColor }} />
+              <div className={styles.flyoutLabel}>{item.label}</div>
             </div>
           ))}
         </div>

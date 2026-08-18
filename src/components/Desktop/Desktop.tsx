@@ -125,8 +125,19 @@ export function Desktop() {
   const [query, setQuery] = useState('')
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
   const [hoverCat, setHoverCat] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
-    useWindows()
+  const {
+    windows,
+    focused,
+    recent,
+    openWindow,
+    focus,
+    close,
+    minimize,
+    patch,
+    toggleMaximize,
+    toggleMenu,
+    closeMenus,
+  } = useWindows()
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -223,6 +234,13 @@ export function Desktop() {
           hoverCat={hoverCat}
           onHoverCat={setHoverCat}
           projectFlyoutItems={PROJECT_FLYOUT_ITEMS}
+          recentFlyoutItems={recent.slice(0, 3).map((id) => ({
+            key: id,
+            label: getNode(id)?.name ?? id,
+            iconColor: windowIconColor(id, 'project'),
+            arrow: '',
+            kind: 'project' as WindowKind,
+          }))}
           subFlyoutItems={
             hoverCat
               ? getChildren(hoverCat).map((child) => ({

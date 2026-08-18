@@ -52,7 +52,7 @@ npm run dev
 ### 10. Start menu
 
 - Panel shell: left rail gradient + vertical "ned pearson" label
-- Recent → three most recently opened projects
+- ~~Recent → three most recently opened projects~~
 - Search/filter: type-ahead filters by name/type/tag/status, "no matches" state
 - Shut Down closes all open windows
 
