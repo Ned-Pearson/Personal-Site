@@ -39,7 +39,6 @@ npm run dev
 
 ### 7. About Me window (General / Skills / Contact)
 
-- Contact tab: definition grid (Email/GitHub/Location) + buttons
 - OK / Cancel footer buttons (both close window)
 
 ### 8. Text viewer (readme.txt)
@@ -92,7 +91,7 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Design and build a separate stacked/mobile presentation (spec explicitly calls out desktop-only design)
+- Design and build a separate stacked/mobile presentation 
 - Breakpoint detection to switch between desktop-window UI and mobile layout
 
 ### 15. Assets & content finalization
