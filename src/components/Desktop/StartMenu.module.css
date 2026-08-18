@@ -103,3 +103,57 @@
   border-radius: 50%;
   flex: none;
 }
+
+.flyout,
+.subFlyout {
+  position: absolute;
+  z-index: 9600;
+  width: 190px;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised);
+  padding: var(--space-2);
+  font-family: var(--font-chrome);
+}
+
+.flyout {
+  left: 212px;
+}
+
+.subFlyout {
+  left: 402px;
+  z-index: 9700;
+  width: 196px;
+}
+
+.flyoutItem,
+.subFlyoutItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+}
+
+.flyoutLabel {
+  flex: 1;
+  font-size: var(--text-chrome-base);
+}
+
+.subFlyoutItem:hover {
+  background: var(--color-title-navy);
+  color: #fff;
+}
+
+.flyoutIcon {
+  width: 18px;
+  height: 14px;
+  border: 1px solid #2b2822;
+  flex: none;
+}
+
+.subFlyoutIcon {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #2b2822;
+  flex: none;
+}

@@ -8,11 +8,23 @@ import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
 import { Taskbar } from './Taskbar'
-import { StartMenu } from './StartMenu'
+import { StartMenu, type FlyoutItem } from './StartMenu'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
 const readmeNode = getNode('readme')!
+
+const PROJECT_FLYOUT_ITEMS: FlyoutItem[] = [
+  { key: 'general', label: getNode('general')!.name, iconColor: 'var(--color-folder)', arrow: '▶', kind: 'folder' },
+  {
+    key: 'machine-learning',
+    label: getNode('machine-learning')!.name,
+    iconColor: 'var(--color-folder)',
+    arrow: '▶',
+    kind: 'folder',
+  },
+  { key: 'readme', label: readmeNode.name, iconColor: 'var(--color-doc)', arrow: '', kind: 'document' },
+]
 
 // Content per window kind is built out in sections 5-8; Window itself is
 // just the reusable chrome, so callers resolve title/icon from the data layer.
@@ -112,6 +124,7 @@ export function Desktop() {
   const [startOpen, setStartOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
+  const [hoverCat, setHoverCat] = useState<string | null>(null)
   const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
     useWindows()
 
@@ -203,9 +216,26 @@ export function Desktop() {
           query={query}
           onQueryChange={setQuery}
           hoveredRow={hoveredRow}
-          onHoverRow={setHoveredRow}
-          onOpenAbout={() => {
-            openWindow('about', 'about')
+          onHoverRow={(key) => {
+            setHoveredRow(key)
+            setHoverCat(null)
+          }}
+          hoverCat={hoverCat}
+          onHoverCat={setHoverCat}
+          projectFlyoutItems={PROJECT_FLYOUT_ITEMS}
+          subFlyoutItems={
+            hoverCat
+              ? getChildren(hoverCat).map((child) => ({
+                  key: child.id,
+                  label: child.name,
+                  iconColor: windowIconColor(child.id, child.kind),
+                  arrow: '',
+                  kind: child.kind,
+                }))
+              : []
+          }
+          onOpenNode={(id, kind) => {
+            openWindow(id, kind)
             setStartOpen(false)
           }}
         />

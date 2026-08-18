@@ -52,11 +52,9 @@ npm run dev
 ### 10. Start menu
 
 - Panel shell: left rail gradient + vertical "ned pearson" label
-- Flyouts: Projects → categories → project list (hover-triggered, correct offsets)
 - Recent → three most recently opened projects
 - Search/filter: type-ahead filters by name/type/tag/status, "no matches" state
 - Shut Down closes all open windows
-- Wire readme.txt row to open the text viewer (built in section 8)
 
 ### 11. Desktop context menu
 
