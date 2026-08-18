@@ -111,6 +111,7 @@ export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
   const [startOpen, setStartOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null)
   const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
     useWindows()
 
@@ -197,7 +198,18 @@ export function Desktop() {
         startOpen={startOpen}
         onStartClick={() => setStartOpen((open) => !open)}
       />
-      {startOpen && <StartMenu query={query} onQueryChange={setQuery} />}
+      {startOpen && (
+        <StartMenu
+          query={query}
+          onQueryChange={setQuery}
+          hoveredRow={hoveredRow}
+          onHoverRow={setHoveredRow}
+          onOpenAbout={() => {
+            openWindow('about', 'about')
+            setStartOpen(false)
+          }}
+        />
+      )}
     </div>
   )
 }
