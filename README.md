@@ -47,7 +47,6 @@ npm run dev
 ### 8. Text viewer (readme.txt)
 
 - White sheet layout, heading, paragraphs, "— end of file —" footer
-- Opens from desktop icon and folder window's Help menu (Start menu entry wired in section 10)
 
 ### 9. Taskbar
 
