@@ -156,6 +156,7 @@ export function Desktop() {
     openWindow,
     focus,
     close,
+    closeAll,
     minimize,
     patch,
     toggleMaximize,
@@ -296,6 +297,10 @@ export function Desktop() {
           }
           onOpenNode={(id, kind) => {
             openWindow(id, kind)
+            setStartOpen(false)
+          }}
+          onShutDown={() => {
+            closeAll()
             setStartOpen(false)
           }}
         />
