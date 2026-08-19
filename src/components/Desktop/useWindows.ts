@@ -8,10 +8,11 @@ export type WindowKind = NodeKind | 'about'
 export type WindowView = 'list' | 'grid'
 
 /**
- * Current animation phase, if any. 'opening' and 'closing' are wired up;
- * 'minimizing'/'restoring' sequencing (README section 12) lands separately.
- * Phases other than 'closing' simply stick once set — `animation-fill-mode:
- * both` holds the settled end state, so nothing needs to clear them.
+ * Current animation phase, if any. 'opening' and 'restoring' simply stick
+ * once set — `animation-fill-mode: both` holds the settled end state, so
+ * nothing needs to clear them. 'closing' and 'minimizing' are timer-driven:
+ * the phase plays out its animation before the window is actually unmounted
+ * (`close`) or hidden (`minimize`).
  */
 export type WindowPhase = 'opening' | 'closing' | 'minimizing' | 'restoring' | null
 
@@ -94,14 +95,22 @@ function pushRecent(recent: string[], node: string): string[] {
   return [node, ...recent.filter((n) => n !== node)].slice(0, RECENT_LIMIT)
 }
 
-/** Raises window `id` to the top of `z` and, if requested, un-minimises it. */
+/**
+ * Raises window `id` to the top of `z` and, if requested, un-minimises it.
+ * Only a window that was actually minimised enters the 'restoring' phase —
+ * re-focusing an already-visible window shouldn't replay the fly-in.
+ */
 function focusInState(s: EngineState, id: number, unminimize: boolean): EngineState {
   const z = s.z + 1
   return {
     ...s,
     z,
     focused: id,
-    windows: s.windows.map((w) => (w.id === id ? { ...w, z, min: unminimize ? false : w.min } : w)),
+    windows: s.windows.map((w) => {
+      if (w.id !== id) return w
+      const restoring = unminimize && w.min
+      return { ...w, z, min: unminimize ? false : w.min, phase: restoring ? 'restoring' : w.phase }
+    }),
   }
 }
 
@@ -199,13 +208,25 @@ export function useWindows() {
     })
   }
 
-  /** Hides a window and clears focus if it was the focused one. Restoring happens via openWindow's dedup path (un-minimises on reopen) or the taskbar (section 9). */
+  /**
+   * Clears focus immediately and flies the window out over its 'minimizing'
+   * duration before actually setting `min:true` (mirrors `close`'s
+   * animate-then-unmount pattern, but hides rather than unmounts). Restoring
+   * happens via openWindow's dedup path (un-minimises on reopen) or the
+   * taskbar (section 9), both through `focusInState` above.
+   */
   function minimize(id: number) {
     setState((s) => ({
       ...s,
-      windows: s.windows.map((w) => (w.id === id ? { ...w, min: true } : w)),
+      windows: s.windows.map((w) => (w.id === id ? { ...w, phase: 'minimizing' } : w)),
       focused: s.focused === id ? null : s.focused,
     }))
+    window.setTimeout(() => {
+      setState((s) => ({
+        ...s,
+        windows: s.windows.map((w) => (w.id === id && w.phase === 'minimizing' ? { ...w, min: true } : w)),
+      }))
+    }, PHASE_ANIMATION.minimizing.duration)
   }
 
   /** Merges arbitrary field updates into one window — used by drag, resize, maximise. */
