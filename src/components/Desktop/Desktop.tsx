@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, getDoc, type Node } from '../../data'
+import {
+  getNode,
+  getPath,
+  getChildren,
+  getProject,
+  getAbout,
+  getShippedProjectCount,
+  getDoc,
+  getAllNodes,
+  type Node,
+} from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -24,6 +34,20 @@ const PROJECT_FLYOUT_ITEMS: FlyoutItem[] = [
     kind: 'folder',
   },
   { key: 'readme', label: readmeNode.name, iconColor: 'var(--color-doc)', arrow: '', kind: 'document' },
+]
+
+interface SearchItem {
+  id: string
+  kind: WindowKind
+  label: string
+  type: string
+}
+
+// 'about' isn't a NODES entry (see windowLabel/windowIconColor), so it's
+// added in separately here to stay searchable, matching the prototype.
+const SEARCH_ITEMS: SearchItem[] = [
+  ...getAllNodes().map((n) => ({ id: n.id, kind: n.kind as WindowKind, label: n.name, type: n.type })),
+  { id: 'about', kind: 'about', label: 'About Me', type: 'Profile' },
 ]
 
 // Content per window kind is built out in sections 5-8; Window itself is
@@ -139,6 +163,23 @@ export function Desktop() {
     closeMenus,
   } = useWindows()
 
+  const q = query.trim().toLowerCase()
+  const searchRows: FlyoutItem[] = q
+    ? SEARCH_ITEMS.filter((item) => {
+        const project = getProject(item.id)
+        const haystack = [item.label, item.type, project?.tags.join(' ') ?? '', project?.status ?? '']
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(q)
+      }).map((item) => ({
+        key: item.id,
+        label: item.label,
+        iconColor: windowIconColor(item.id, item.kind),
+        arrow: '',
+        kind: item.kind,
+      }))
+    : []
+
   function openIcon(id: string) {
     if (id === 'about') {
       openWindow('about', 'about')
@@ -233,6 +274,7 @@ export function Desktop() {
           }}
           hoverCat={hoverCat}
           onHoverCat={setHoverCat}
+          searchRows={searchRows}
           projectFlyoutItems={PROJECT_FLYOUT_ITEMS}
           recentFlyoutItems={recent.slice(0, 3).map((id) => ({
             key: id,

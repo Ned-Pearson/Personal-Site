@@ -19,11 +19,11 @@ interface StartMenuProps {
   projectFlyoutItems: FlyoutItem[]
   subFlyoutItems: FlyoutItem[]
   recentFlyoutItems: FlyoutItem[]
+  searchRows: FlyoutItem[]
   onOpenNode: (id: string, kind: WindowKind) => void
 }
 
-// Filtering the rows by query and Shut Down's actual click behaviour are
-// later points still.
+// Shut Down's actual click behaviour is a later point still.
 const ROWS = [
   { key: 'projects', label: 'Projects', iconColor: 'var(--color-folder)', arrow: '▶' },
   { key: 'recent', label: 'Recent', iconColor: 'var(--color-category-ml)', arrow: '▶' },
@@ -51,8 +51,11 @@ export function StartMenu({
   projectFlyoutItems,
   subFlyoutItems,
   recentFlyoutItems,
+  searchRows,
   onOpenNode,
 }: StartMenuProps) {
+  const isSearching = query.trim().length > 0
+
   function openRow(key: string) {
     if (key === 'about' || key === 'contact') onOpenNode('about', 'about')
   }
@@ -74,21 +77,42 @@ export function StartMenu({
           />
         </div>
         <div className={styles.separator} />
-        {ROWS.map((row) => (
-          <div
-            key={row.key}
-            className={hoveredRow === row.key ? `${styles.row} ${styles.rowHover}` : styles.row}
-            onMouseEnter={() => onHoverRow(row.key)}
-            onClick={(e) => {
-              e.stopPropagation()
-              openRow(row.key)
-            }}
-          >
-            <div className={styles.rowIcon} style={{ background: row.iconColor }} />
-            <div className={styles.rowLabel}>{row.label}</div>
-            <div className={styles.rowArrow}>{row.arrow}</div>
-          </div>
-        ))}
+        {isSearching ? (
+          searchRows.length > 0 ? (
+            searchRows.map((item) => (
+              <div
+                key={item.key}
+                className={hoveredRow === item.key ? `${styles.row} ${styles.rowHover}` : styles.row}
+                onMouseEnter={() => onHoverRow(item.key)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onOpenNode(item.key, item.kind)
+                }}
+              >
+                <div className={styles.rowIcon} style={{ background: item.iconColor }} />
+                <div className={styles.rowLabel}>{item.label}</div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.noMatches}>no matches</div>
+          )
+        ) : (
+          ROWS.map((row) => (
+            <div
+              key={row.key}
+              className={hoveredRow === row.key ? `${styles.row} ${styles.rowHover}` : styles.row}
+              onMouseEnter={() => onHoverRow(row.key)}
+              onClick={(e) => {
+                e.stopPropagation()
+                openRow(row.key)
+              }}
+            >
+              <div className={styles.rowIcon} style={{ background: row.iconColor }} />
+              <div className={styles.rowLabel}>{row.label}</div>
+              <div className={styles.rowArrow}>{row.arrow}</div>
+            </div>
+          ))
+        )}
         <div className={styles.separator} />
         <div
           className={hoveredRow === 'shutdown' ? `${styles.row} ${styles.rowHover}` : styles.row}
@@ -101,7 +125,7 @@ export function StartMenu({
         </div>
       </div>
 
-      {hoveredRow === 'projects' && (
+      {!isSearching && hoveredRow === 'projects' && (
         // Category items highlight via hoverCat, not CSS :hover — matching the
         // prototype exactly, which means readme.txt (no arrow, so hoverCat
         // always clears to null on hover) never actually highlights here.
@@ -124,7 +148,7 @@ export function StartMenu({
         </div>
       )}
 
-      {hoveredRow === 'recent' && recentFlyoutItems.length > 0 && (
+      {!isSearching && hoveredRow === 'recent' && recentFlyoutItems.length > 0 && (
         // No hover feedback at all here, state-driven or CSS — matching the
         // prototype, which hardcodes bg/fg to transparent/black for every item.
         <div className={styles.flyout} style={{ bottom: RECENT_FLYOUT_BOTTOM }}>
@@ -144,7 +168,7 @@ export function StartMenu({
         </div>
       )}
 
-      {hoverCat && subFlyoutItems.length > 0 && (
+      {!isSearching && hoverCat && subFlyoutItems.length > 0 && (
         <div
           className={styles.subFlyout}
           style={{ bottom: hoverCat === 'general' ? SUB_FLYOUT_BOTTOM_GENERAL : SUB_FLYOUT_BOTTOM_OTHER }}

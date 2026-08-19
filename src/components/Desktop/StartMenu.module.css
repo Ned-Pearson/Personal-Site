@@ -67,6 +67,12 @@
   box-shadow: 0 1px 0 var(--color-bevel-light);
 }
 
+.noMatches {
+  padding: 6px 8px;
+  font: 400 var(--text-mono-lg) var(--font-mono);
+  color: var(--color-ink-muted);
+}
+
 .row {
   display: flex;
   align-items: center;
