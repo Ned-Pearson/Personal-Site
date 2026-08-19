@@ -3,6 +3,7 @@ import styles from './ContextMenu.module.css'
 export interface ContextMenuItem {
   label: string
   onClick: () => void
+  disabled?: boolean
 }
 
 interface ContextMenuProps {
@@ -17,7 +18,7 @@ export function ContextMenu({ x, y, items }: ContextMenuProps) {
       {items.map((item, i) => (
         <div
           key={i}
-          className={styles.item}
+          className={item.disabled ? `${styles.item} ${styles.itemDisabled}` : styles.item}
           onClick={(e) => {
             e.stopPropagation()
             item.onClick()

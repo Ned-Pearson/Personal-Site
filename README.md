@@ -55,7 +55,7 @@ npm run dev
 
 ### 11. Desktop context menu
 
-- Cascade/Close greyed out when nothing is open
+- Done
 
 ### 12. Animation
 
