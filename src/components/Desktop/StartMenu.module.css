@@ -1,0 +1,165 @@
+.panel {
+  position: absolute;
+  left: 2px;
+  bottom: 30px;
+  z-index: 9500;
+  width: 212px;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised);
+  display: flex;
+}
+
+.rail {
+  width: 24px;
+  background: linear-gradient(180deg, var(--color-title-blue), var(--color-title-navy));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 9px;
+}
+
+.railLabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: #fff;
+  font: 700 var(--text-content-sm) var(--font-content);
+  letter-spacing: 1px;
+}
+
+.content {
+  flex: 1;
+  padding: 2px;
+  font-family: var(--font-chrome);
+}
+
+.searchField {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 3px 4px 5px;
+  padding: 3px 6px;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+}
+
+.searchIcon {
+  font-size: var(--text-mono-sm);
+  color: var(--color-bevel-mid);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  font: 400 var(--text-mono-lg) var(--font-mono);
+  color: #000;
+  cursor: text;
+}
+
+.separator {
+  height: 1px;
+  background: var(--color-bevel-mid);
+  margin: 0 4px 3px;
+  box-shadow: 0 1px 0 var(--color-bevel-light);
+}
+
+.noMatches {
+  padding: 6px 8px;
+  font: 400 var(--text-mono-lg) var(--font-mono);
+  color: var(--color-ink-muted);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 6px;
+}
+
+.rowHover {
+  background: var(--color-title-navy);
+  color: #fff;
+}
+
+.rowIcon {
+  width: 22px;
+  height: 18px;
+  border: 1px solid #2b2822;
+  flex: none;
+}
+
+.rowLabel {
+  flex: 1;
+  font-size: var(--text-chrome-lg);
+}
+
+.rowArrow {
+  font-size: 10px;
+}
+
+.shutdownIcon {
+  width: 22px;
+  height: 18px;
+  background: var(--color-accent-green);
+  border: 1px solid #1c4a20;
+  border-radius: 50%;
+  flex: none;
+}
+
+.flyout,
+.subFlyout {
+  position: absolute;
+  z-index: 9600;
+  width: 190px;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised);
+  padding: var(--space-2);
+  font-family: var(--font-chrome);
+}
+
+.flyout {
+  left: 212px;
+}
+
+.subFlyout {
+  left: 402px;
+  z-index: 9700;
+  width: 196px;
+}
+
+.flyoutItem,
+.subFlyoutItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+}
+
+.flyoutLabel {
+  flex: 1;
+  font-size: var(--text-chrome-base);
+}
+
+.subFlyoutItem:hover {
+  background: var(--color-title-navy);
+  color: #fff;
+}
+
+.flyoutIcon {
+  width: 18px;
+  height: 14px;
+  border: 1px solid #2b2822;
+  flex: none;
+}
+
+.subFlyoutIcon {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #2b2822;
+  flex: none;
+}

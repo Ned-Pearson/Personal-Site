@@ -129,6 +129,11 @@ export function useWindows() {
     }))
   }
 
+  /** Closes every open window at once — used by Shut Down and, later, the desktop context menu's "Close all windows". */
+  function closeAll() {
+    setState((s) => ({ ...s, windows: [], focused: null }))
+  }
+
   /** Hides a window and clears focus if it was the focused one. Restoring happens via openWindow's dedup path (un-minimises on reopen) or the taskbar (section 9). */
   function minimize(id: number) {
     setState((s) => ({
@@ -186,6 +191,7 @@ export function useWindows() {
     openWindow,
     focus,
     close,
+    closeAll,
     minimize,
     patch,
     toggleMaximize,
