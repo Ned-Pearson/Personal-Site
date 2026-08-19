@@ -129,9 +129,33 @@ export function useWindows() {
     }))
   }
 
-  /** Closes every open window at once — used by Shut Down and, later, the desktop context menu's "Close all windows". */
+  /** Closes every open window at once — used by Shut Down and the desktop context menu's "Close all windows". */
   function closeAll() {
     setState((s) => ({ ...s, windows: [], focused: null }))
+  }
+
+  /** Re-lays-out every open window in a cascade, un-minimising/un-maximising each — used by the desktop context menu's "Cascade windows". Uses a flat 26px step per window rather than the open-cascade's 30/28 cycling step, matching the prototype's distinct cascade() behaviour. */
+  function cascade() {
+    setState((s) => {
+      const vw = window.innerWidth
+      const vh = window.innerHeight - 30
+      return {
+        ...s,
+        windows: s.windows.map((w, i) => {
+          const w0 = Math.min(w.w, vw - 16)
+          const h0 = Math.min(w.h, vh - 16)
+          return {
+            ...w,
+            min: false,
+            max: false,
+            w: w0,
+            h: h0,
+            x: Math.max(8, Math.min(132 + i * 26, vw - w0 - 8)),
+            y: Math.max(8, Math.min(40 + i * 26, vh - h0 - 8)),
+          }
+        }),
+      }
+    })
   }
 
   /** Hides a window and clears focus if it was the focused one. Restoring happens via openWindow's dedup path (un-minimises on reopen) or the taskbar (section 9). */
@@ -192,6 +216,7 @@ export function useWindows() {
     focus,
     close,
     closeAll,
+    cascade,
     minimize,
     patch,
     toggleMaximize,

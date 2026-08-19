@@ -1,11 +1,31 @@
 import styles from './ContextMenu.module.css'
 
+export interface ContextMenuItem {
+  label: string
+  onClick: () => void
+}
+
 interface ContextMenuProps {
   x: number
   y: number
+  items: ContextMenuItem[]
 }
 
-// Items land in the next to-do point — this is just the positioned panel shell.
-export function ContextMenu({ x, y }: ContextMenuProps) {
-  return <div className={styles.panel} style={{ left: x, top: y }} onMouseDown={(e) => e.stopPropagation()} />
+export function ContextMenu({ x, y, items }: ContextMenuProps) {
+  return (
+    <div className={styles.panel} style={{ left: x, top: y }} onMouseDown={(e) => e.stopPropagation()}>
+      {items.map((item, i) => (
+        <div
+          key={i}
+          className={styles.item}
+          onClick={(e) => {
+            e.stopPropagation()
+            item.onClick()
+          }}
+        >
+          {item.label}
+        </div>
+      ))}
+    </div>
+  )
 }

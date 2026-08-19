@@ -159,6 +159,7 @@ export function Desktop() {
     focus,
     close,
     closeAll,
+    cascade,
     minimize,
     patch,
     toggleMaximize,
@@ -183,6 +184,14 @@ export function Desktop() {
       }))
     : []
 
+  const contextMenuItems = [
+    { label: 'Open Projects', onClick: () => openWindow(projectsNode.id, 'folder') },
+    { label: 'Open readme.txt', onClick: () => openWindow(readmeNode.id, 'document') },
+    { label: 'Cascade windows', onClick: cascade },
+    { label: 'Close all windows', onClick: closeAll },
+    { label: 'Properties', onClick: () => openWindow('about', 'about') },
+  ].map((item) => ({ label: item.label, onClick: () => { item.onClick(); setContextMenu(null) } }))
+
   function openIcon(id: string) {
     if (id === 'about') {
       openWindow('about', 'about')
@@ -205,9 +214,7 @@ export function Desktop() {
         e.preventDefault()
         setContextMenu({
           x: Math.min(e.clientX, window.innerWidth - 200),
-          // Height clamp is a placeholder margin until items land in the next
-          // to-do point and the panel's real height is known.
-          y: Math.min(e.clientY, window.innerHeight - 8),
+          y: Math.min(e.clientY, window.innerHeight - 190),
         })
         setStartOpen(false)
       }}
@@ -275,7 +282,10 @@ export function Desktop() {
           else focus(id, true)
         }}
         startOpen={startOpen}
-        onStartClick={() => setStartOpen((open) => !open)}
+        onStartClick={() => {
+          setStartOpen((open) => !open)
+          setContextMenu(null)
+        }}
       />
       {startOpen && (
         <StartMenu
@@ -318,7 +328,7 @@ export function Desktop() {
           }}
         />
       )}
-      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} />}
+      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} />}
     </div>
   )
 }
