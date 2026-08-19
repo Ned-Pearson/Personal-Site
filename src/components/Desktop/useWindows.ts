@@ -8,6 +8,15 @@ export type WindowKind = NodeKind | 'about'
 export type WindowView = 'list' | 'grid'
 
 /**
+ * Current animation phase, if any. Only 'opening' is wired up so far — a
+ * window enters this phase when it's created and simply stays there
+ * (`animation-fill-mode: both` holds the settled end state, so nothing needs
+ * to clear it). The timer-driven closing/minimizing/restoring sequencing
+ * (README section 12) lands separately.
+ */
+export type WindowPhase = 'opening' | 'closing' | 'minimizing' | 'restoring' | null
+
+/**
  * One open window. `node` is a NODES id, except for the About window ('about'),
  * which has no NODES entry. Geometry is absolute desktop coordinates;
  * px/py/pw/ph cache the pre-maximise geometry so restoring can undo it.
@@ -26,6 +35,7 @@ export interface WindowState {
   menu: boolean
   view: WindowView
   tab: number
+  phase: WindowPhase
   px?: number
   py?: number
   pw?: number
@@ -112,6 +122,7 @@ export function useWindows() {
         menu: false,
         view: 'list',
         tab: 0,
+        phase: 'opening',
       }
       return { windows: s.windows.concat([win]), nextId: s.nextId + 1, z, focused: s.nextId, recent }
     })

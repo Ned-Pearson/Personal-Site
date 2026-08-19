@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { WindowPhase } from './useWindows'
 import styles from './Window.module.css'
 
 interface WindowProps {
@@ -11,6 +12,7 @@ interface WindowProps {
   h: number
   z: number
   maximized: boolean
+  phase: WindowPhase
   onFocus: () => void
   onMove: (x: number, y: number) => void
   onResize: (w: number, h: number) => void
@@ -23,6 +25,21 @@ interface WindowProps {
 const MIN_W = 320
 const MIN_H = 180
 
+/**
+ * Per-phase animation/duration/easing/transform-origin (README section 12).
+ * minimizing/restoring's transform-origin is a placeholder here — flying
+ * toward the window's own taskbar button ("genie origin") is a later pass.
+ */
+const PHASE_ANIMATION: Record<
+  NonNullable<WindowPhase>,
+  { name: string; duration: number; easing: string; transformOrigin: string }
+> = {
+  opening: { name: 'winOpen', duration: 140, easing: 'ease-out', transformOrigin: 'center' },
+  closing: { name: 'winClose', duration: 140, easing: 'ease-in', transformOrigin: 'center' },
+  minimizing: { name: 'winMin', duration: 180, easing: 'ease-in', transformOrigin: 'center' },
+  restoring: { name: 'winRestore', duration: 190, easing: 'ease-out', transformOrigin: 'center' },
+}
+
 export function Window({
   title,
   iconColor,
@@ -33,6 +50,7 @@ export function Window({
   h,
   z,
   maximized,
+  phase,
   onFocus,
   onMove,
   onResize,
@@ -86,10 +104,25 @@ export function Window({
     document.addEventListener('mouseup', up)
   }
 
+  const anim = phase ? PHASE_ANIMATION[phase] : null
+
   return (
     <div
       className={focused ? `${styles.window} ${styles.focused}` : styles.window}
-      style={{ left: x, top: y, width: w, height: h, zIndex: z }}
+      style={{
+        left: x,
+        top: y,
+        width: w,
+        height: h,
+        zIndex: z,
+        ...(anim && {
+          animationName: anim.name,
+          animationDuration: `${anim.duration}ms`,
+          animationTimingFunction: anim.easing,
+          animationFillMode: 'both',
+          transformOrigin: anim.transformOrigin,
+        }),
+      }}
       onMouseDown={onFocus}
     >
       <div className={styles.titleBar} onMouseDown={startDrag} onDoubleClick={onToggleMax}>
