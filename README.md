@@ -23,7 +23,7 @@ npm run dev
 
 ### 3. Desktop (base page)
 
-- Done 
+- Done
 
 ### 4. Window system (core engine)
 
@@ -59,7 +59,6 @@ npm run dev
 
 ### 12. Animation
 
-- Global keyframes (declared once): `winOpen`, `winClose`, `winMin`, `winRestore`, `menuOpen`
 - Window `phase` field (`'opening' | 'closing' | 'minimizing' | 'restoring' | null`) added to window state, mapped to animation/duration/easing/transform-origin per phase (`animation-fill-mode: both`)
 - Open/close sequencing: open plays immediately on push to state; close sets `phase:'closing'` then removes the window after 140ms (don't unmount immediately, or there's nothing to animate)
 - Minimise/restore sequencing: minimise clears `focused` immediately and flies out over 180ms before setting `min:true`; restore clears `min` immediately and flies in over 190ms
@@ -84,7 +83,7 @@ npm run dev
 - Mobile taskbar: 74×38 np button + flexible breadcrumb button (sunken+bold when a window is open, raised at the desktop root)
 - Desktop (root) screen: three-column icon grid, scaled-up glyphs (folder 52×40, document 37×44), tap-to-open, `:active`-only pressed state (no hover, no selection)
 - Window screen shell: single full-screen window (6px margin), title bar with only a close (✕) button — no minimise/maximise, `sheetUp` entrance animation
-- Mobile toolbar: Back button, RTL path field, single view-toggle button (shows the glyph of the view you'd switch *to*); no View menu, no menu bar at all
+- Mobile toolbar: Back button, RTL path field, single view-toggle button (shows the glyph of the view you'd switch _to_); no View menu, no menu bar at all
 - Folder contents — list view: metadata-line rows (`min-height:48px`), trailing chevron, pressed state; status bar drops the Modified column (moved into each row's metadata line)
 - Folder contents — grid view: two-column layout, scaled-up glyphs
 - Project/About window mobile adaptations: full-width tabs, tightened sheet padding, stacked full-width buttons, single-column media; About General/Skills/Contact layouts collapse to stacked/full-width (OK/Cancel footer dropped — the title-bar ✕ is the only dismiss)
