@@ -55,9 +55,7 @@ npm run dev
 
 ### 11. Desktop context menu
 
-- Right-click panel (200px, clamped to viewport)
-- Items: Open Projects, Open readme.txt, Cascade windows, Close all windows, Properties (→ About Me)
-- Cascade/Close greyed out when nothing is open
+- Done
 
 ### 12. Animation
 
