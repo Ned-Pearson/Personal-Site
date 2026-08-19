@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
 import { PHASE_ANIMATION, type WindowPhase } from './useWindows'
 import styles from './Window.module.css'
 
 interface WindowProps {
+  id: number
   title: string
   iconColor: string
   focused: boolean
@@ -26,6 +27,7 @@ const MIN_W = 320
 const MIN_H = 180
 
 export function Window({
+  id,
   title,
   iconColor,
   focused,
@@ -44,6 +46,33 @@ export function Window({
   onClose,
   children,
 }: WindowProps) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  // Genie origin: for the minimise/restore fly-out/fly-in, point the scale
+  // toward this window's own taskbar button rather than screen centre.
+  // Measured directly (not via state) and applied straight to the DOM node
+  // in a layout effect so it's in place before the browser paints the first
+  // animation frame. Falls back to PHASE_ANIMATION's 'center' below if the
+  // button can't be found (e.g. taskbar not yet mounted).
+  //
+  // Deliberately uses the `x`/`y` props rather than the window's own
+  // getBoundingClientRect(): with `animation-fill-mode: both`, the moment
+  // the animation style is applied the element is already sitting in its
+  // 'from' keyframe — for 'restoring' that's `scale(0.05)` — so measuring
+  // the window element here would read its shrunk transformed box, not its
+  // real position. `x`/`y` are the untransformed CSS left/top and aren't
+  // affected. Only the taskbar button (never transformed) needs measuring.
+  useLayoutEffect(() => {
+    if (phase !== 'minimizing' && phase !== 'restoring') return
+    const el = ref.current
+    const button = document.querySelector<HTMLElement>(`[data-task-id="${id}"]`)
+    if (!el || !button) return
+    const buttonRect = button.getBoundingClientRect()
+    const originX = buttonRect.left + buttonRect.width / 2 - x
+    const originY = buttonRect.top + buttonRect.height / 2 - y
+    el.style.transformOrigin = `${originX}px ${originY}px`
+  }, [id, phase, x, y])
+
   function startDrag(e: React.MouseEvent) {
     if (e.button !== 0 || maximized) return
     e.preventDefault()
@@ -93,6 +122,7 @@ export function Window({
 
   return (
     <div
+      ref={ref}
       className={focused ? `${styles.window} ${styles.focused}` : styles.window}
       style={{
         left: x,
