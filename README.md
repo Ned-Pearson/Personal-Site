@@ -59,7 +59,6 @@ npm run dev
 
 ### 12. Animation
 
-- Window `phase` field (`'opening' | 'closing' | 'minimizing' | 'restoring' | null`) added to window state, mapped to animation/duration/easing/transform-origin per phase (`animation-fill-mode: both`)
 - Open/close sequencing: open plays immediately on push to state; close sets `phase:'closing'` then removes the window after 140ms (don't unmount immediately, or there's nothing to animate)
 - Minimise/restore sequencing: minimise clears `focused` immediately and flies out over 180ms before setting `min:true`; restore clears `min` immediately and flies in over 190ms
 - Genie origin: minimise/restore scale toward the window's own taskbar button position (computed from button index/position, or measured via `getBoundingClientRect()`) rather than screen centre

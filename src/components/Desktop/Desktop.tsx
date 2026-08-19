@@ -265,6 +265,7 @@ export function Desktop() {
             h={win.h}
             z={win.z}
             maximized={win.max}
+            phase={win.phase}
             onFocus={() => {
               if (focused !== win.id) focus(win.id)
             }}
