@@ -8,13 +8,30 @@ export type WindowKind = NodeKind | 'about'
 export type WindowView = 'list' | 'grid'
 
 /**
- * Current animation phase, if any. Only 'opening' is wired up so far — a
- * window enters this phase when it's created and simply stays there
- * (`animation-fill-mode: both` holds the settled end state, so nothing needs
- * to clear it). The timer-driven closing/minimizing/restoring sequencing
- * (README section 12) lands separately.
+ * Current animation phase, if any. 'opening' and 'closing' are wired up;
+ * 'minimizing'/'restoring' sequencing (README section 12) lands separately.
+ * Phases other than 'closing' simply stick once set — `animation-fill-mode:
+ * both` holds the settled end state, so nothing needs to clear them.
  */
 export type WindowPhase = 'opening' | 'closing' | 'minimizing' | 'restoring' | null
+
+/**
+ * Per-phase animation/duration/easing/transform-origin (README section 12).
+ * Single source of truth for both the CSS (Window.tsx reads this to drive
+ * the animation) and the JS timers that key off the same durations (e.g.
+ * `close` below waits out `closing`'s duration before actually unmounting).
+ * minimizing/restoring's transform-origin is a placeholder here — flying
+ * toward the window's own taskbar button ("genie origin") is a later pass.
+ */
+export const PHASE_ANIMATION: Record<
+  NonNullable<WindowPhase>,
+  { name: string; duration: number; easing: string; transformOrigin: string }
+> = {
+  opening: { name: 'winOpen', duration: 140, easing: 'ease-out', transformOrigin: 'center' },
+  closing: { name: 'winClose', duration: 140, easing: 'ease-in', transformOrigin: 'center' },
+  minimizing: { name: 'winMin', duration: 180, easing: 'ease-in', transformOrigin: 'center' },
+  restoring: { name: 'winRestore', duration: 190, easing: 'ease-out', transformOrigin: 'center' },
+}
 
 /**
  * One open window. `node` is a NODES id, except for the About window ('about'),
@@ -132,12 +149,25 @@ export function useWindows() {
     setState((s) => focusInState(s, id, unminimize))
   }
 
+  /**
+   * Starts a window closing rather than unmounting it immediately, so the
+   * `winClose` animation has something to play; the window is actually
+   * removed once that animation's duration has elapsed. If it's still
+   * `'closing'` at that point (i.e. nothing re-focused it in the meantime),
+   * drop it from state for good.
+   */
   function close(id: number) {
     setState((s) => ({
       ...s,
-      windows: s.windows.filter((w) => w.id !== id),
+      windows: s.windows.map((w) => (w.id === id ? { ...w, phase: 'closing' } : w)),
       focused: s.focused === id ? null : s.focused,
     }))
+    window.setTimeout(() => {
+      setState((s) => ({
+        ...s,
+        windows: s.windows.filter((w) => !(w.id === id && w.phase === 'closing')),
+      }))
+    }, PHASE_ANIMATION.closing.duration)
   }
 
   /** Closes every open window at once — used by Shut Down and the desktop context menu's "Close all windows". */

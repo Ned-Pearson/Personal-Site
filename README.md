@@ -59,7 +59,6 @@ npm run dev
 
 ### 12. Animation
 
-- Open/close sequencing: open plays immediately on push to state; close sets `phase:'closing'` then removes the window after 140ms (don't unmount immediately, or there's nothing to animate)
 - Minimise/restore sequencing: minimise clears `focused` immediately and flies out over 180ms before setting `min:true`; restore clears `min` immediately and flies in over 190ms
 - Genie origin: minimise/restore scale toward the window's own taskbar button position (computed from button index/position, or measured via `getBoundingClientRect()`) rather than screen centre
 - Drag/resize interrupt: starting a drag or resize clears any active `phase` first, so a half-finished animation can't fight the pointer transform
