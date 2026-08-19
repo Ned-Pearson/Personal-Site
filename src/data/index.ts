@@ -16,6 +16,11 @@ export function getNode(id: string): Node | undefined {
   return NODES[id]
 }
 
+/** Every node, unordered — e.g. for the Start menu's search-all-nodes filter. */
+export function getAllNodes(): Node[] {
+  return Object.values(NODES)
+}
+
 /** Resolves a folder node's children ids to full Node objects, in listed order. */
 export function getChildren(id: string): Node[] {
   const node = NODES[id]

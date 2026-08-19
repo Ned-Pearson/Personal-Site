@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { getNode, getPath, getChildren, getProject, getAbout, getShippedProjectCount, getDoc, type Node } from '../../data'
+import {
+  getNode,
+  getPath,
+  getChildren,
+  getProject,
+  getAbout,
+  getShippedProjectCount,
+  getDoc,
+  getAllNodes,
+  type Node,
+} from '../../data'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -8,10 +18,37 @@ import { ProjectWindow } from './ProjectWindow'
 import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
 import { Taskbar } from './Taskbar'
+import { StartMenu, type FlyoutItem } from './StartMenu'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
 const readmeNode = getNode('readme')!
+
+const PROJECT_FLYOUT_ITEMS: FlyoutItem[] = [
+  { key: 'general', label: getNode('general')!.name, iconColor: 'var(--color-folder)', arrow: '▶', kind: 'folder' },
+  {
+    key: 'machine-learning',
+    label: getNode('machine-learning')!.name,
+    iconColor: 'var(--color-folder)',
+    arrow: '▶',
+    kind: 'folder',
+  },
+  { key: 'readme', label: readmeNode.name, iconColor: 'var(--color-doc)', arrow: '', kind: 'document' },
+]
+
+interface SearchItem {
+  id: string
+  kind: WindowKind
+  label: string
+  type: string
+}
+
+// 'about' isn't a NODES entry (see windowLabel/windowIconColor), so it's
+// added in separately here to stay searchable, matching the prototype.
+const SEARCH_ITEMS: SearchItem[] = [
+  ...getAllNodes().map((n) => ({ id: n.id, kind: n.kind as WindowKind, label: n.name, type: n.type })),
+  { id: 'about', kind: 'about', label: 'About Me', type: 'Profile' },
+]
 
 // Content per window kind is built out in sections 5-8; Window itself is
 // just the reusable chrome, so callers resolve title/icon from the data layer.
@@ -108,8 +145,41 @@ function windowBody(
 
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  const { windows, focused, openWindow, focus, close, minimize, patch, toggleMaximize, toggleMenu, closeMenus } =
-    useWindows()
+  const [startOpen, setStartOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null)
+  const [hoverCat, setHoverCat] = useState<string | null>(null)
+  const {
+    windows,
+    focused,
+    recent,
+    openWindow,
+    focus,
+    close,
+    closeAll,
+    minimize,
+    patch,
+    toggleMaximize,
+    toggleMenu,
+    closeMenus,
+  } = useWindows()
+
+  const q = query.trim().toLowerCase()
+  const searchRows: FlyoutItem[] = q
+    ? SEARCH_ITEMS.filter((item) => {
+        const project = getProject(item.id)
+        const haystack = [item.label, item.type, project?.tags.join(' ') ?? '', project?.status ?? '']
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(q)
+      }).map((item) => ({
+        key: item.id,
+        label: item.label,
+        iconColor: windowIconColor(item.id, item.kind),
+        arrow: '',
+        kind: item.kind,
+      }))
+    : []
 
   function openIcon(id: string) {
     if (id === 'about') {
@@ -126,6 +196,7 @@ export function Desktop() {
       onClick={() => {
         setSelectedIcon(null)
         closeMenus()
+        setStartOpen(false)
       }}
     >
       <div className={styles.iconColumn}>
@@ -190,7 +261,50 @@ export function Desktop() {
           if (active) minimize(id)
           else focus(id, true)
         }}
+        startOpen={startOpen}
+        onStartClick={() => setStartOpen((open) => !open)}
       />
+      {startOpen && (
+        <StartMenu
+          query={query}
+          onQueryChange={setQuery}
+          hoveredRow={hoveredRow}
+          onHoverRow={(key) => {
+            setHoveredRow(key)
+            setHoverCat(null)
+          }}
+          hoverCat={hoverCat}
+          onHoverCat={setHoverCat}
+          searchRows={searchRows}
+          projectFlyoutItems={PROJECT_FLYOUT_ITEMS}
+          recentFlyoutItems={recent.slice(0, 3).map((id) => ({
+            key: id,
+            label: getNode(id)?.name ?? id,
+            iconColor: windowIconColor(id, 'project'),
+            arrow: '',
+            kind: 'project' as WindowKind,
+          }))}
+          subFlyoutItems={
+            hoverCat
+              ? getChildren(hoverCat).map((child) => ({
+                  key: child.id,
+                  label: child.name,
+                  iconColor: windowIconColor(child.id, child.kind),
+                  arrow: '',
+                  kind: child.kind,
+                }))
+              : []
+          }
+          onOpenNode={(id, kind) => {
+            openWindow(id, kind)
+            setStartOpen(false)
+          }}
+          onShutDown={() => {
+            closeAll()
+            setStartOpen(false)
+          }}
+        />
+      )}
     </div>
   )
 }

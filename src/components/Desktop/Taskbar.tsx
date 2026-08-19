@@ -11,6 +11,8 @@ export interface TaskButtonInfo {
 interface TaskbarProps {
   taskButtons: TaskButtonInfo[]
   onTaskButtonClick: (id: number, active: boolean) => void
+  startOpen: boolean
+  onStartClick: () => void
 }
 
 // No UI anywhere toggles this — Plan.md doesn't spec a control for it — so
@@ -25,10 +27,7 @@ function formatClock(date: Date): string {
   return `${hours}:${minutes}${suffix}`
 }
 
-// Start button's sticky "open" look needs a real startOpen boolean, which
-// belongs to the Start menu itself — that's section 10. For now this button
-// only has hover/press feedback, no click behaviour.
-export function Taskbar({ taskButtons, onTaskButtonClick }: TaskbarProps) {
+export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClick }: TaskbarProps) {
   const [clock, setClock] = useState(() => formatClock(new Date()))
 
   useEffect(() => {
@@ -38,7 +37,13 @@ export function Taskbar({ taskButtons, onTaskButtonClick }: TaskbarProps) {
 
   return (
     <div className={styles.taskbar} onClick={(e) => e.stopPropagation()}>
-      <div className={styles.startButton}>
+      <div
+        className={startOpen ? `${styles.startButton} ${styles.startButtonOpen}` : styles.startButton}
+        onClick={(e) => {
+          e.stopPropagation()
+          onStartClick()
+        }}
+      >
         <div className={styles.colourGrid}>
           <div className={styles.cell} style={{ background: '#c1443c' }} />
           <div className={styles.cell} style={{ background: '#2f7a35' }} />

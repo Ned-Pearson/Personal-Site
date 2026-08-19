@@ -34,6 +34,11 @@
   transform: translate(1px, 1px);
 }
 
+.startButtonOpen {
+  background: var(--color-chrome-dark);
+  box-shadow: inset 1px 1px 0 var(--color-bevel-mid);
+}
+
 .colourGrid {
   display: grid;
   grid-template-columns: 6px 6px;
