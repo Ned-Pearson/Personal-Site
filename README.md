@@ -59,7 +59,6 @@ npm run dev
 
 ### 12. Animation
 
-- Minimise/restore sequencing: minimise clears `focused` immediately and flies out over 180ms before setting `min:true`; restore clears `min` immediately and flies in over 190ms
 - Genie origin: minimise/restore scale toward the window's own taskbar button position (computed from button index/position, or measured via `getBoundingClientRect()`) rather than screen centre
 - Drag/resize interrupt: starting a drag or resize clears any active `phase` first, so a half-finished animation can't fight the pointer transform
 - Menu/popover open animation (`menuOpen`, no exit animation): View dropdown + desktop context menu (90ms, `top left`), Start menu (110ms, `bottom left`), Projects/Recent and category flyouts (90ms, `bottom left`)
