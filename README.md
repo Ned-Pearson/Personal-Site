@@ -81,8 +81,23 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Design and build a separate stacked/mobile presentation 
-- Breakpoint detection to switch between desktop-window UI and mobile layout
+- Breakpoint: below 768px, render the mobile presentation instead of the desktop one entirely — a separate presentation, not a scaled-down window manager (reference frame 390×800; no drag/resize/stacking/multi-window)
+- Mobile layout shell: three fixed bands — system tray (30px), scrolling content, taskbar (52px)
+- System tray: "np" mark + 2×2 colour square (5px cells); clock (10.5px mono), 4-bar signal glyph, 17×9 battery outline at 70% fill
+- Mobile taskbar: 74×38 np button + flexible breadcrumb button (sunken+bold when a window is open, raised at the desktop root)
+- Desktop (root) screen: three-column icon grid, scaled-up glyphs (folder 52×40, document 37×44), tap-to-open, `:active`-only pressed state (no hover, no selection)
+- Window screen shell: single full-screen window (6px margin), title bar with only a close (✕) button — no minimise/maximise, `sheetUp` entrance animation
+- Mobile toolbar: Back button, RTL path field, single view-toggle button (shows the glyph of the view you'd switch *to*); no View menu, no menu bar at all
+- Folder contents — list view: metadata-line rows (`min-height:48px`), trailing chevron, pressed state; status bar drops the Modified column (moved into each row's metadata line)
+- Folder contents — grid view: two-column layout, scaled-up glyphs
+- Project/About window mobile adaptations: full-width tabs, tightened sheet padding, stacked full-width buttons, single-column media; About General/Skills/Contact layouts collapse to stacked/full-width (OK/Cancel footer dropped — the title-bar ✕ is the only dismiss)
+- Text viewer mobile: adjusted padding/heading size
+- Navigation model: tap (not double-tap) opens; Back walks up the tree then falls through to the desktop; breadcrumb button returns to the desktop
+- Go-to tray: bottom-sheet replacement for the Start menu — flat list of every destination (no nested flyouts, since hover doesn't exist), `trayUp` entrance animation, opened via the np button
+- Mobile animation: `sheetUp`/`trayUp` keyframes, no exit animations; desktop's window/menu keyframes (`winOpen`/`winClose`/`winMin`/`winRestore`/`menuOpen`) are not used on mobile
+- Touch & accessibility: ≥44px hit targets throughout, `:active`-only feedback (no hover/focus outline), no custom cursor on touch, `user-select:none` on chrome (body copy stays selectable)
+- Mobile state model (`{ node, view, tab, tray, clock }`) — confirm `NODES`/`PROJECTS`/`DOCS` are consumed from the existing shared data layer, not duplicated between presentations
+- Mobile asset sizing: screenshot 132px tall, media 128px tall, portrait 86×104 (same source images, different display boxes)
 
 ### 15. Assets & content finalization
 
