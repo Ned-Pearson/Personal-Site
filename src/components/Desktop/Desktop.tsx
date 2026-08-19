@@ -184,13 +184,21 @@ export function Desktop() {
       }))
     : []
 
+  const anyOpen = windows.length > 0
   const contextMenuItems = [
     { label: 'Open Projects', onClick: () => openWindow(projectsNode.id, 'folder') },
     { label: 'Open readme.txt', onClick: () => openWindow(readmeNode.id, 'document') },
-    { label: 'Cascade windows', onClick: cascade },
-    { label: 'Close all windows', onClick: closeAll },
+    { label: 'Cascade windows', onClick: cascade, disabled: !anyOpen },
+    { label: 'Close all windows', onClick: closeAll, disabled: !anyOpen },
     { label: 'Properties', onClick: () => openWindow('about', 'about') },
-  ].map((item) => ({ label: item.label, onClick: () => { item.onClick(); setContextMenu(null) } }))
+  ].map((item) => ({
+    label: item.label,
+    disabled: item.disabled,
+    onClick: () => {
+      item.onClick()
+      setContextMenu(null)
+    },
+  }))
 
   function openIcon(id: string) {
     if (id === 'about') {
