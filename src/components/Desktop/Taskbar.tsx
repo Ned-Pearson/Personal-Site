@@ -56,6 +56,7 @@ export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClic
       {taskButtons.map((tb) => (
         <div
           key={tb.id}
+          data-task-id={tb.id}
           className={tb.active ? `${styles.taskButton} ${styles.taskButtonActive}` : styles.taskButton}
           onClick={(e) => {
             e.stopPropagation()

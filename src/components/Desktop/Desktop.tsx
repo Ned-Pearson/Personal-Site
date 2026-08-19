@@ -256,6 +256,7 @@ export function Desktop() {
         .map((win) => (
           <Window
             key={win.id}
+            id={win.id}
             title={windowTitle(win.node, win.kind)}
             iconColor={windowIconColor(win.node, win.kind)}
             focused={focused === win.id}

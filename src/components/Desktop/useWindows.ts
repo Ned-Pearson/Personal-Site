@@ -21,8 +21,10 @@ export type WindowPhase = 'opening' | 'closing' | 'minimizing' | 'restoring' | n
  * Single source of truth for both the CSS (Window.tsx reads this to drive
  * the animation) and the JS timers that key off the same durations (e.g.
  * `close` below waits out `closing`'s duration before actually unmounting).
- * minimizing/restoring's transform-origin is a placeholder here — flying
- * toward the window's own taskbar button ("genie origin") is a later pass.
+ * minimizing/restoring's `transformOrigin` here is only the fallback used
+ * when Window.tsx can't find the taskbar button to measure — normally its
+ * layout effect overwrites it with the "genie origin" pointing at that
+ * window's own taskbar button.
  */
 export const PHASE_ANIMATION: Record<
   NonNullable<WindowPhase>,
