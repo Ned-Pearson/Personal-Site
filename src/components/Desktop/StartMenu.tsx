@@ -21,9 +21,9 @@ interface StartMenuProps {
   recentFlyoutItems: FlyoutItem[]
   searchRows: FlyoutItem[]
   onOpenNode: (id: string, kind: WindowKind) => void
+  onShutDown: () => void
 }
 
-// Shut Down's actual click behaviour is a later point still.
 const ROWS = [
   { key: 'projects', label: 'Projects', iconColor: 'var(--color-folder)', arrow: '▶' },
   { key: 'recent', label: 'Recent', iconColor: 'var(--color-category-ml)', arrow: '▶' },
@@ -53,6 +53,7 @@ export function StartMenu({
   recentFlyoutItems,
   searchRows,
   onOpenNode,
+  onShutDown,
 }: StartMenuProps) {
   const isSearching = query.trim().length > 0
 
@@ -117,6 +118,10 @@ export function StartMenu({
         <div
           className={hoveredRow === 'shutdown' ? `${styles.row} ${styles.rowHover}` : styles.row}
           onMouseEnter={() => onHoverRow('shutdown')}
+          onClick={(e) => {
+            e.stopPropagation()
+            onShutDown()
+          }}
         >
           <div className={styles.shutdownIcon} />
           <div className={styles.rowLabel}>

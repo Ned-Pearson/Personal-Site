@@ -51,8 +51,7 @@ npm run dev
 
 ### 10. Start menu
 
-- Panel shell: left rail gradient + vertical "ned pearson" label
-- Shut Down closes all open windows
+- Done
 
 ### 11. Desktop context menu
 
