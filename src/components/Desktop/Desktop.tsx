@@ -19,6 +19,7 @@ import { AboutWindow } from './AboutWindow'
 import { TextViewer } from './TextViewer'
 import { Taskbar } from './Taskbar'
 import { StartMenu, type FlyoutItem } from './StartMenu'
+import { ContextMenu } from './ContextMenu'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -146,6 +147,7 @@ function windowBody(
 export function Desktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
   const [startOpen, setStartOpen] = useState(false)
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null)
   const [query, setQuery] = useState('')
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
   const [hoverCat, setHoverCat] = useState<string | null>(null)
@@ -157,6 +159,7 @@ export function Desktop() {
     focus,
     close,
     closeAll,
+    cascade,
     minimize,
     patch,
     toggleMaximize,
@@ -181,6 +184,22 @@ export function Desktop() {
       }))
     : []
 
+  const anyOpen = windows.length > 0
+  const contextMenuItems = [
+    { label: 'Open Projects', onClick: () => openWindow(projectsNode.id, 'folder') },
+    { label: 'Open readme.txt', onClick: () => openWindow(readmeNode.id, 'document') },
+    { label: 'Cascade windows', onClick: cascade, disabled: !anyOpen },
+    { label: 'Close all windows', onClick: closeAll, disabled: !anyOpen },
+    { label: 'Properties', onClick: () => openWindow('about', 'about') },
+  ].map((item) => ({
+    label: item.label,
+    disabled: item.disabled,
+    onClick: () => {
+      item.onClick()
+      setContextMenu(null)
+    },
+  }))
+
   function openIcon(id: string) {
     if (id === 'about') {
       openWindow('about', 'about')
@@ -196,6 +215,15 @@ export function Desktop() {
       onClick={() => {
         setSelectedIcon(null)
         closeMenus()
+        setStartOpen(false)
+        setContextMenu(null)
+      }}
+      onContextMenu={(e) => {
+        e.preventDefault()
+        setContextMenu({
+          x: Math.min(e.clientX, window.innerWidth - 200),
+          y: Math.min(e.clientY, window.innerHeight - 190),
+        })
         setStartOpen(false)
       }}
     >
@@ -262,7 +290,10 @@ export function Desktop() {
           else focus(id, true)
         }}
         startOpen={startOpen}
-        onStartClick={() => setStartOpen((open) => !open)}
+        onStartClick={() => {
+          setStartOpen((open) => !open)
+          setContextMenu(null)
+        }}
       />
       {startOpen && (
         <StartMenu
@@ -305,6 +336,7 @@ export function Desktop() {
           }}
         />
       )}
+      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} />}
     </div>
   )
 }
