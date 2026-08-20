@@ -7,6 +7,8 @@
   box-shadow: var(--bevel-raised);
   padding: 2px;
   font-family: var(--font-chrome);
+  animation: menuOpen 90ms ease-out both;
+  transform-origin: top left;
 }
 
 .item {
