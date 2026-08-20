@@ -63,7 +63,7 @@ npm run dev
 
 ### 13. Interactions & polish pass
 
-- Cross-browser check (Chrome/Firefox/Safari) for bevel rendering, drag/resize smoothness
+- Done
 
 ### 14. Responsive / mobile fallback
 
