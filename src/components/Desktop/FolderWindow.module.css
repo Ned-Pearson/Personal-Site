@@ -36,6 +36,12 @@
   transform-origin: top left;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .viewDropdown {
+    animation: none;
+  }
+}
+
 .dropdownItem {
   display: flex;
   align-items: center;

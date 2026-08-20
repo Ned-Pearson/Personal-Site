@@ -1,7 +1,7 @@
 // Window-system state model. See Plan.md "State Management" and README.md
 // section 4 (Window system — core engine).
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { NodeKind } from '../../data'
 
 export type WindowKind = NodeKind | 'about'
@@ -100,9 +100,10 @@ function pushRecent(recent: string[], node: string): string[] {
 /**
  * Raises window `id` to the top of `z` and, if requested, un-minimises it.
  * Only a window that was actually minimised enters the 'restoring' phase —
- * re-focusing an already-visible window shouldn't replay the fly-in.
+ * re-focusing an already-visible window shouldn't replay the fly-in. Never
+ * enters it at all when `animations` is off.
  */
-function focusInState(s: EngineState, id: number, unminimize: boolean): EngineState {
+function focusInState(s: EngineState, id: number, unminimize: boolean, animations: boolean): EngineState {
   const z = s.z + 1
   return {
     ...s,
@@ -110,14 +111,39 @@ function focusInState(s: EngineState, id: number, unminimize: boolean): EngineSt
     focused: id,
     windows: s.windows.map((w) => {
       if (w.id !== id) return w
-      const restoring = unminimize && w.min
+      const restoring = animations && unminimize && w.min
       return { ...w, z, min: unminimize ? false : w.min, phase: restoring ? 'restoring' : w.phase }
     }),
   }
 }
 
+/**
+ * Whether window/menu motion should play at all — the `animations` toggle
+ * (README section 12). No UI control is spec'd for it, so it's driven
+ * entirely by the OS-level `prefers-reduced-motion` setting (default on,
+ * off when the user has reduced motion enabled), and stays live if that
+ * setting changes while the app is open. The pure-CSS popover animations
+ * (menuOpen) respect the same media query directly in their stylesheets;
+ * this is only needed here because skipping the close/minimise timers is
+ * inherently a JS decision.
+ */
+function usePrefersAnimations(): boolean {
+  const [animations, setAnimations] = useState(true)
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setAnimations(!query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
+
+  return animations
+}
+
 export function useWindows() {
   const [state, setState] = useState<EngineState>(initialState)
+  const animations = usePrefersAnimations()
 
   /** Opens `node`'s window, or focuses + un-minimises its existing window instead of duplicating it. */
   function openWindow(node: string, kind: WindowKind) {
@@ -125,7 +151,7 @@ export function useWindows() {
       const recent = kind === 'project' ? pushRecent(s.recent, node) : s.recent
 
       const existing = s.windows.find((w) => w.node === node)
-      if (existing) return { ...focusInState(s, existing.id, true), recent }
+      if (existing) return { ...focusInState(s, existing.id, true, animations), recent }
 
       const vw = window.innerWidth
       const vh = window.innerHeight - 30
@@ -150,14 +176,14 @@ export function useWindows() {
         menu: false,
         view: 'list',
         tab: 0,
-        phase: 'opening',
+        phase: animations ? 'opening' : null,
       }
       return { windows: s.windows.concat([win]), nextId: s.nextId + 1, z, focused: s.nextId, recent }
     })
   }
 
   function focus(id: number, unminimize = false) {
-    setState((s) => focusInState(s, id, unminimize))
+    setState((s) => focusInState(s, id, unminimize, animations))
   }
 
   /**
@@ -165,9 +191,18 @@ export function useWindows() {
    * `winClose` animation has something to play; the window is actually
    * removed once that animation's duration has elapsed. If it's still
    * `'closing'` at that point (i.e. nothing re-focused it in the meantime),
-   * drop it from state for good.
+   * drop it from state for good. With animations off, skips the phase and
+   * the timer entirely — the window is just gone, synchronously.
    */
   function close(id: number) {
+    if (!animations) {
+      setState((s) => ({
+        ...s,
+        windows: s.windows.filter((w) => w.id !== id),
+        focused: s.focused === id ? null : s.focused,
+      }))
+      return
+    }
     setState((s) => ({
       ...s,
       windows: s.windows.map((w) => (w.id === id ? { ...w, phase: 'closing' } : w)),
@@ -215,9 +250,18 @@ export function useWindows() {
    * duration before actually setting `min:true` (mirrors `close`'s
    * animate-then-unmount pattern, but hides rather than unmounts). Restoring
    * happens via openWindow's dedup path (un-minimises on reopen) or the
-   * taskbar (section 9), both through `focusInState` above.
+   * taskbar (section 9), both through `focusInState` above. With animations
+   * off, skips the phase and the timer — `min` is set synchronously.
    */
   function minimize(id: number) {
+    if (!animations) {
+      setState((s) => ({
+        ...s,
+        windows: s.windows.map((w) => (w.id === id ? { ...w, min: true } : w)),
+        focused: s.focused === id ? null : s.focused,
+      }))
+      return
+    }
     setState((s) => ({
       ...s,
       windows: s.windows.map((w) => (w.id === id ? { ...w, phase: 'minimizing' } : w)),

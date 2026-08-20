@@ -59,8 +59,7 @@ npm run dev
 
 ### 12. Animation
 
-- Confirm NOT animated (instant, plain CSS state changes): maximise/restore-down, focus changes, view switching, tab changes, hover/press
-- `animations` toggle (default true) disables all motion — animation resolves to `none` and close/minimise timers are skipped so state changes apply synchronously; wire to `prefers-reduced-motion: reduce` too
+- Done
 
 ### 13. Interactions & polish pass
 

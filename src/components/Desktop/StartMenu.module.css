@@ -12,6 +12,12 @@
   transform-origin: bottom left;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+}
+
 .rail {
   width: 24px;
   background: linear-gradient(180deg, var(--color-title-blue), var(--color-title-navy));
@@ -124,6 +130,13 @@
   font-family: var(--font-chrome);
   animation: menuOpen 90ms ease-out both;
   transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flyout,
+  .subFlyout {
+    animation: none;
+  }
 }
 
 .flyout {
