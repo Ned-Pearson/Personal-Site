@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { formatClock } from '../../utils/formatClock'
 import styles from './Taskbar.module.css'
 
 export interface TaskButtonInfo {
@@ -19,19 +20,11 @@ interface TaskbarProps {
 // it's a fixed constant rather than user-facing state.
 const CLOCK_24H = false
 
-function formatClock(date: Date): string {
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  if (CLOCK_24H) return `${String(date.getHours()).padStart(2, '0')}:${minutes}`
-  const suffix = date.getHours() < 12 ? ' AM' : ' PM'
-  const hours = date.getHours() % 12 || 12
-  return `${hours}:${minutes}${suffix}`
-}
-
 export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClick }: TaskbarProps) {
-  const [clock, setClock] = useState(() => formatClock(new Date()))
+  const [clock, setClock] = useState(() => formatClock(new Date(), CLOCK_24H))
 
   useEffect(() => {
-    const id = setInterval(() => setClock(formatClock(new Date())), 10000)
+    const id = setInterval(() => setClock(formatClock(new Date(), CLOCK_24H)), 10000)
     return () => clearInterval(id)
   }, [])
 
