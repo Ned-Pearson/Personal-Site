@@ -1,0 +1,56 @@
+.taskbar {
+  flex: none;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px;
+  background: var(--color-chrome);
+  border-top: 1px solid var(--color-bevel-mid);
+  box-shadow: inset 0 1px 0 var(--color-bevel-light);
+}
+
+.npButton {
+  flex: none;
+  width: 74px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: var(--text-chrome-base);
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+}
+
+.npButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+}
+
+.colourGrid {
+  display: grid;
+  grid-template-columns: 6px 6px;
+  grid-template-rows: 6px 6px;
+  gap: 1px;
+}
+
+.breadcrumb {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: var(--text-chrome-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+}
+
+.breadcrumbOpen {
+  font-weight: 700;
+  box-shadow: var(--bevel-sunken-strong);
+}
