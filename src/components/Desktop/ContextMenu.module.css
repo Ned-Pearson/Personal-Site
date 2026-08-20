@@ -11,6 +11,12 @@
   transform-origin: top left;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+}
+
 .item {
   padding: 5px 8px;
   font-size: var(--text-chrome-base);
