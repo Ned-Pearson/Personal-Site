@@ -67,7 +67,6 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Mobile taskbar: 74×38 np button + flexible breadcrumb button (sunken+bold when a window is open, raised at the desktop root)
 - Desktop (root) screen: three-column icon grid, scaled-up glyphs (folder 52×40, document 37×44), tap-to-open, `:active`-only pressed state (no hover, no selection)
 - Window screen shell: single full-screen window (6px margin), title bar with only a close (✕) button — no minimise/maximise, `sheetUp` entrance animation
 - Mobile toolbar: Back button, RTL path field, single view-toggle button (shows the glyph of the view you'd switch _to_); no View menu, no menu bar at all
