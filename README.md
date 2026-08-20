@@ -67,7 +67,6 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Breakpoint: below 768px, render the mobile presentation instead of the desktop one entirely — a separate presentation, not a scaled-down window manager (reference frame 390×800; no drag/resize/stacking/multi-window)
 - Mobile layout shell: three fixed bands — system tray (30px), scrolling content, taskbar (52px)
 - System tray: "np" mark + 2×2 colour square (5px cells); clock (10.5px mono), 4-bar signal glyph, 17×9 battery outline at 70% fill
 - Mobile taskbar: 74×38 np button + flexible breadcrumb button (sunken+bold when a window is open, raised at the desktop root)
