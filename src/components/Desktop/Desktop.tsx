@@ -275,6 +275,7 @@ export function Desktop() {
             onToggleMax={() => toggleMaximize(win.id)}
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
+            onInterrupt={() => patch(win.id, { phase: null })}
           >
             {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>
