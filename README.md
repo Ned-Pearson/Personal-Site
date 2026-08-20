@@ -63,10 +63,7 @@ npm run dev
 
 ### 13. Interactions & polish pass
 
-- Global hover/pressed states match spec (beveled buttons, menu items, list rows)
-- Menu-close behaviour: clicking desktop or outside closes start/context/View menus; menu surfaces stop mousedown propagation
-- Keyboard accessibility pass (tab order, escape to close menus/windows) — decide scope beyond visual spec
-- Cross-browser check (Chrome/Firefox/Safari) for bevel rendering, drag/resize smoothness
+- Done
 
 ### 14. Responsive / mobile fallback
 
@@ -96,7 +93,20 @@ npm run dev
 - Replace all placeholder bios, blurbs, write-ups, links, and dates with Ned's real content
 - Real résumé PDF linked from Start menu
 
-### 16. Deployment
+### 16. Keyboard accessibility
+
+- No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
+- Focus-visible style foundation: a theme-consistent focus ring (new design token) — Plan.md doesn't spec one, so this needs inventing
+- Buttons: `tabIndex` + Enter/Space activation + focus-visible on window title-bar buttons, toolbar buttons, taskbar buttons, and dialog buttons (OK/Cancel, Source/Live demo, view toggles)
+- Desktop icons: `tabIndex`, Enter opens, Space selects, focus-visible outline distinct from the existing hover dotted-outline
+- Menus (Start menu + flyouts, desktop context menu, View dropdown): arrow-key navigation between items, focus trapped while open, focus returns to the trigger element on close
+- Tabs (Project/About window `TabBar`): WAI-ARIA tablist pattern — roving tabindex, ←/→ to move+activate, Home/End
+- Folder window rows/grid cells: arrow-key selection (2D navigation in grid view), Enter to open
+- Window-level tab order: Tab stays within the focused window; background windows excluded via `inert` or manual tabIndex management — the trickiest part, since the current z-order model doesn't use native DOM focus at all
+- Escape closes the focused window (Escape-closes-menus is already covered by section 13's menu-close behaviour)
+- Accessible names (`aria-label`) for icon-only controls — minimise/maximise glyphs currently have no text alternative; close's "✕" is borderline
+
+### 17. Deployment
 
 - Choose hosting (Vercel/Netlify/GitHub Pages/etc.)
 - Configure custom domain (nedpearson.dev)
