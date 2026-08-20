@@ -63,7 +63,6 @@ npm run dev
 
 ### 13. Interactions & polish pass
 
-- Menu-close behaviour: clicking desktop or outside closes start/context/View menus; menu surfaces stop mousedown propagation
 - Keyboard accessibility pass (tab order, escape to close menus/windows) — decide scope beyond visual spec
 - Cross-browser check (Chrome/Firefox/Safari) for bevel rendering, drag/resize smoothness
 
