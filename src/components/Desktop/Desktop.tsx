@@ -256,6 +256,7 @@ export function Desktop() {
         .map((win) => (
           <Window
             key={win.id}
+            id={win.id}
             title={windowTitle(win.node, win.kind)}
             iconColor={windowIconColor(win.node, win.kind)}
             focused={focused === win.id}
@@ -265,6 +266,7 @@ export function Desktop() {
             h={win.h}
             z={win.z}
             maximized={win.max}
+            phase={win.phase}
             onFocus={() => {
               if (focused !== win.id) focus(win.id)
             }}
@@ -273,6 +275,7 @@ export function Desktop() {
             onToggleMax={() => toggleMaximize(win.id)}
             onMinimize={() => minimize(win.id)}
             onClose={() => close(win.id)}
+            onInterrupt={() => patch(win.id, { phase: null })}
           >
             {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
           </Window>

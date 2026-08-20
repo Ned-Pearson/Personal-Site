@@ -1,0 +1,59 @@
+/* Global animation keyframes for the window system and menu surfaces — see
+   Plan.md and README.md section 12 (Animation). Declared once here so every
+   window/menu component can reference them by name; per-phase duration,
+   easing and transform-origin are applied where each animation is used. */
+
+@keyframes winOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes winClose {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes winMin {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.05);
+  }
+}
+
+@keyframes winRestore {
+  from {
+    opacity: 0;
+    transform: scale(0.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes menuOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

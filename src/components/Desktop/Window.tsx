@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
+import { PHASE_ANIMATION, type WindowPhase } from './useWindows'
 import styles from './Window.module.css'
 
 interface WindowProps {
+  id: number
   title: string
   iconColor: string
   focused: boolean
@@ -11,12 +13,15 @@ interface WindowProps {
   h: number
   z: number
   maximized: boolean
+  phase: WindowPhase
   onFocus: () => void
   onMove: (x: number, y: number) => void
   onResize: (w: number, h: number) => void
   onToggleMax: () => void
   onMinimize: () => void
   onClose: () => void
+  /** Clears any active animation phase — called when a drag or resize starts, so a half-finished animation can't fight the pointer transform. */
+  onInterrupt: () => void
   children?: ReactNode
 }
 
@@ -24,6 +29,7 @@ const MIN_W = 320
 const MIN_H = 180
 
 export function Window({
+  id,
   title,
   iconColor,
   focused,
@@ -33,17 +39,47 @@ export function Window({
   h,
   z,
   maximized,
+  phase,
   onFocus,
   onMove,
   onResize,
   onToggleMax,
   onMinimize,
   onClose,
+  onInterrupt,
   children,
 }: WindowProps) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  // Genie origin: for the minimise/restore fly-out/fly-in, point the scale
+  // toward this window's own taskbar button rather than screen centre.
+  // Measured directly (not via state) and applied straight to the DOM node
+  // in a layout effect so it's in place before the browser paints the first
+  // animation frame. Falls back to PHASE_ANIMATION's 'center' below if the
+  // button can't be found (e.g. taskbar not yet mounted).
+  //
+  // Deliberately uses the `x`/`y` props rather than the window's own
+  // getBoundingClientRect(): with `animation-fill-mode: both`, the moment
+  // the animation style is applied the element is already sitting in its
+  // 'from' keyframe — for 'restoring' that's `scale(0.05)` — so measuring
+  // the window element here would read its shrunk transformed box, not its
+  // real position. `x`/`y` are the untransformed CSS left/top and aren't
+  // affected. Only the taskbar button (never transformed) needs measuring.
+  useLayoutEffect(() => {
+    if (phase !== 'minimizing' && phase !== 'restoring') return
+    const el = ref.current
+    const button = document.querySelector<HTMLElement>(`[data-task-id="${id}"]`)
+    if (!el || !button) return
+    const buttonRect = button.getBoundingClientRect()
+    const originX = buttonRect.left + buttonRect.width / 2 - x
+    const originY = buttonRect.top + buttonRect.height / 2 - y
+    el.style.transformOrigin = `${originX}px ${originY}px`
+  }, [id, phase, x, y])
+
   function startDrag(e: React.MouseEvent) {
     if (e.button !== 0 || maximized) return
     e.preventDefault()
+    onInterrupt()
     const offsetX = e.clientX - x
     const offsetY = e.clientY - y
 
@@ -67,6 +103,7 @@ export function Window({
     e.preventDefault()
     e.stopPropagation()
     onFocus()
+    onInterrupt()
     const startX = e.clientX
     const startY = e.clientY
     const startW = w
@@ -86,10 +123,26 @@ export function Window({
     document.addEventListener('mouseup', up)
   }
 
+  const anim = phase ? PHASE_ANIMATION[phase] : null
+
   return (
     <div
+      ref={ref}
       className={focused ? `${styles.window} ${styles.focused}` : styles.window}
-      style={{ left: x, top: y, width: w, height: h, zIndex: z }}
+      style={{
+        left: x,
+        top: y,
+        width: w,
+        height: h,
+        zIndex: z,
+        ...(anim && {
+          animationName: anim.name,
+          animationDuration: `${anim.duration}ms`,
+          animationTimingFunction: anim.easing,
+          animationFillMode: 'both',
+          transformOrigin: anim.transformOrigin,
+        }),
+      }}
       onMouseDown={onFocus}
     >
       <div className={styles.titleBar} onMouseDown={startDrag} onDoubleClick={onToggleMax}>
