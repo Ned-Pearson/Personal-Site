@@ -8,6 +8,14 @@
   border: 1px solid var(--color-outline);
   box-shadow: var(--bevel-raised);
   display: flex;
+  animation: menuOpen 110ms ease-out both;
+  transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
 }
 
 .rail {
@@ -120,6 +128,15 @@
   box-shadow: var(--bevel-raised);
   padding: var(--space-2);
   font-family: var(--font-chrome);
+  animation: menuOpen 90ms ease-out both;
+  transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flyout,
+  .subFlyout {
+    animation: none;
+  }
 }
 
 .flyout {
