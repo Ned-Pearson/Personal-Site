@@ -59,7 +59,6 @@ npm run dev
 
 ### 12. Animation
 
-- Drag/resize interrupt: starting a drag or resize clears any active `phase` first, so a half-finished animation can't fight the pointer transform
 - Menu/popover open animation (`menuOpen`, no exit animation): View dropdown + desktop context menu (90ms, `top left`), Start menu (110ms, `bottom left`), Projects/Recent and category flyouts (90ms, `bottom left`)
 - Confirm NOT animated (instant, plain CSS state changes): maximise/restore-down, focus changes, view switching, tab changes, hover/press
 - `animations` toggle (default true) disables all motion — animation resolves to `none` and close/minimise timers are skipped so state changes apply synchronously; wire to `prefers-reduced-motion: reduce` too

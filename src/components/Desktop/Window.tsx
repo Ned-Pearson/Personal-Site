@@ -20,6 +20,8 @@ interface WindowProps {
   onToggleMax: () => void
   onMinimize: () => void
   onClose: () => void
+  /** Clears any active animation phase — called when a drag or resize starts, so a half-finished animation can't fight the pointer transform. */
+  onInterrupt: () => void
   children?: ReactNode
 }
 
@@ -44,6 +46,7 @@ export function Window({
   onToggleMax,
   onMinimize,
   onClose,
+  onInterrupt,
   children,
 }: WindowProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -76,6 +79,7 @@ export function Window({
   function startDrag(e: React.MouseEvent) {
     if (e.button !== 0 || maximized) return
     e.preventDefault()
+    onInterrupt()
     const offsetX = e.clientX - x
     const offsetY = e.clientY - y
 
@@ -99,6 +103,7 @@ export function Window({
     e.preventDefault()
     e.stopPropagation()
     onFocus()
+    onInterrupt()
     const startX = e.clientX
     const startY = e.clientY
     const startW = w
