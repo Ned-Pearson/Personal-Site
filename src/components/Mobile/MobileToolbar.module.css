@@ -19,14 +19,6 @@
   box-shadow: var(--bevel-sunken-strong);
 }
 
-.backDisabled {
-  color: var(--color-bevel-mid);
-}
-
-.backDisabled:active {
-  box-shadow: var(--bevel-raised);
-}
-
 .pathField {
   flex: 1;
   min-width: 0;
