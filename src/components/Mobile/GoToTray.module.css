@@ -15,6 +15,13 @@
   background: var(--color-chrome);
   border-top: 1px solid var(--color-outline);
   box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.15);
+  animation: trayUp 150ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
 }
 
 .row {
