@@ -53,3 +53,13 @@
 .row .rule:last-child {
   width: 60%;
 }
+
+.mobile {
+  width: 37px;
+  height: 44px;
+  gap: 5px;
+}
+
+.mobile .rule {
+  height: 2px;
+}

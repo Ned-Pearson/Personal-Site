@@ -32,3 +32,15 @@
   width: 8px;
   height: 4px;
 }
+
+.mobile {
+  width: 52px;
+  height: 40px;
+}
+
+.mobile .tab {
+  top: -7px;
+  left: 3px;
+  width: 21px;
+  height: 7px;
+}
