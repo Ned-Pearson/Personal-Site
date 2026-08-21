@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode, getChildren } from '../../data'
+import { getNode, getChildren, getProject, getAbout, getShippedProjectCount } from '../../data'
 import { folderPath } from '../../utils/folderPath'
 import type { WindowView } from '../Desktop/useWindows'
 import { SystemTray } from './SystemTray'
@@ -8,6 +8,8 @@ import { RootScreen } from './RootScreen'
 import { WindowScreen } from './WindowScreen'
 import { MobileToolbar } from './MobileToolbar'
 import { FolderContents } from './FolderContents'
+import { MobileProjectContent } from './MobileProjectContent'
+import { MobileAboutContent } from './MobileAboutContent'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -34,30 +36,50 @@ function nodeIconColor(node: string): string {
 export function Mobile() {
   const [node, setNode] = useState<string | null>(null)
   const [view, setView] = useState<WindowView>('list')
+  const [tab, setTab] = useState(0)
   const atRoot = node === null
   const label = atRoot ? 'Desktop' : nodeLabel(node)
-  const isFolder = !atRoot && getNode(node)?.kind === 'folder'
+  const kind = !atRoot ? getNode(node)?.kind : undefined
+  const isFolder = kind === 'folder'
+  const isAbout = node === 'about'
+  const project = !atRoot && kind === 'project' ? getProject(node) : undefined
   const parent = !atRoot ? getNode(node)?.parent : undefined
+
+  // Opening/closing/going back all reset the tab index — switching to a
+  // different node shouldn't carry over e.g. "Skills" being selected.
+  function openNode(id: string | null) {
+    setNode(id)
+    setTab(0)
+  }
 
   return (
     <div className={styles.mobile}>
       <SystemTray />
       <div className={styles.content}>
         {atRoot ? (
-          <RootScreen onOpen={setNode} />
+          <RootScreen onOpen={openNode} />
         ) : (
-          <WindowScreen title={label} iconColor={nodeIconColor(node)} onClose={() => setNode(null)}>
+          <WindowScreen title={label} iconColor={nodeIconColor(node)} onClose={() => openNode(null)}>
             {isFolder && (
               <>
                 <MobileToolbar
                   canGoBack={!!parent}
-                  onBack={() => parent && setNode(parent)}
+                  onBack={() => parent && openNode(parent)}
                   path={folderPath(node)}
                   view={view}
                   onToggleView={() => setView((v) => (v === 'list' ? 'grid' : 'list'))}
                 />
-                <FolderContents view={view} items={getChildren(node)} onOpenRow={setNode} />
+                <FolderContents view={view} items={getChildren(node)} onOpenRow={openNode} />
               </>
+            )}
+            {project && <MobileProjectContent tab={tab} name={label} project={project} onSelectTab={setTab} />}
+            {isAbout && (
+              <MobileAboutContent
+                tab={tab}
+                about={getAbout()}
+                shippedCount={getShippedProjectCount()}
+                onSelectTab={setTab}
+              />
             )}
           </WindowScreen>
         )}
