@@ -67,7 +67,6 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Window screen shell: single full-screen window (6px margin), title bar with only a close (✕) button — no minimise/maximise, `sheetUp` entrance animation
 - Mobile toolbar: Back button, RTL path field, single view-toggle button (shows the glyph of the view you'd switch _to_); no View menu, no menu bar at all
 - Folder contents — list view: metadata-line rows (`min-height:48px`), trailing chevron, pressed state; status bar drops the Modified column (moved into each row's metadata line)
 - Folder contents — grid view: two-column layout, scaled-up glyphs
