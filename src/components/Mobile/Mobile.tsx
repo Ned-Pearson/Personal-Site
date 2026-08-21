@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { getNode } from '../../data'
+import { folderPath } from '../../utils/folderPath'
+import type { WindowView } from '../Desktop/useWindows'
 import { SystemTray } from './SystemTray'
 import { MobileTaskbar } from './MobileTaskbar'
 import { RootScreen } from './RootScreen'
 import { WindowScreen } from './WindowScreen'
+import { MobileToolbar } from './MobileToolbar'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -29,8 +32,11 @@ function nodeIconColor(node: string): string {
 // or the breadcrumb tap is the navigation model bullet, still to come.
 export function Mobile() {
   const [node, setNode] = useState<string | null>(null)
+  const [view, setView] = useState<WindowView>('list')
   const atRoot = node === null
   const label = atRoot ? 'Desktop' : nodeLabel(node)
+  const isFolder = !atRoot && getNode(node)?.kind === 'folder'
+  const parent = !atRoot ? getNode(node)?.parent : undefined
 
   return (
     <div className={styles.mobile}>
@@ -39,7 +45,17 @@ export function Mobile() {
         {atRoot ? (
           <RootScreen onOpen={setNode} />
         ) : (
-          <WindowScreen title={label} iconColor={nodeIconColor(node)} onClose={() => setNode(null)} />
+          <WindowScreen title={label} iconColor={nodeIconColor(node)} onClose={() => setNode(null)}>
+            {isFolder && (
+              <MobileToolbar
+                canGoBack={!!parent}
+                onBack={() => parent && setNode(parent)}
+                path={folderPath(node)}
+                view={view}
+                onToggleView={() => setView((v) => (v === 'list' ? 'grid' : 'list'))}
+              />
+            )}
+          </WindowScreen>
         )}
       </div>
       <MobileTaskbar atRoot={atRoot} label={label} />
