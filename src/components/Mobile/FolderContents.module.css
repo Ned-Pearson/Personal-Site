@@ -53,6 +53,35 @@
   text-overflow: ellipsis;
 }
 
+.grid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 14px 10px;
+}
+
+.gridCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+}
+
+.gridCell:active {
+  filter: brightness(0.94);
+}
+
+.gridLabel {
+  font-size: var(--text-chrome-base);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: 1.3;
+}
+
 .chevron {
   flex: none;
   color: var(--color-bevel-mid);

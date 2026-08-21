@@ -31,3 +31,17 @@
 .grid .stripes {
   background: repeating-linear-gradient(180deg, #b9b5ad 0 1px, transparent 1px 4px);
 }
+
+.mobile {
+  width: 46px;
+  height: 41px;
+  box-shadow: inset -1px -1px 0 #b9b5ad;
+}
+
+.mobile .topBar {
+  height: 9px;
+}
+
+.mobile .stripes {
+  background: repeating-linear-gradient(180deg, #b9b5ad 0 1px, transparent 1px 4px);
+}
