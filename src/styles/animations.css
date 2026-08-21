@@ -1,7 +1,10 @@
 /* Global animation keyframes for the window system and menu surfaces — see
    Plan.md and README.md section 12 (Animation). Declared once here so every
    window/menu component can reference them by name; per-phase duration,
-   easing and transform-origin are applied where each animation is used. */
+   easing and transform-origin are applied where each animation is used.
+   winOpen/winClose/winMin/winRestore/menuOpen are desktop-only — mobile
+   (README.md section 14) uses its own sheetUp/trayUp keyframes below and
+   never references these. */
 
 @keyframes winOpen {
   from {
@@ -55,5 +58,30 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Mobile's window screen entrance (no exit animation — it just unmounts). */
+@keyframes sheetUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile's go-to tray entrance (no exit animation — it just unmounts). Uses
+   a relative translate (100% of the sheet's own height) rather than a fixed
+   px offset, so it always starts from just below its resting position
+   regardless of how much content the flat destination list has. */
+@keyframes trayUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
   }
 }

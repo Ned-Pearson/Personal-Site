@@ -6,6 +6,13 @@
   background: var(--color-chrome);
   border: 1px solid var(--color-outline);
   box-shadow: var(--bevel-raised), var(--bevel-window-drop);
+  animation: sheetUp 180ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window {
+    animation: none;
+  }
 }
 
 .titleBar {
