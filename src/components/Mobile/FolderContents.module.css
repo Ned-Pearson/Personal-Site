@@ -1,0 +1,71 @@
+.pane {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-sheet-edge);
+}
+
+.row:active {
+  filter: brightness(0.94);
+}
+
+.rowGlyph {
+  flex: none;
+  width: 20px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
+}
+
+.rowName {
+  font-size: var(--text-chrome-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowMeta {
+  font: 400 var(--text-mono-sm) var(--font-mono);
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chevron {
+  flex: none;
+  color: var(--color-bevel-mid);
+  font-size: 14px;
+}
+
+.statusBar {
+  flex: none;
+  padding: 4px 10px;
+  border-top: 1px solid var(--color-bevel-mid);
+  box-shadow: inset 0 1px 0 var(--color-bevel-light);
+}
+
+.statusField {
+  font-size: var(--text-chrome-sm);
+}
