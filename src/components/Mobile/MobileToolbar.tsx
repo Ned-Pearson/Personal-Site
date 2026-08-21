@@ -2,7 +2,6 @@ import type { WindowView } from '../Desktop/useWindows'
 import styles from './MobileToolbar.module.css'
 
 interface MobileToolbarProps {
-  canGoBack: boolean
   onBack: () => void
   path: string
   view: WindowView
@@ -14,14 +13,13 @@ interface MobileToolbarProps {
 // current folder, not the C:\ned\ prefix) stays visible when it doesn't fit,
 // and one view-toggle button showing the glyph of the view it switches *to*
 // rather than desktop's two always-visible toggles. No View menu, no menu
-// bar at all on mobile.
-export function MobileToolbar({ canGoBack, onBack, path, view, onToggleView }: MobileToolbarProps) {
+// bar at all on mobile. Back is never disabled, unlike desktop's — the
+// navigation model has it walk up the tree and then fall through to the
+// desktop once there's no parent left, so there's always somewhere to go.
+export function MobileToolbar({ onBack, path, view, onToggleView }: MobileToolbarProps) {
   return (
     <div className={styles.toolbar}>
-      <div
-        className={canGoBack ? styles.back : `${styles.back} ${styles.backDisabled}`}
-        onClick={canGoBack ? onBack : undefined}
-      >
+      <div className={styles.back} onClick={onBack}>
         ← Back
       </div>
       <div className={styles.pathField}>{path}</div>

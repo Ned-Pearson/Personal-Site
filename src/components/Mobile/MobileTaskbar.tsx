@@ -3,12 +3,14 @@ import styles from './MobileTaskbar.module.css'
 interface MobileTaskbarProps {
   atRoot: boolean
   label: string
+  onBreadcrumbClick: () => void
 }
 
-// Opening the go-to tray from the np button, and navigating via the
-// breadcrumb, are both later passes (README section 14's "Go-to tray" and
-// "Navigation model" bullets) — this is just the taskbar's own presentation.
-export function MobileTaskbar({ atRoot, label }: MobileTaskbarProps) {
+// Opening the go-to tray from the np button is a later pass (README section
+// 14's "Go-to tray" bullet) — this is just the taskbar's own presentation.
+// The breadcrumb itself returns to the desktop root, per the navigation
+// model, regardless of how deep `label` currently is.
+export function MobileTaskbar({ atRoot, label, onBreadcrumbClick }: MobileTaskbarProps) {
   return (
     <div className={styles.taskbar}>
       <div className={styles.npButton}>
@@ -20,7 +22,12 @@ export function MobileTaskbar({ atRoot, label }: MobileTaskbarProps) {
         </div>
         np
       </div>
-      <div className={atRoot ? styles.breadcrumb : `${styles.breadcrumb} ${styles.breadcrumbOpen}`}>{label}</div>
+      <div
+        className={atRoot ? styles.breadcrumb : `${styles.breadcrumb} ${styles.breadcrumbOpen}`}
+        onClick={onBreadcrumbClick}
+      >
+        {label}
+      </div>
     </div>
   )
 }

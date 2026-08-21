@@ -31,9 +31,10 @@ function nodeIconColor(node: string): string {
 // presentation from Desktop, not a scaled-down window manager. Three fixed
 // bands: system tray, scrolling content, taskbar. `node` is the minimal seed
 // of the eventual mobile state model (a later bullet formalises the rest —
-// view/tab/tray/clock); null means the desktop root. The window screen's own
-// close button is the only way back to root for now — walking back via Back
-// or the breadcrumb tap is the navigation model bullet, still to come.
+// view/tab/tray/clock); null means the desktop root. Navigation model: tap
+// (not double-tap) opens everywhere; the folder toolbar's Back walks up one
+// level and falls through to the desktop once there's no parent left; the
+// taskbar breadcrumb always returns straight to the desktop root.
 export function Mobile() {
   const [node, setNode] = useState<string | null>(null)
   const [view, setView] = useState<WindowView>('list')
@@ -65,8 +66,7 @@ export function Mobile() {
             {isFolder && (
               <>
                 <MobileToolbar
-                  canGoBack={!!parent}
-                  onBack={() => parent && openNode(parent)}
+                  onBack={() => openNode(parent ?? null)}
                   path={folderPath(node)}
                   view={view}
                   onToggleView={() => setView((v) => (v === 'list' ? 'grid' : 'list'))}
@@ -87,7 +87,7 @@ export function Mobile() {
           </WindowScreen>
         )}
       </div>
-      <MobileTaskbar atRoot={atRoot} label={label} />
+      <MobileTaskbar atRoot={atRoot} label={label} onBreadcrumbClick={() => openNode(null)} />
     </div>
   )
 }

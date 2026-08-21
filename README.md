@@ -67,7 +67,6 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Navigation model: tap (not double-tap) opens; Back walks up the tree then falls through to the desktop; breadcrumb button returns to the desktop
 - Go-to tray: bottom-sheet replacement for the Start menu — flat list of every destination (no nested flyouts, since hover doesn't exist), `trayUp` entrance animation, opened via the np button
 - Mobile animation: `sheetUp`/`trayUp` keyframes, no exit animations; desktop's window/menu keyframes (`winOpen`/`winClose`/`winMin`/`winRestore`/`menuOpen`) are not used on mobile
 - Touch & accessibility: ≥44px hit targets throughout, `:active`-only feedback (no hover/focus outline), no custom cursor on touch, `user-select:none` on chrome (body copy stays selectable)
