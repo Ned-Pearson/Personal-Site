@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode } from '../../data'
+import { getNode, getChildren } from '../../data'
 import { folderPath } from '../../utils/folderPath'
 import type { WindowView } from '../Desktop/useWindows'
 import { SystemTray } from './SystemTray'
@@ -7,6 +7,7 @@ import { MobileTaskbar } from './MobileTaskbar'
 import { RootScreen } from './RootScreen'
 import { WindowScreen } from './WindowScreen'
 import { MobileToolbar } from './MobileToolbar'
+import { FolderContents } from './FolderContents'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -47,13 +48,16 @@ export function Mobile() {
         ) : (
           <WindowScreen title={label} iconColor={nodeIconColor(node)} onClose={() => setNode(null)}>
             {isFolder && (
-              <MobileToolbar
-                canGoBack={!!parent}
-                onBack={() => parent && setNode(parent)}
-                path={folderPath(node)}
-                view={view}
-                onToggleView={() => setView((v) => (v === 'list' ? 'grid' : 'list'))}
-              />
+              <>
+                <MobileToolbar
+                  canGoBack={!!parent}
+                  onBack={() => parent && setNode(parent)}
+                  path={folderPath(node)}
+                  view={view}
+                  onToggleView={() => setView((v) => (v === 'list' ? 'grid' : 'list'))}
+                />
+                <FolderContents view={view} items={getChildren(node)} onOpenRow={setNode} />
+              </>
             )}
           </WindowScreen>
         )}
