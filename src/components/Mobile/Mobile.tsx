@@ -11,6 +11,7 @@ import { FolderContents } from './FolderContents'
 import { MobileProjectContent } from './MobileProjectContent'
 import { MobileAboutContent } from './MobileAboutContent'
 import { MobileTextViewer } from './MobileTextViewer'
+import { GoToTray } from './GoToTray'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -39,6 +40,7 @@ export function Mobile() {
   const [node, setNode] = useState<string | null>(null)
   const [view, setView] = useState<WindowView>('list')
   const [tab, setTab] = useState(0)
+  const [trayOpen, setTrayOpen] = useState(false)
   const atRoot = node === null
   const label = atRoot ? 'Desktop' : nodeLabel(node)
   const kind = !atRoot ? getNode(node)?.kind : undefined
@@ -50,9 +52,12 @@ export function Mobile() {
 
   // Opening/closing/going back all reset the tab index — switching to a
   // different node shouldn't carry over e.g. "Skills" being selected.
+  // Also closes the go-to tray, since selecting a destination there is
+  // itself a navigation.
   function openNode(id: string | null) {
     setNode(id)
     setTab(0)
+    setTrayOpen(false)
   }
 
   return (
@@ -87,7 +92,13 @@ export function Mobile() {
           </WindowScreen>
         )}
       </div>
-      <MobileTaskbar atRoot={atRoot} label={label} onBreadcrumbClick={() => openNode(null)} />
+      <MobileTaskbar
+        atRoot={atRoot}
+        label={label}
+        onNpClick={() => setTrayOpen((open) => !open)}
+        onBreadcrumbClick={() => openNode(null)}
+      />
+      {trayOpen && <GoToTray onSelect={openNode} onDismiss={() => setTrayOpen(false)} />}
     </div>
   )
 }
