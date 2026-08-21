@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getNode, getChildren, getProject, getAbout, getShippedProjectCount } from '../../data'
+import { getNode, getChildren, getProject, getAbout, getShippedProjectCount, getDoc } from '../../data'
 import { folderPath } from '../../utils/folderPath'
 import type { WindowView } from '../Desktop/useWindows'
 import { SystemTray } from './SystemTray'
@@ -10,6 +10,7 @@ import { MobileToolbar } from './MobileToolbar'
 import { FolderContents } from './FolderContents'
 import { MobileProjectContent } from './MobileProjectContent'
 import { MobileAboutContent } from './MobileAboutContent'
+import { MobileTextViewer } from './MobileTextViewer'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -43,6 +44,7 @@ export function Mobile() {
   const isFolder = kind === 'folder'
   const isAbout = node === 'about'
   const project = !atRoot && kind === 'project' ? getProject(node) : undefined
+  const doc = !atRoot && kind === 'document' ? getDoc(node) : undefined
   const parent = !atRoot ? getNode(node)?.parent : undefined
 
   // Opening/closing/going back all reset the tab index — switching to a
@@ -81,6 +83,7 @@ export function Mobile() {
                 onSelectTab={setTab}
               />
             )}
+            {doc && <MobileTextViewer doc={doc} />}
           </WindowScreen>
         )}
       </div>
