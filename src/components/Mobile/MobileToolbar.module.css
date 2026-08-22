@@ -10,7 +10,11 @@
 
 .back {
   flex: none;
-  padding: 6px 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
   font-size: var(--text-chrome-sm);
   box-shadow: var(--bevel-raised);
 }
@@ -38,7 +42,13 @@
 
 .viewToggle {
   flex: none;
-  padding: 6px 10px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   font-size: var(--text-chrome-sm);
   box-shadow: var(--bevel-raised);
 }

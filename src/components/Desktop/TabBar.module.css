@@ -33,5 +33,14 @@
 
 .tabFull {
   flex: 1;
-  text-align: center;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Mobile has no hover — cancel the desktop .tab:hover rule for this variant. */
+.tabFull:hover {
+  filter: none;
 }

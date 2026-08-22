@@ -21,6 +21,7 @@
   font: 400 var(--text-content-base) / 1.7 var(--font-content);
   color: var(--color-ink);
   text-wrap: pretty;
+  user-select: text;
 }
 
 .endOfFile {
