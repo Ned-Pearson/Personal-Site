@@ -1,0 +1,21 @@
+.mobile {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-wallpaper);
+  display: flex;
+  flex-direction: column;
+  /* Chrome throughout mobile is non-selectable by default; the handful of
+     body-copy elements (blurbs, bios, write-ups, doc paragraphs) opt back
+     in with `user-select: text`. Also cancels the desktop presentation's
+     global custom pixel cursor — mobile has no pointer to render it for. */
+  user-select: none;
+  cursor: default;
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
