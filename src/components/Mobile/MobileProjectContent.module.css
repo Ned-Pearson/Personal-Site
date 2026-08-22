@@ -50,6 +50,7 @@
   font: 400 var(--text-content-base) / 1.7 var(--font-content);
   color: var(--color-ink);
   text-wrap: pretty;
+  user-select: text;
 }
 
 .tags {
@@ -82,6 +83,7 @@
   font: 400 var(--text-content-base) / 1.75 var(--font-content);
   color: var(--color-ink);
   text-wrap: pretty;
+  user-select: text;
 }
 
 .footer {
@@ -94,8 +96,11 @@
 
 .button {
   width: 100%;
-  padding: 9px 16px;
-  text-align: center;
+  min-height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-chrome);
   box-shadow: var(--bevel-raised-strong);
   font-size: var(--text-chrome-base);

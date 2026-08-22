@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-6);
-  padding: var(--space-3) var(--space-3) var(--space-3) 5px;
+  padding: 0 0 0 10px;
   background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
 }
 
@@ -42,19 +42,18 @@
 
 .closeButton {
   flex: none;
-  width: 17px;
-  height: 15px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-chrome);
-  box-shadow: var(--bevel-raised-strong);
   font: 700 var(--text-chrome-lg) var(--font-chrome);
   line-height: 1;
+  color: #fff;
 }
 
 .closeButton:active {
-  box-shadow: var(--bevel-sunken-strong);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .body {

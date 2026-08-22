@@ -11,6 +11,7 @@
 }
 
 .npButton {
+  position: relative;
   flex: none;
   width: 74px;
   height: 38px;
@@ -22,6 +23,19 @@
   font-size: var(--text-chrome-base);
   background: var(--color-chrome);
   box-shadow: var(--bevel-raised-strong);
+}
+
+/* The 74×38 visual size is spec'd, but touch targets must be >=44px — this
+   invisible hotspot extends the tappable area without changing appearance. */
+.npButton::after,
+.breadcrumb::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 
 .npButton:active {
@@ -36,6 +50,7 @@
 }
 
 .breadcrumb {
+  position: relative;
   flex: 1;
   min-width: 0;
   height: 38px;
