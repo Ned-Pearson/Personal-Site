@@ -67,7 +67,6 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Mobile state model (`{ node, view, tab, tray, clock }`) — confirm `NODES`/`PROJECTS`/`DOCS` are consumed from the existing shared data layer, not duplicated between presentations
 - Mobile asset sizing: screenshot 132px tall, media 128px tall, portrait 86×104 (same source images, different display boxes)
 
 ### 15. Assets & content finalization
