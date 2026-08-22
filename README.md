@@ -67,7 +67,7 @@ npm run dev
 
 ### 14. Responsive / mobile fallback
 
-- Mobile asset sizing: screenshot 132px tall, media 128px tall, portrait 86×104 (same source images, different display boxes)
+- Done
 
 ### 15. Assets & content finalization
 

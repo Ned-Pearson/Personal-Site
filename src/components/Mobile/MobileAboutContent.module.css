@@ -26,8 +26,8 @@
 }
 
 .portrait {
-  width: 104px;
-  height: 126px;
+  width: 86px;
+  height: 104px;
   flex: none;
   background: repeating-linear-gradient(135deg, #e8e5dd 0 7px, #f2f0eb 7px 14px);
   border: 1px solid var(--color-chip-edge);
