@@ -26,3 +26,21 @@
   box-shadow: inset 1px 1px 0 #fff, inset -1px 0 0 var(--color-bevel-mid);
   color: #000;
 }
+
+.tabBarFull {
+  gap: 1px;
+}
+
+.tabFull {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Mobile has no hover — cancel the desktop .tab:hover rule for this variant. */
+.tabFull:hover {
+  filter: none;
+}

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import {
   getNode,
-  getPath,
   getChildren,
   getProject,
   getAbout,
@@ -10,6 +9,7 @@ import {
   getAllNodes,
   type Node,
 } from '../../data'
+import { folderPath } from '../../utils/folderPath'
 import { DesktopIcon } from './DesktopIcon'
 import { useWindows, type WindowKind, type WindowState } from './useWindows'
 import { Window } from './Window'
@@ -72,12 +72,6 @@ function windowIconColor(node: string, kind: WindowKind): string {
 function windowLabel(node: string, kind: WindowKind): string {
   if (kind === 'about') return 'About Me'
   return getNode(node)?.name ?? node
-}
-
-// e.g. getPath('machine-learning') -> "C:\ned\projects\machine-learning"
-function folderPath(node: string): string {
-  const segments = getPath(node).map((n) => n.name.toLowerCase().replace(/ /g, '-'))
-  return 'C:\\ned\\' + segments.join('\\')
 }
 
 function windowBody(
