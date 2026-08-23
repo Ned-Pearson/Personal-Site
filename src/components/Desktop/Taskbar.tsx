@@ -36,7 +36,12 @@ export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClic
   }, [])
 
   return (
-    <div className={styles.taskbar} onClick={(e) => e.stopPropagation()}>
+    // No container-level stopPropagation here on purpose: the Start button and
+    // each task button already stop their own clicks, so a blanket stop would
+    // only swallow clicks on the empty taskbar background (divider, spacer,
+    // clock) — exactly the "outside" clicks that should bubble to Desktop and
+    // close any open start/context/View menu.
+    <div className={styles.taskbar}>
       <div
         className={startOpen ? `${styles.startButton} ${styles.startButtonOpen}` : styles.startButton}
         onClick={(e) => {

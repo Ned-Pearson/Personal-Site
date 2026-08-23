@@ -32,3 +32,8 @@
 .itemDisabled {
   color: var(--color-bevel-mid);
 }
+
+.itemDisabled:hover {
+  background: none;
+  color: var(--color-bevel-mid);
+}
