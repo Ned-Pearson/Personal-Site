@@ -1,0 +1,52 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: transparent;
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 52px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--color-chrome);
+  border-top: 1px solid var(--color-outline);
+  box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.15);
+  animation: trayUp 150ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--color-sheet-edge);
+}
+
+.row:active {
+  background: var(--color-chrome-dark);
+}
+
+.rowGlyph {
+  flex: none;
+  width: 20px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rowLabel {
+  font-size: var(--text-chrome-base);
+  color: var(--color-ink);
+}
