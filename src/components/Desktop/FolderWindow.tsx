@@ -73,7 +73,7 @@ export function FolderWindow({
           <u>H</u>elp
         </span>
         {menuOpen && (
-          <div className={styles.viewDropdown}>
+          <div className={styles.viewDropdown} onMouseDown={(e) => e.stopPropagation()}>
             <div
               className={styles.dropdownItem}
               onClick={(e) => {
