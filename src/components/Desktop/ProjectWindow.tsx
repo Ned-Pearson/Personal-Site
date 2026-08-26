@@ -28,7 +28,11 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
                   {project.date} · {project.status}
                 </div>
               </div>
-              <div className={styles.screenshot}>screenshot — 800×260</div>
+              {project.screenshotSrc ? (
+                <img className={styles.screenshot} src={project.screenshotSrc} alt={`${name} overview`} />
+              ) : (
+                <div className={styles.screenshot}>screenshot — 800×260</div>
+              )}
               <p className={styles.blurb}>{project.blurb}</p>
               <div className={styles.tags}>
                 {project.tags.map((tag, i) => (
