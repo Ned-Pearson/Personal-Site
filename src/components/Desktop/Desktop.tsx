@@ -74,6 +74,37 @@ function windowLabel(node: string, kind: WindowKind): string {
   return getNode(node)?.name ?? node
 }
 
+// The Overview screenshot renders at a fixed 170px tall (ProjectWindow.module.css)
+// with no forced width — so a project window narrower than the image's own
+// natural width at that height would otherwise force it to shrink. This is
+// the horizontal chrome around it (sheet padding 22px + bodyPanel margin 6px
+// + window border 1px, each side) added to that natural width, giving a
+// per-window minWidth that guarantees it never has to.
+const SCREENSHOT_HEIGHT = 170
+const SCREENSHOT_CHROME_WIDTH = (22 + 6 + 1) * 2
+
+// Same idea, vertically: guarantee the header + screenshot are always fully
+// visible without scrolling, rather than letting the window get so short
+// the screenshot itself is cut off. 118 is the measured chrome above it
+// (title bar 21 + tab bar 28 + sheet's own top padding 20 + header ~23 +
+// sheet gap 16); 24 is breathing room below it so it doesn't sit flush
+// against the resize grip.
+const SCREENSHOT_CHROME_HEIGHT_ABOVE = 118
+const SCREENSHOT_BOTTOM_BUFFER = 24
+
+function windowMinWidth(win: WindowState): number | undefined {
+  if (win.kind !== 'project') return undefined
+  const aspect = getProject(win.node)?.screenshotAspect
+  if (!aspect) return undefined
+  return Math.ceil(SCREENSHOT_HEIGHT * aspect) + SCREENSHOT_CHROME_WIDTH
+}
+
+function windowMinHeight(win: WindowState): number | undefined {
+  if (win.kind !== 'project') return undefined
+  if (!getProject(win.node)?.screenshotSrc) return undefined
+  return SCREENSHOT_CHROME_HEIGHT_ABOVE + SCREENSHOT_HEIGHT + SCREENSHOT_BOTTOM_BUFFER
+}
+
 function windowBody(
   win: WindowState,
   openWindow: (node: string, kind: WindowKind) => void,
@@ -261,6 +292,8 @@ export function Desktop() {
             z={win.z}
             maximized={win.max}
             phase={win.phase}
+            minWidth={windowMinWidth(win)}
+            minHeight={windowMinHeight(win)}
             onFocus={() => {
               if (focused !== win.id) focus(win.id)
             }}

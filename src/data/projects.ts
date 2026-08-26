@@ -2,7 +2,7 @@
 // Keyed by the same id as the matching 'project' node in NODES.
 // Placeholder copy — see Plan.md "Content status": replace before launch.
 
-import todoAppOverview from '../assets/projects/todo-app/overview.png'
+import todoAppOverview from '../assets/projects/todo-app/Overview.png'
 
 export type ProjectStatus = 'shipped' | 'in progress' | 'archived'
 
@@ -13,8 +13,12 @@ export interface ProjectContent {
   blurb: string
   tags: string[]
   writeUp: string[]
-  /** Overview tab screenshot (800×260 source — see Plan.md "Assets"). Falls back to the striped placeholder when absent. */
+  /** Overview tab screenshot. Falls back to the striped placeholder when absent. */
   screenshotSrc?: string
+  /** Natural width/height ratio of screenshotSrc — lets the window enforce a
+   * minimum width so the image always renders at its natural size instead
+   * of needing to shrink. Required whenever screenshotSrc is set. */
+  screenshotAspect?: number
   media: { caption: string }[]
   sourceUrl?: string
   liveUrl?: string
@@ -26,6 +30,7 @@ export const PROJECTS: Record<string, ProjectContent> = {
     date: 'Aug 2026',
     status: 'shipped',
     screenshotSrc: todoAppOverview,
+    screenshotAspect: 3840 / 1248,
     blurb:
       'A local-first desktop to-do app built with Tauri, React, and SQLite, with recurring tasks, tag inheritance, drag-and-drop, and a signed self-updater.',
     tags: ['Tauri', 'React', 'TypeScript', 'SQLite'],

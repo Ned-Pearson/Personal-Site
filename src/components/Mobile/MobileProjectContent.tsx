@@ -32,9 +32,13 @@ export function MobileProjectContent({ tab, name, project, onSelectTab }: Mobile
                 </div>
               </div>
               {project.screenshotSrc ? (
-                <img className={styles.screenshot} src={project.screenshotSrc} alt={`${name} overview`} />
+                <img
+                  className={`${styles.screenshot} ${styles.screenshotImage}`}
+                  src={project.screenshotSrc}
+                  alt={`${name} overview`}
+                />
               ) : (
-                <div className={styles.screenshot}>screenshot — 800×260</div>
+                <div className={`${styles.screenshot} ${styles.screenshotPlaceholder}`}>screenshot — 800×260</div>
               )}
               <p className={styles.blurb}>{project.blurb}</p>
               <div className={styles.tags}>
