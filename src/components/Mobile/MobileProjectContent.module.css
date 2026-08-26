@@ -43,6 +43,7 @@
   justify-content: center;
   font: 400 var(--text-mono-sm) var(--font-mono);
   color: #8a857a;
+  object-fit: cover;
 }
 
 .blurb {
