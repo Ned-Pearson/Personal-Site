@@ -13,7 +13,10 @@ interface ProjectWindowProps {
 
 // Tab bar + the shared sunken-panel/white-sheet body shell. Source links out
 // when set; otherwise it's an inert "No source available" button. Live demo
-// only renders at all when there's actually a URL for it.
+// only renders at all when there's actually a URL for it. The screenshot
+// renders at its own natural size with no border/box — Desktop.tsx gives
+// project windows with a screenshot a large enough minWidth that it never
+// needs to shrink (see windowMinWidth there).
 export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
   return (
     <>
@@ -29,7 +32,7 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
                 </div>
               </div>
               {project.screenshotSrc ? (
-                <img className={styles.screenshot} src={project.screenshotSrc} alt={`${name} overview`} />
+                <img className={styles.screenshotImage} src={project.screenshotSrc} alt={`${name} overview`} />
               ) : (
                 <div className={styles.screenshot}>screenshot — 800×260</div>
               )}
