@@ -13,9 +13,10 @@ interface MobileProjectContentProps {
 
 // Mobile adaptation of the desktop ProjectWindow (README.md section 14):
 // full-width tabs, tightened sheet padding, a single-column media grid, and
-// Source/Live demo stacked full-width instead of side by side. Screenshot
-// height stays at desktop's 170px for now — that's the separate "Mobile
-// asset sizing" bullet's job.
+// Source/Live demo stacked full-width instead of side by side. Source links
+// out when set, otherwise it's an inert "No source available" button; Live
+// demo only renders when there's actually a URL for it — same as desktop's
+// ProjectWindow.
 export function MobileProjectContent({ tab, name, project, onSelectTab }: MobileProjectContentProps) {
   return (
     <>
@@ -40,8 +41,18 @@ export function MobileProjectContent({ tab, name, project, onSelectTab }: Mobile
                 ))}
               </div>
               <div className={styles.footer}>
-                <div className={styles.button}>Source</div>
-                <div className={styles.button}>Live demo</div>
+                {project.sourceUrl ? (
+                  <a className={styles.button} href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    Source
+                  </a>
+                ) : (
+                  <div className={`${styles.button} ${styles.buttonDisabled}`}>No source available</div>
+                )}
+                {project.liveUrl && (
+                  <a className={styles.button} href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                    Live demo
+                  </a>
+                )}
               </div>
             </>
           )}

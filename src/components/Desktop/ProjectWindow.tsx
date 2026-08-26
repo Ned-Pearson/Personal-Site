@@ -11,9 +11,9 @@ interface ProjectWindowProps {
   onSelectTab: (index: number) => void
 }
 
-// Tab bar + the shared sunken-panel/white-sheet body shell. Source/Live
-// demo are static per spec/prototype — neither is wired to actually open
-// a URL anywhere.
+// Tab bar + the shared sunken-panel/white-sheet body shell. Source links out
+// when set; otherwise it's an inert "No source available" button. Live demo
+// only renders at all when there's actually a URL for it.
 export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
   return (
     <>
@@ -38,8 +38,18 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
                 ))}
               </div>
               <div className={styles.footer}>
-                <div className={styles.button}>Source</div>
-                <div className={styles.button}>Live demo</div>
+                {project.sourceUrl ? (
+                  <a className={styles.button} href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    Source
+                  </a>
+                ) : (
+                  <div className={`${styles.button} ${styles.buttonDisabled}`}>No source available</div>
+                )}
+                {project.liveUrl && (
+                  <a className={styles.button} href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                    Live demo
+                  </a>
+                )}
               </div>
             </>
           )}
