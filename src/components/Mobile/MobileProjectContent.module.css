@@ -105,10 +105,20 @@
   box-shadow: var(--bevel-raised-strong);
   font-size: var(--text-chrome-base);
   box-sizing: border-box;
+  color: inherit;
+  text-decoration: none;
 }
 
 .button:active {
   box-shadow: var(--bevel-sunken-strong);
+}
+
+.buttonDisabled {
+  color: var(--color-bevel-mid);
+}
+
+.buttonDisabled:active {
+  box-shadow: var(--bevel-raised-strong);
 }
 
 .media {
