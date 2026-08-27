@@ -78,7 +78,10 @@ export function MobileProjectContent({ tab, name, project, onSelectTab }: Mobile
             <div className={styles.media}>
               {project.media.map((item, i) => (
                 <div key={i} className={styles.mediaTile}>
-                  {item.caption}
+                  <div className={styles.mediaImageBox}>
+                    <img className={styles.mediaImage} src={item.src} alt={item.caption} />
+                  </div>
+                  <div className={styles.mediaCaption}>{item.caption}</div>
                 </div>
               ))}
             </div>

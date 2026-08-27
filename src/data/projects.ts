@@ -2,7 +2,15 @@
 // Keyed by the same id as the matching 'project' node in NODES.
 // Placeholder copy — see Plan.md "Content status": replace before launch.
 
-import todoAppOverview from '../assets/projects/todo-app/Overview.png'
+import todoAppOverview from '../assets/projects/todo-app/main-view.jpg'
+import todoAppMyDay from '../assets/projects/todo-app/my-day.jpg'
+import todoAppCustomList from '../assets/projects/todo-app/custom-list.jpg'
+import todoAppCalendar from '../assets/projects/todo-app/calendar.jpg'
+import todoAppTaskDetails from '../assets/projects/todo-app/task-details.jpg'
+import todoAppAddTask from '../assets/projects/todo-app/add-task.jpg'
+import todoAppHistory from '../assets/projects/todo-app/history.jpg'
+import todoAppNotes from '../assets/projects/todo-app/notes.jpg'
+import todoAppStats from '../assets/projects/todo-app/stats.jpg'
 
 export type ProjectStatus = 'shipped' | 'in progress' | 'archived'
 
@@ -19,7 +27,7 @@ export interface ProjectContent {
    * minimum width so the image always renders at its natural size instead
    * of needing to shrink. Required whenever screenshotSrc is set. */
   screenshotAspect?: number
-  media: { caption: string }[]
+  media: { caption: string; src: string }[]
   sourceUrl?: string
   liveUrl?: string
 }
@@ -30,7 +38,7 @@ export const PROJECTS: Record<string, ProjectContent> = {
     date: 'Aug 2026',
     status: 'shipped',
     screenshotSrc: todoAppOverview,
-    screenshotAspect: 3840 / 1248,
+    screenshotAspect: 16 / 9,
     blurb:
       'A local-first desktop to-do app built with Tauri, React, and SQLite, with recurring tasks, tag inheritance, drag-and-drop, and a signed self-updater.',
     tags: ['Tauri', 'React', 'TypeScript', 'SQLite'],
@@ -43,7 +51,16 @@ export const PROJECTS: Record<string, ProjectContent> = {
       "A couple of sections needed a mid-project refactor once they had to support more than the original design allowed for. Recurrence outgrew its inline form fields and got extracted into its own module, and lists, originally just saved tag filters, had to be pulled apart from tags once they needed their own identity.",
       "Cloud sync and an iOS companion app are both deliberately deferred rather than built. They're genuinely interesting problems (conflict resolution across devices, Apple's provisioning and signing model), just not ones this particular project needed to answer to be worth shipping. I'd rather build a couple of different portfolio projects first than sink more months into this one alone.",
     ],
-    media: [{ caption: 'Media' }, { caption: 'Media' }],
+    media: [
+      { caption: 'My day', src: todoAppMyDay },
+      { caption: 'Custom list', src: todoAppCustomList },
+      { caption: 'Calendar', src: todoAppCalendar },
+      { caption: 'Task details', src: todoAppTaskDetails },
+      { caption: 'Add task', src: todoAppAddTask },
+      { caption: 'History', src: todoAppHistory },
+      { caption: 'Notes', src: todoAppNotes },
+      { caption: 'Stats', src: todoAppStats },
+    ],
     sourceUrl: 'https://github.com/Ned-Pearson/todo-app',
   },
 }
