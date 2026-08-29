@@ -24,11 +24,11 @@ export interface AboutContent {
 }
 
 export const ABOUT: AboutContent = {
-  role: 'ml engineer · open to collaborations',
-  bio: 'Placeholder',
+  role: 'Software Engineer · open to collaborations',
+  bio: "Recent Computer Science grad from RMIT, still figuring out exactly what I want to specialise in. I like taking on projects that make me learn something new, whether that's wiring up a full-stack app or training a model on an interesting dataset. Right now I'm actively looking for my first full-time role, ideally one that keeps me learning.",
   stack: ['Python', 'TypeScript', 'React', 'PyTorch', 'AWS'],
   since: '2021',
-  status: 'available',
+  status: 'Looking for work',
   email: 'pearson.ned.m@gmail.com',
   github: 'Ned-Pearson',
   githubUrl: 'https://github.com/Ned-Pearson',
