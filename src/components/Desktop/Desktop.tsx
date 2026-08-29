@@ -20,6 +20,7 @@ import { TextViewer } from './TextViewer'
 import { Taskbar } from './Taskbar'
 import { StartMenu, type FlyoutItem } from './StartMenu'
 import { ContextMenu } from './ContextMenu'
+import { Lightbox } from './Lightbox'
 import styles from './Desktop.module.css'
 
 const projectsNode = getNode('projects')!
@@ -112,7 +113,8 @@ function windowBody(
   patch: (id: number, updates: Partial<WindowState>) => void,
   selectedIcon: string | null,
   setSelectedIcon: (id: string) => void,
-  close: (id: number) => void
+  close: (id: number) => void,
+  openLightbox: (projId: string, title: string, index: number) => void
 ) {
   if (win.kind === 'folder') {
     const parentId = getNode(win.node)?.parent ?? null
@@ -141,12 +143,14 @@ function windowBody(
   if (win.kind === 'project') {
     const project = getProject(win.node)
     if (project) {
+      const name = getNode(win.node)?.name ?? win.node
       return (
         <ProjectWindow
           tab={win.tab}
-          name={getNode(win.node)?.name ?? win.node}
+          name={name}
           project={project}
           onSelectTab={(tab) => patch(win.id, { tab })}
+          onOpenLightbox={(index) => openLightbox(win.node, name, index)}
         />
       )
     }
@@ -176,6 +180,8 @@ export function Desktop() {
   const [query, setQuery] = useState('')
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
   const [hoverCat, setHoverCat] = useState<string | null>(null)
+  // -1 = the Overview screenshot; otherwise an index into that project's media[].
+  const [lightbox, setLightbox] = useState<{ projId: string; index: number; title: string } | null>(null)
   const {
     windows,
     focused,
@@ -304,9 +310,21 @@ export function Desktop() {
             onClose={() => close(win.id)}
             onInterrupt={() => patch(win.id, { phase: null })}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close)}
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, title, index) =>
+              setLightbox({ projId, title, index })
+            )}
           </Window>
         ))}
+
+      {lightbox && (
+        <Lightbox
+          title={lightbox.title}
+          project={getProject(lightbox.projId)!}
+          index={lightbox.index}
+          onIndexChange={(index) => setLightbox({ ...lightbox, index })}
+          onClose={() => setLightbox(null)}
+        />
+      )}
 
       <Taskbar
         taskButtons={windows.map((win) => ({

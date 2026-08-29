@@ -9,6 +9,8 @@ interface ProjectWindowProps {
   name: string
   project: ProjectContent
   onSelectTab: (index: number) => void
+  /** -1 for the Overview screenshot; otherwise an index into project.media. */
+  onOpenLightbox: (index: number) => void
 }
 
 // Tab bar + the shared sunken-panel/white-sheet body shell. Source links out
@@ -19,7 +21,7 @@ interface ProjectWindowProps {
 // needs to shrink (see windowMinWidth there). Media tab only shows up once
 // there's actually media — until then there's nothing for tab index 2 to
 // select into, so it can never be reached.
-export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
+export function ProjectWindow({ tab, name, project, onSelectTab, onOpenLightbox }: ProjectWindowProps) {
   const tabs = project.media.length > 0 ? [...BASE_TABS, 'Media'] : BASE_TABS
   return (
     <>
@@ -35,7 +37,12 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
                 </div>
               </div>
               {project.screenshotSrc ? (
-                <img className={styles.screenshotImage} src={project.screenshotSrc} alt={`${name} overview`} />
+                <img
+                  className={styles.screenshotImage}
+                  src={project.screenshotSrc}
+                  alt={`${name} overview`}
+                  onClick={() => onOpenLightbox(-1)}
+                />
               ) : (
                 <div className={styles.screenshot}>screenshot — 800×260</div>
               )}
@@ -78,7 +85,12 @@ export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindow
               {project.media.map((item, i) => (
                 <div key={i} className={styles.mediaTile}>
                   <div className={styles.mediaImageBox}>
-                    <img className={styles.mediaImage} src={item.src} alt={item.caption} />
+                    <img
+                      className={styles.mediaImage}
+                      src={item.src}
+                      alt={item.caption}
+                      onClick={() => onOpenLightbox(i)}
+                    />
                   </div>
                   <div className={styles.mediaCaption}>{item.caption}</div>
                 </div>
