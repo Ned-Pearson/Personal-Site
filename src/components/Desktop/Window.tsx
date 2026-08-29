@@ -14,6 +14,9 @@ interface WindowProps {
   z: number
   maximized: boolean
   phase: WindowPhase
+  /** Per-instance overrides for the global MIN_W/MIN_H — e.g. a project window with a screenshot needs more width than the default so the image never has to shrink. */
+  minWidth?: number
+  minHeight?: number
   onFocus: () => void
   onMove: (x: number, y: number) => void
   onResize: (w: number, h: number) => void
@@ -40,6 +43,8 @@ export function Window({
   z,
   maximized,
   phase,
+  minWidth = MIN_W,
+  minHeight = MIN_H,
   onFocus,
   onMove,
   onResize,
@@ -111,8 +116,8 @@ export function Window({
 
     function move(ev: MouseEvent) {
       onResize(
-        Math.max(MIN_W, Math.min(window.innerWidth - x - 4, startW + (ev.clientX - startX))),
-        Math.max(MIN_H, Math.min(window.innerHeight - 30 - y - 4, startH + (ev.clientY - startY)))
+        Math.max(minWidth, Math.min(window.innerWidth - x - 4, startW + (ev.clientX - startX))),
+        Math.max(minHeight, Math.min(window.innerHeight - 30 - y - 4, startH + (ev.clientY - startY)))
       )
     }
     function up() {
