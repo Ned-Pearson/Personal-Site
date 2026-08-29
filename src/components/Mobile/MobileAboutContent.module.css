@@ -123,13 +123,6 @@
   gap: var(--space-16);
 }
 
-.skillsPlaceholder {
-  margin: 0;
-  font: 400 var(--text-content-base) / 1.7 var(--font-content);
-  color: var(--color-ink);
-  user-select: text;
-}
-
 .contact {
   display: flex;
   flex-direction: column;

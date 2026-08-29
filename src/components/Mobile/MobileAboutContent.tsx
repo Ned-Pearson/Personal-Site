@@ -67,7 +67,18 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
           {tab === 1 && (
             <div className={styles.skills}>
               <div className={styles.label}>SKILLS</div>
-              <p className={styles.skillsPlaceholder}>Placeholder</p>
+              {about.skills.map((group) => (
+                <div key={group.label} className={styles.column}>
+                  <div className={styles.label}>{group.label}</div>
+                  <div className={styles.chips}>
+                    {group.items.map((item, i) => (
+                      <div key={i} className={styles.chip}>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           {tab === 2 && (
