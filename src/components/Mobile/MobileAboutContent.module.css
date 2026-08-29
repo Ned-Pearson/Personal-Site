@@ -162,6 +162,8 @@
   box-shadow: var(--bevel-raised-strong);
   font-size: var(--text-chrome-base);
   box-sizing: border-box;
+  color: inherit;
+  text-decoration: none;
 }
 
 .button:active {

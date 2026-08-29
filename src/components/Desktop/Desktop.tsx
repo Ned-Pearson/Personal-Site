@@ -337,6 +337,7 @@ export function Desktop() {
           hoverCat={hoverCat}
           onHoverCat={setHoverCat}
           searchRows={searchRows}
+          resumeUrl={getAbout().resumeUrl}
           projectFlyoutItems={PROJECT_FLYOUT_ITEMS}
           recentFlyoutItems={recent.slice(0, 3).map((id) => ({
             key: id,

@@ -147,6 +147,9 @@
   background: var(--color-chrome);
   box-shadow: var(--bevel-raised-strong);
   font-size: var(--text-chrome-base);
+  color: inherit;
+  text-decoration: none;
+  cursor: default;
 }
 
 .button:hover {

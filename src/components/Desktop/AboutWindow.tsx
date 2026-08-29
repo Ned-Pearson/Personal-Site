@@ -74,7 +74,9 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: 
               </div>
               <div className={styles.footer}>
                 <div className={styles.button}>Send email</div>
-                <div className={styles.button}>Resume.pdf</div>
+                <a className={styles.button} href={about.resumeUrl} download="Edward Pearson CV.pdf">
+                  Resume.pdf
+                </a>
               </div>
             </div>
           )}

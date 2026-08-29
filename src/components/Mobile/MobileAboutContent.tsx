@@ -89,7 +89,9 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
               </div>
               <div className={styles.footer}>
                 <div className={styles.button}>Send email</div>
-                <div className={styles.button}>Resume.pdf</div>
+                <a className={styles.button} href={about.resumeUrl} download="Edward Pearson CV.pdf">
+                  Resume.pdf
+                </a>
               </div>
             </div>
           )}
