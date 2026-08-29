@@ -75,10 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- ~~Add `lightbox` state: `{ projId, index, title } | null` on Desktop (index -1 = Overview shot, else index into that project's `media[]`); `{ index } | null` on Mobile (no `projId` needed, only one node open at a time)~~
-- ~~Wire triggers: clicking/tapping the Overview screenshot or any Media grid thumbnail opens the lightbox at the right index, on both desktop `ProjectWindow` and mobile `MobileProjectContent`~~
-- Desktop: full-viewport `rgba(0,0,0,.72)` backdrop (z-index 9900, below the 9500–9700 start-menu stack) centering a beveled window (`min(720px,86vw)`), reusing the existing window chrome (title bar, bevels, drop-shadow)
-- Desktop: title bar reads "`<name> — Overview shot`" or "`<name> — Media`", single ✕ button
 - Desktop: `‹`/`›` 26×44 beveled nav buttons flank a 400px-tall image area; footer shows the "n / total" counter left and "Esc or click outside to close" right
 - Desktop: Prev/Next and the counter only render for Media items — the Overview shot (index -1) has no nav since it isn't part of the `media[]` array
 - Desktop: dismiss via ✕, backdrop click, or Esc (global keydown listener added on mount, removed on unmount)
