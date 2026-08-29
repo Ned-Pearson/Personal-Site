@@ -10,7 +10,9 @@ export interface AboutContent {
   since: string
   status: string
   email: string
+  /** Display handle — the link target is githubUrl. */
   github: string
+  githubUrl: string
   location: string
   resumeUrl: string
 }
@@ -21,8 +23,9 @@ export const ABOUT: AboutContent = {
   stack: ['Placeholder', 'Placeholder'],
   since: '2021',
   status: 'available',
-  email: 'Placeholder',
-  github: 'Placeholder',
-  location: 'Placeholder',
+  email: 'pearson.ned.m@gmail.com',
+  github: 'Ned-Pearson',
+  githubUrl: 'https://github.com/Ned-Pearson',
+  location: 'Melbourne, Australia',
   resumeUrl: resumePdf,
 }

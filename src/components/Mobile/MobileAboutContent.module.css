@@ -143,6 +143,16 @@
   font: 400 var(--text-content-sm) / 1.5 var(--font-content);
 }
 
+.link {
+  color: inherit;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
 .footer {
   display: flex;
   flex-direction: column;
