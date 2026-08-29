@@ -72,9 +72,27 @@ npm run dev
 ### 15. Assets & content finalization
 
 - Replace portrait placeholder (420×510) with real photo
-- Make all media clickable to display a larger image
 
-### 16. Keyboard accessibility
+### 16. Media viewer
+
+- Add `lightbox` state: `{ projId, index, title } | null` on Desktop (index -1 = Overview shot, else index into that project's `media[]`); `{ index } | null` on Mobile (no `projId` needed, only one node open at a time)
+- Wire triggers: clicking/tapping the Overview screenshot or any Media grid thumbnail opens the lightbox at the right index, on both desktop `ProjectWindow` and mobile `MobileProjectContent`
+- Desktop: full-viewport `rgba(0,0,0,.72)` backdrop (z-index 9900, below the 9500–9700 start-menu stack) centering a beveled window (`min(720px,86vw)`), reusing the existing window chrome (title bar, bevels, drop-shadow)
+- Desktop: title bar reads "`<name> — Overview shot`" or "`<name> — Media`", single ✕ button
+- Desktop: `‹`/`›` 26×44 beveled nav buttons flank a 400px-tall image area; footer shows the "n / total" counter left and "Esc or click outside to close" right
+- Desktop: Prev/Next and the counter only render for Media items — the Overview shot (index -1) has no nav since it isn't part of the `media[]` array
+- Desktop: dismiss via ✕, backdrop click, or Esc (global keydown listener added on mount, removed on unmount)
+- Desktop: reuse the existing 90ms `menuOpen` animation for the backdrop fade/pop-in; no exit animation
+- Mobile: full-screen overlay (`inset:0`, z-index 9900) rather than a floating window, matching the one-surface-at-a-time mobile pattern
+- Mobile: 44px header with navy gradient, the project's category-colour icon chip, truncated title, and a 34×30 beveled ✕
+- Mobile: image area is the same sunken `#d4d0c8` recessed-panel treatment window bodies already use, with an 8px teal-wallpaper margin — not a blacked-out photo-viewer look
+- Mobile: nav bar (Media only, hidden for the single Overview shot) — full 3D-bevelled "‹ Prev" / "Next ›" buttons (64×44) flanking a flexible sunken mono counter field
+- Mobile: dismiss via ✕ only — no Esc, no swipe-to-dismiss, no backdrop-tap
+- Mobile: reuse the existing 140ms `sheetUp` animation for opening; no exit animation
+- Derive the displayed label/title/counter from `PROJECTS` at render time rather than storing them — only the index needs to live in state
+- Real screenshots already used for thumbnails double as the lightbox image (no separate hi-res asset needed) unless sharper detail is wanted at the larger display size (~400px tall on desktop, remaining screen height on mobile)
+
+### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
 - Focus-visible style foundation: a theme-consistent focus ring (new design token) — Plan.md doesn't spec one, so this needs inventing
@@ -87,7 +105,7 @@ npm run dev
 - Escape closes the focused window (Escape-closes-menus is already covered by section 13's menu-close behaviour)
 - Accessible names (`aria-label`) for icon-only controls — minimise/maximise glyphs currently have no text alternative; close's "✕" is borderline
 
-### 17. Deployment
+### 18. Deployment
 
 - Choose hosting (Vercel/Netlify/GitHub Pages/etc.)
 - Configure custom domain (nedpearson.dev)
