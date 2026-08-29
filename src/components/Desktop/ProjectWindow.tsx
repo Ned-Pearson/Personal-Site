@@ -2,7 +2,7 @@ import type { ProjectContent } from '../../data'
 import { TabBar } from './TabBar'
 import styles from './ProjectWindow.module.css'
 
-const TABS = ['Overview', 'Write-up', 'Media']
+const BASE_TABS = ['Overview', 'Write-up']
 
 interface ProjectWindowProps {
   tab: number
@@ -16,11 +16,14 @@ interface ProjectWindowProps {
 // only renders at all when there's actually a URL for it. The screenshot
 // renders at its own natural size with no border/box — Desktop.tsx gives
 // project windows with a screenshot a large enough minWidth that it never
-// needs to shrink (see windowMinWidth there).
+// needs to shrink (see windowMinWidth there). Media tab only shows up once
+// there's actually media — until then there's nothing for tab index 2 to
+// select into, so it can never be reached.
 export function ProjectWindow({ tab, name, project, onSelectTab }: ProjectWindowProps) {
+  const tabs = project.media.length > 0 ? [...BASE_TABS, 'Media'] : BASE_TABS
   return (
     <>
-      <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} />
+      <TabBar labels={tabs} activeIndex={tab} onSelect={onSelectTab} />
       <div className={styles.bodyPanel}>
         <div className={styles.sheet}>
           {tab === 0 && (

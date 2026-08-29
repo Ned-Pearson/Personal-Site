@@ -2,7 +2,7 @@ import type { ProjectContent } from '../../data'
 import { TabBar } from '../Desktop/TabBar'
 import styles from './MobileProjectContent.module.css'
 
-const TABS = ['Overview', 'Write-up', 'Media']
+const BASE_TABS = ['Overview', 'Write-up']
 
 interface MobileProjectContentProps {
   tab: number
@@ -16,11 +16,12 @@ interface MobileProjectContentProps {
 // Source/Live demo stacked full-width instead of side by side. Source links
 // out when set, otherwise it's an inert "No source available" button; Live
 // demo only renders when there's actually a URL for it — same as desktop's
-// ProjectWindow.
+// ProjectWindow. Media tab only shows up once there's actually media.
 export function MobileProjectContent({ tab, name, project, onSelectTab }: MobileProjectContentProps) {
+  const tabs = project.media.length > 0 ? [...BASE_TABS, 'Media'] : BASE_TABS
   return (
     <>
-      <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} fullWidth />
+      <TabBar labels={tabs} activeIndex={tab} onSelect={onSelectTab} fullWidth />
       <div className={styles.bodyPanel}>
         <div className={styles.sheet}>
           {tab === 0 && (
