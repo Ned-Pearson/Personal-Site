@@ -71,11 +71,8 @@ npm run dev
 
 ### 15. Assets & content finalization
 
-- Replace project screenshot placeholders (800×260) with real images
-- Replace media grid placeholders (4× 640×420) with real images
 - Replace portrait placeholder (420×510) with real photo
-- Replace all placeholder bios, blurbs, write-ups, links, and dates with Ned's real content
-- Real résumé PDF linked from Start menu
+- Replace all placeholder bios, blurbs, write-ups, links, and dates with Ned's real content=
 
 ### 16. Keyboard accessibility
 

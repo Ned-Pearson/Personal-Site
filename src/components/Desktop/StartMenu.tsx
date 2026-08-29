@@ -20,6 +20,7 @@ interface StartMenuProps {
   subFlyoutItems: FlyoutItem[]
   recentFlyoutItems: FlyoutItem[]
   searchRows: FlyoutItem[]
+  resumeUrl: string
   onOpenNode: (id: string, kind: WindowKind) => void
   onShutDown: () => void
 }
@@ -39,6 +40,19 @@ const RECENT_FLYOUT_BOTTOM = 92
 const SUB_FLYOUT_BOTTOM_GENERAL = 118
 const SUB_FLYOUT_BOTTOM_OTHER = 92
 
+// A plain click/window.open can't rename the downloaded file — the `download`
+// attribute only takes effect on an actual anchor click, so a real (if
+// invisible) anchor is synthesized here to get "Edward Pearson CV.pdf"
+// instead of the hashed build filename in the recruiter's downloads folder.
+function downloadResume(url: string) {
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'Edward Pearson CV.pdf'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 // Stops its own click from bubbling to the desktop's close-everything handler,
 // matching Taskbar/menu surfaces elsewhere.
 export function StartMenu({
@@ -52,6 +66,7 @@ export function StartMenu({
   subFlyoutItems,
   recentFlyoutItems,
   searchRows,
+  resumeUrl,
   onOpenNode,
   onShutDown,
 }: StartMenuProps) {
@@ -59,6 +74,7 @@ export function StartMenu({
 
   function openRow(key: string) {
     if (key === 'about' || key === 'contact') onOpenNode('about', 'about')
+    if (key === 'resume') downloadResume(resumeUrl)
   }
 
   return (
