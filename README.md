@@ -72,7 +72,7 @@ npm run dev
 ### 15. Assets & content finalization
 
 - Replace portrait placeholder (420×510) with real photo
-- Replace all placeholder bios, blurbs, write-ups, links, and dates with Ned's real content=
+- Make all media clickable to display a larger image
 
 ### 16. Keyboard accessibility
 

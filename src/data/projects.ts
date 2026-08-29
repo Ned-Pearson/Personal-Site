@@ -63,4 +63,43 @@ export const PROJECTS: Record<string, ProjectContent> = {
     ],
     sourceUrl: 'https://github.com/Ned-Pearson/todo-app',
   },
+  'colorectal-cancer-classification': {
+    id: 'colorectal-cancer-classification',
+    date: 'Sem 1 2026',
+    status: 'archived',
+    blurb:
+      'A histopathology image classifier comparing five approaches, from logistic regression to a CNN with transfer learning, built for an RMIT machine learning course.',
+    tags: ['Python', 'scikit-learn', 'PyTorch'],
+    writeUp: [
+      'For this project I extracted and analysed a histopathology image dataset, then built and compared five approaches (logistic regression, SVM, CNN, CIFAR-10 transfer learning, and a majority-vote ensemble) across binary and four-class classification tasks.',
+      "To keep evaluation honest I used a patient-level split to prevent data leakage, tuned hyperparameters systematically, and applied data augmentation that cut overfitting by 93%, which got the augmented CNN over the project's target. I also weighed each model's errors against real clinical cost and reported results that fell short of target rather than only the best-case numbers.",
+      "This was completed as an individual assignment for a university machine learning course. As coursework, I'm not able to share the code or report publicly, so the write-up and media here cover what I built.",
+    ],
+    media: [],
+  },
+  'wildfire-intensity-prediction': {
+    id: 'wildfire-intensity-prediction',
+    date: 'Sem 1 2026',
+    status: 'archived',
+    blurb:
+      'A comparison of Decision Tree, SVM, and neural network classifiers for predicting wildfire intensity from historical data, built for an RMIT course.',
+    tags: ['Python', 'scikit-learn'],
+    writeUp: [
+      'Built and compared Decision Tree, SVM, and neural network classifiers to predict wildfire intensity from historical data, with feature engineering, stratified evaluation, and per-class performance analysis to see where each model actually struggled rather than just an overall accuracy number.',
+      "This was an individual assignment for a university course, so the code and report aren't something I can share publicly. The write-up and media here cover the approach and results.",
+    ],
+    media: [],
+  },
+  'airbnb-price-prediction': {
+    id: 'airbnb-price-prediction',
+    date: 'Sem 1 2026',
+    status: 'archived',
+    blurb: 'A price-prediction model for Airbnb listings, covering the full pipeline from data cleaning through to model evaluation.',
+    tags: ['Python', 'scikit-learn'],
+    writeUp: [
+      'Developed a price-prediction model for Airbnb listings, covering the full pipeline: cleaning and preparing the raw data, engineering features, training models, and evaluating their performance.',
+      "This was also an individual assignment for a university course, so I'm not able to share the code or report publicly. The write-up and media below cover what I built.",
+    ],
+    media: [],
+  },
 }
