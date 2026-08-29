@@ -1,9 +1,11 @@
-/* Deliberately minimal for now — see the comment in Lightbox.tsx. */
+/* Nav buttons/footer are still deliberately minimal — see Lightbox.tsx.
+   Backdrop, window shell, and title bar now match Plan.md's spec exactly,
+   reusing the same tokens/values as Window.module.css's real window chrome. */
 
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,10 +13,11 @@
 }
 
 .box {
-  background: var(--color-chrome);
-  box-shadow: var(--bevel-window-drop);
-  max-width: 90vw;
+  width: min(720px, 86vw);
   max-height: 90vh;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised), var(--bevel-window-drop);
   display: flex;
   flex-direction: column;
 }
@@ -22,22 +25,41 @@
 .titleBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-8);
-  padding: var(--space-6) var(--space-8);
-  background: var(--color-title-navy);
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-3) var(--space-3) 5px;
+  background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
+}
+
+.title {
+  flex: 1;
   color: #fff;
-  font: 600 var(--text-chrome-base) var(--font-chrome);
+  font: 700 var(--text-chrome-base) var(--font-chrome);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .closeButton {
+  width: 17px;
+  height: 15px;
   background: var(--color-chrome);
   box-shadow: var(--bevel-raised-strong);
   border: none;
-  width: 17px;
-  height: 15px;
-  font-size: var(--text-chrome-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 var(--text-chrome-lg) var(--font-chrome);
+  line-height: 1;
   cursor: default;
+}
+
+.closeButton:hover {
+  background: #e0dcd4;
+}
+
+.closeButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
 }
 
 .body {

@@ -10,11 +10,11 @@ interface LightboxProps {
   onClose: () => void
 }
 
-// First pass (README.md section 16, points 1-2): state and click-to-open
-// triggers wired end to end with a plain functional overlay. The retro
-// window chrome specified in Plan.md's "Media Viewer" section (backdrop,
-// title-bar copy, bevelled nav sizing, dismiss-on-Esc, animation) lands in
-// later commits — this is deliberately not styled to spec yet.
+// Backdrop, window shell, and title bar match Plan.md's "Media Viewer" spec
+// (README.md section 16) exactly, reusing Window.module.css's own chrome
+// values (border, bevels, drop-shadow, navy title-bar gradient) rather than
+// inventing new ones. Nav buttons/footer/dismiss-on-Esc/animation are still
+// the plain placeholders from the first pass — later checklist points.
 export function Lightbox({ title, project, index, onIndexChange, onClose }: LightboxProps) {
   const isOverview = index === -1
   const total = project.media.length
@@ -25,7 +25,7 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.box} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titleBar}>
-          <span>
+          <span className={styles.title}>
             {title} — {isOverview ? 'Overview shot' : 'Media'}
           </span>
           <button className={styles.closeButton} onClick={onClose}>
