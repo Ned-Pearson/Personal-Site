@@ -67,7 +67,18 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
           {tab === 1 && (
             <div className={styles.skills}>
               <div className={styles.label}>SKILLS</div>
-              <p className={styles.skillsPlaceholder}>Placeholder</p>
+              {about.skills.map((group) => (
+                <div key={group.label} className={styles.column}>
+                  <div className={styles.label}>{group.label}</div>
+                  <div className={styles.chips}>
+                    {group.items.map((item, i) => (
+                      <div key={i} className={styles.chip}>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           {tab === 2 && (
@@ -80,7 +91,9 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
                 </div>
                 <div className={styles.fact}>
                   <div className={styles.factLabel}>GitHub</div>
-                  <div>{about.github}</div>
+                  <a className={styles.link} href={about.githubUrl} target="_blank" rel="noopener noreferrer">
+                    {about.github}
+                  </a>
                 </div>
                 <div className={styles.fact}>
                   <div className={styles.factLabel}>Location</div>
@@ -88,8 +101,12 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
                 </div>
               </div>
               <div className={styles.footer}>
-                <div className={styles.button}>Send email</div>
-                <div className={styles.button}>Resume.pdf</div>
+                <a className={styles.button} href={`mailto:${about.email}`}>
+                  Send email
+                </a>
+                <a className={styles.button} href={about.resumeUrl} download="Edward Pearson CV.pdf">
+                  Resume.pdf
+                </a>
               </div>
             </div>
           )}
