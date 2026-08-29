@@ -1,0 +1,72 @@
+/* Deliberately minimal for now — see the comment in Lightbox.tsx. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9900;
+}
+
+.box {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-window-drop);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: var(--space-6) var(--space-8);
+  background: var(--color-title-navy);
+  color: #fff;
+  font: 600 var(--text-chrome-base) var(--font-chrome);
+}
+
+.closeButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  width: 17px;
+  height: 15px;
+  font-size: var(--text-chrome-sm);
+  cursor: default;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-16);
+}
+
+.navButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 32px;
+  height: 44px;
+  font-size: 16px;
+  cursor: default;
+}
+
+.image {
+  max-width: 70vw;
+  max-height: 60vh;
+  object-fit: contain;
+}
+
+.footer {
+  text-align: center;
+  padding: 0 var(--space-8) var(--space-8);
+  font: 500 var(--text-mono-sm) var(--font-mono);
+  color: var(--color-ink-muted);
+}

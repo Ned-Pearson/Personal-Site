@@ -1,0 +1,79 @@
+/* Deliberately minimal for now — see the comment in MobileLightbox.tsx. */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9900;
+  background: var(--color-chrome);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex: none;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: 0 var(--space-8);
+  background: var(--color-title-navy);
+  color: #fff;
+  font: 600 var(--text-chrome-base) var(--font-chrome);
+}
+
+.closeButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 34px;
+  height: 30px;
+  font-size: var(--text-chrome-base);
+  cursor: default;
+}
+
+.imageArea {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.navBar {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-8);
+  padding: var(--space-8);
+}
+
+.navButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 64px;
+  height: 44px;
+  font-size: var(--text-chrome-base);
+  cursor: default;
+}
+
+.counter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  box-shadow: var(--bevel-sunken);
+  font: 500 var(--text-mono-sm) var(--font-mono);
+  color: var(--color-ink-muted);
+}
