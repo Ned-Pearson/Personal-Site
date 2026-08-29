@@ -115,12 +115,6 @@
   max-width: 470px;
 }
 
-.skillsPlaceholder {
-  margin: 0;
-  font: 400 var(--text-content-base) / 1.7 var(--font-content);
-  color: var(--color-ink);
-}
-
 .contact {
   display: flex;
   flex-direction: column;
