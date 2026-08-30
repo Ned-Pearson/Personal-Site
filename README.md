@@ -75,8 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Desktop: `‹`/`›` 26×44 beveled nav buttons flank a 400px-tall image area; footer shows the "n / total" counter left and "Esc or click outside to close" right
-- Desktop: Prev/Next and the counter only render for Media items — the Overview shot (index -1) has no nav since it isn't part of the `media[]` array
 - Desktop: dismiss via ✕, backdrop click, or Esc (global keydown listener added on mount, removed on unmount)
 - Desktop: reuse the existing 90ms `menuOpen` animation for the backdrop fade/pop-in; no exit animation
 - Mobile: full-screen overlay (`inset:0`, z-index 9900) rather than a floating window, matching the one-surface-at-a-time mobile pattern

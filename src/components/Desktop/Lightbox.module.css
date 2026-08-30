@@ -1,6 +1,6 @@
-/* Nav buttons/footer are still deliberately minimal — see Lightbox.tsx.
-   Backdrop, window shell, and title bar now match Plan.md's spec exactly,
-   reusing the same tokens/values as Window.module.css's real window chrome. */
+/* Backdrop, window shell, title bar, nav buttons, image area, and footer all
+   now match Plan.md's spec. Dismiss-on-Esc and the open/close animation are
+   still outstanding — see Lightbox.tsx. */
 
 .backdrop {
   position: fixed;
@@ -74,21 +74,41 @@
   box-shadow: var(--bevel-raised-strong);
   border: none;
   flex: none;
-  width: 32px;
+  width: 26px;
   height: 44px;
   font-size: 16px;
   cursor: default;
 }
 
+.navButton:hover {
+  background: #e0dcd4;
+}
+
+.navButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.imageArea {
+  flex: 1;
+  min-width: 0;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .image {
-  max-width: 70vw;
-  max-height: 60vh;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
 .footer {
-  text-align: center;
-  padding: 0 var(--space-8) var(--space-8);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-16) var(--space-16);
   font: 500 var(--text-mono-sm) var(--font-mono);
   color: var(--color-ink-muted);
 }
