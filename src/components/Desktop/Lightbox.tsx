@@ -23,6 +23,9 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
   const total = project.media.length
   const src = isOverview ? project.screenshotSrc : project.media[index].src
   const caption = isOverview ? undefined : project.media[index].caption
+  // Nothing to page through with a single item either — same reasoning as
+  // the Overview shot not having nav.
+  const showNav = !isOverview && total > 1
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -44,7 +47,7 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
           </button>
         </div>
         <div className={styles.body}>
-          {!isOverview && (
+          {showNav && (
             <button className={styles.navButton} onClick={() => onIndexChange((index - 1 + total) % total)}>
               ‹
             </button>
@@ -52,14 +55,14 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
           <div className={styles.imageArea}>
             <img className={styles.image} src={src} alt={caption ?? title} />
           </div>
-          {!isOverview && (
+          {showNav && (
             <button className={styles.navButton} onClick={() => onIndexChange((index + 1) % total)}>
               ›
             </button>
           )}
         </div>
         <div className={styles.footer}>
-          <span>{!isOverview && `${index + 1} / ${total}`}</span>
+          <span>{showNav && `${index + 1} / ${total}`}</span>
           <span>Esc or click outside to close</span>
         </div>
       </div>

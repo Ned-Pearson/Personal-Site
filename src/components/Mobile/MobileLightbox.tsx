@@ -21,6 +21,9 @@ export function MobileLightbox({ title, iconColor, project, index, onIndexChange
   const total = project.media.length
   const src = isOverview ? project.screenshotSrc : project.media[index].src
   const caption = isOverview ? undefined : project.media[index].caption
+  // Nothing to page through with a single item either — same reasoning as
+  // the Overview shot not having nav.
+  const showNav = !isOverview && total > 1
 
   return (
     <div className={styles.overlay}>
@@ -38,7 +41,7 @@ export function MobileLightbox({ title, iconColor, project, index, onIndexChange
           <img className={styles.image} src={src} alt={caption ?? title} />
         </div>
       </div>
-      {!isOverview && (
+      {showNav && (
         <div className={styles.navBar}>
           <button className={styles.navButton} onClick={() => onIndexChange((index - 1 + total) % total)}>
             ‹ Prev

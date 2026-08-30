@@ -75,7 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Mobile: nav bar (Media only, hidden for the single Overview shot) — full 3D-bevelled "‹ Prev" / "Next ›" buttons (64×44) flanking a flexible sunken mono counter field
 - Mobile: dismiss via ✕ only — no Esc, no swipe-to-dismiss, no backdrop-tap
 - Mobile: reuse the existing 140ms `sheetUp` animation for opening; no exit animation
 - Derive the displayed label/title/counter from `PROJECTS` at render time rather than storing them — only the index needs to live in state
