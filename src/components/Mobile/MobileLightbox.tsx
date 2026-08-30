@@ -14,8 +14,10 @@ interface MobileLightboxProps {
 // Header matches WindowScreen's real chrome (gradient, icon chip, title
 // truncation). Image area is the same sunken recessed panel window bodies
 // use (chrome + inset bevel) with an 8px teal-wallpaper margin, not a
-// blacked-out photo-viewer look. Nav bar/dismiss/animation are still the
-// plain placeholders from the first pass — later checklist points.
+// blacked-out photo-viewer look. Dismiss is ✕ only by design — no Esc (no
+// keyboard on mobile), no backdrop-tap (there's no backdrop, this is a
+// full-screen surface), no swipe. The open animation is still the plain
+// placeholder from the first pass — a later checklist point.
 export function MobileLightbox({ title, iconColor, project, index, onIndexChange, onClose }: MobileLightboxProps) {
   const isOverview = index === -1
   const total = project.media.length
