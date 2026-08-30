@@ -114,7 +114,7 @@ function windowBody(
   selectedIcon: string | null,
   setSelectedIcon: (id: string) => void,
   close: (id: number) => void,
-  openLightbox: (projId: string, title: string, index: number) => void
+  openLightbox: (projId: string, index: number) => void
 ) {
   if (win.kind === 'folder') {
     const parentId = getNode(win.node)?.parent ?? null
@@ -150,7 +150,7 @@ function windowBody(
           name={name}
           project={project}
           onSelectTab={(tab) => patch(win.id, { tab })}
-          onOpenLightbox={(index) => openLightbox(win.node, name, index)}
+          onOpenLightbox={(index) => openLightbox(win.node, index)}
         />
       )
     }
@@ -180,8 +180,10 @@ export function Desktop() {
   const [query, setQuery] = useState('')
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
   const [hoverCat, setHoverCat] = useState<string | null>(null)
-  // -1 = the Overview screenshot; otherwise an index into that project's media[].
-  const [lightbox, setLightbox] = useState<{ projId: string; index: number; title: string } | null>(null)
+  // -1 = the Overview screenshot; otherwise an index into that project's
+  // media[]. Title isn't stored — it's derived from projId at render time,
+  // same as the counter is derived from index/media.length.
+  const [lightbox, setLightbox] = useState<{ projId: string; index: number } | null>(null)
   const {
     windows,
     focused,
@@ -310,15 +312,15 @@ export function Desktop() {
             onClose={() => close(win.id)}
             onInterrupt={() => patch(win.id, { phase: null })}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, title, index) =>
-              setLightbox({ projId, title, index })
+            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, index) =>
+              setLightbox({ projId, index })
             )}
           </Window>
         ))}
 
       {lightbox && (
         <Lightbox
-          title={lightbox.title}
+          title={getNode(lightbox.projId)?.name ?? lightbox.projId}
           project={getProject(lightbox.projId)!}
           index={lightbox.index}
           onIndexChange={(index) => setLightbox({ ...lightbox, index })}
