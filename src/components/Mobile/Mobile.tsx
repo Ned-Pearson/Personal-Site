@@ -54,6 +54,7 @@ export function Mobile() {
   const project = !atRoot && kind === 'project' ? getProject(node) : undefined
   const doc = !atRoot && kind === 'document' ? getDoc(node) : undefined
   const parent = !atRoot ? getNode(node)?.parent : undefined
+  const iconColor = !atRoot ? nodeIconColor(node) : undefined
 
   // Opening/closing/going back all reset the tab index — switching to a
   // different node shouldn't carry over e.g. "Skills" being selected.
@@ -116,6 +117,7 @@ export function Mobile() {
       {project && lightbox && (
         <MobileLightbox
           title={label}
+          iconColor={iconColor ?? 'var(--color-doc)'}
           project={project}
           index={lightbox.index}
           onIndexChange={(index) => setLightbox({ index })}

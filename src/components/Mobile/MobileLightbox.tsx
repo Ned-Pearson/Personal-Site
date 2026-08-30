@@ -3,6 +3,7 @@ import styles from './MobileLightbox.module.css'
 
 interface MobileLightboxProps {
   title: string
+  iconColor: string
   project: ProjectContent
   /** -1 = the Overview screenshot; otherwise an index into project.media. */
   index: number
@@ -10,12 +11,12 @@ interface MobileLightboxProps {
   onClose: () => void
 }
 
-// First pass (README.md section 16, points 1-2): state and tap-to-open
-// triggers wired end to end with a plain full-screen overlay. The mobile
-// chrome specified in Plan.md's "Media Viewer" section (header icon chip,
-// sunken image panel, bevelled Prev/Next bar, sheetUp animation) lands in
-// later commits — this is deliberately not styled to spec yet.
-export function MobileLightbox({ title, project, index, onIndexChange, onClose }: MobileLightboxProps) {
+// Header now matches Plan.md's spec (README.md section 16): navy gradient,
+// the project's own category-colour icon chip (reusing WindowScreen's exact
+// chip styling), a truncating title, and the 34×30 beveled ✕. Image
+// area/nav bar/dismiss/animation are still the plain placeholders from the
+// first pass — later checklist points.
+export function MobileLightbox({ title, iconColor, project, index, onIndexChange, onClose }: MobileLightboxProps) {
   const isOverview = index === -1
   const total = project.media.length
   const src = isOverview ? project.screenshotSrc : project.media[index].src
@@ -24,7 +25,8 @@ export function MobileLightbox({ title, project, index, onIndexChange, onClose }
   return (
     <div className={styles.overlay}>
       <div className={styles.header}>
-        <span>
+        <div className={styles.iconChip} style={{ background: iconColor }} />
+        <span className={styles.title}>
           {title} — {isOverview ? 'Overview shot' : 'Media'}
         </span>
         <button className={styles.closeButton} onClick={onClose}>

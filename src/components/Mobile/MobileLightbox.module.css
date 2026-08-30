@@ -1,4 +1,6 @@
-/* Deliberately minimal for now — see the comment in MobileLightbox.tsx. */
+/* Image area/nav bar are still deliberately minimal — see MobileLightbox.tsx.
+   Header now matches WindowScreen's own real chrome (gradient, icon chip,
+   title truncation) rather than inventing new values. */
 
 .overlay {
   position: fixed;
@@ -14,12 +16,26 @@
   height: 44px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-8);
-  padding: 0 var(--space-8);
-  background: var(--color-title-navy);
+  gap: var(--space-6);
+  padding: 0 var(--space-8) 0 10px;
+  background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
   color: #fff;
   font: 600 var(--text-chrome-base) var(--font-chrome);
+}
+
+.iconChip {
+  width: 14px;
+  height: 12px;
+  border: 1px solid var(--color-doc-edge);
+  flex: none;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .closeButton {
@@ -31,6 +47,11 @@
   height: 30px;
   font-size: var(--text-chrome-base);
   cursor: default;
+}
+
+.closeButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
 }
 
 .imageArea {
