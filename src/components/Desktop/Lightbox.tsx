@@ -11,14 +11,13 @@ interface LightboxProps {
   onClose: () => void
 }
 
-// Backdrop, window shell, title bar, nav buttons, image area, and footer all
-// match Plan.md's "Media Viewer" spec (README.md section 16), reusing
-// Window.module.css's own chrome values (border, bevels, drop-shadow, navy
-// title-bar gradient) rather than inventing new ones. Prev/Next and the
+// Backdrop, window shell, title bar, nav buttons, image area, footer, and
+// dismiss all match Plan.md's "Media Viewer" spec (README.md section 16),
+// reusing Window.module.css's own chrome values (border, bevels, drop-shadow,
+// navy title-bar gradient) rather than inventing new ones. Prev/Next and the
 // counter only render for Media items — the Overview shot isn't part of the
 // media[] array, so there's nothing to page through — but the dismiss hint
-// applies either way. The open/close animation is still outstanding — a
-// later checklist point.
+// applies either way.
 export function Lightbox({ title, project, index, onIndexChange, onClose }: LightboxProps) {
   const isOverview = index === -1
   const total = project.media.length

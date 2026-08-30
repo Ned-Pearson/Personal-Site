@@ -1,6 +1,5 @@
-/* Backdrop, window shell, title bar, nav buttons, image area, and footer all
-   now match Plan.md's spec. Dismiss-on-Esc and the open/close animation are
-   still outstanding — see Lightbox.tsx. */
+/* Backdrop, window shell, title bar, nav buttons, image area, footer, and
+   dismiss (✕/backdrop/Esc) all now match Plan.md's spec. */
 
 .backdrop {
   position: fixed;
@@ -10,6 +9,16 @@
   align-items: center;
   justify-content: center;
   z-index: 9900;
+  /* Fade/pop-in only — same shared keyframe as menus/dropdowns elsewhere in
+     the app, reused rather than inventing a lightbox-specific one. No exit
+     animation: the component just unmounts, matching mobile's sheetUp/trayUp. */
+  animation: menuOpen 90ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
 }
 
 .box {
