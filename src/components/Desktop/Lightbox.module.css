@@ -1,0 +1,123 @@
+/* Backdrop, window shell, title bar, nav buttons, image area, footer, and
+   dismiss (✕/backdrop/Esc) all now match Plan.md's spec. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9900;
+  /* Fade/pop-in only — same shared keyframe as menus/dropdowns elsewhere in
+     the app, reused rather than inventing a lightbox-specific one. No exit
+     animation: the component just unmounts, matching mobile's sheetUp/trayUp. */
+  animation: menuOpen 90ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
+}
+
+.box {
+  width: min(720px, 86vw);
+  max-height: 90vh;
+  background: var(--color-chrome);
+  border: 1px solid var(--color-outline);
+  box-shadow: var(--bevel-raised), var(--bevel-window-drop);
+  display: flex;
+  flex-direction: column;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-3) var(--space-3) 5px;
+  background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
+}
+
+.title {
+  flex: 1;
+  color: #fff;
+  font: 700 var(--text-chrome-base) var(--font-chrome);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.closeButton {
+  width: 17px;
+  height: 15px;
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 var(--text-chrome-lg) var(--font-chrome);
+  line-height: 1;
+  cursor: default;
+}
+
+.closeButton:hover {
+  background: #e0dcd4;
+}
+
+.closeButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-16);
+}
+
+.navButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 26px;
+  height: 44px;
+  font-size: 16px;
+  cursor: default;
+}
+
+.navButton:hover {
+  background: #e0dcd4;
+}
+
+.navButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.imageArea {
+  flex: 1;
+  min-width: 0;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-16) var(--space-16);
+  font: 500 var(--text-mono-sm) var(--font-mono);
+  color: var(--color-ink-muted);
+}

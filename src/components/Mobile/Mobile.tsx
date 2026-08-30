@@ -12,6 +12,7 @@ import { MobileProjectContent } from './MobileProjectContent'
 import { MobileAboutContent } from './MobileAboutContent'
 import { MobileTextViewer } from './MobileTextViewer'
 import { GoToTray } from './GoToTray'
+import { MobileLightbox } from './MobileLightbox'
 import styles from './Mobile.module.css'
 
 // 'about' isn't a NODES entry (see Desktop.tsx's windowLabel), so it needs
@@ -41,6 +42,10 @@ export function Mobile() {
   const [view, setView] = useState<WindowView>('list')
   const [tab, setTab] = useState(0)
   const [trayOpen, setTrayOpen] = useState(false)
+  // -1 = the Overview screenshot; otherwise an index into project.media. No
+  // projId needed here — only one node can be open at a time, so `project`
+  // (derived from `node` below) already identifies which one.
+  const [lightbox, setLightbox] = useState<{ index: number } | null>(null)
   const atRoot = node === null
   const label = atRoot ? 'Desktop' : nodeLabel(node)
   const kind = !atRoot ? getNode(node)?.kind : undefined
@@ -49,6 +54,7 @@ export function Mobile() {
   const project = !atRoot && kind === 'project' ? getProject(node) : undefined
   const doc = !atRoot && kind === 'document' ? getDoc(node) : undefined
   const parent = !atRoot ? getNode(node)?.parent : undefined
+  const iconColor = !atRoot ? nodeIconColor(node) : undefined
 
   // Opening/closing/going back all reset the tab index — switching to a
   // different node shouldn't carry over e.g. "Skills" being selected.
@@ -58,6 +64,7 @@ export function Mobile() {
     setNode(id)
     setTab(0)
     setTrayOpen(false)
+    setLightbox(null)
   }
 
   return (
@@ -79,7 +86,15 @@ export function Mobile() {
                 <FolderContents view={view} items={getChildren(node)} onOpenRow={openNode} />
               </>
             )}
-            {project && <MobileProjectContent tab={tab} name={label} project={project} onSelectTab={setTab} />}
+            {project && (
+              <MobileProjectContent
+                tab={tab}
+                name={label}
+                project={project}
+                onSelectTab={setTab}
+                onOpenLightbox={(index) => setLightbox({ index })}
+              />
+            )}
             {isAbout && (
               <MobileAboutContent
                 tab={tab}
@@ -99,6 +114,16 @@ export function Mobile() {
         onBreadcrumbClick={() => openNode(null)}
       />
       {trayOpen && <GoToTray onSelect={openNode} onDismiss={() => setTrayOpen(false)} />}
+      {project && lightbox && (
+        <MobileLightbox
+          title={label}
+          iconColor={iconColor ?? 'var(--color-doc)'}
+          project={project}
+          index={lightbox.index}
+          onIndexChange={(index) => setLightbox({ index })}
+          onClose={() => setLightbox(null)}
+        />
+      )}
     </div>
   )
 }
