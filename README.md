@@ -75,7 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Mobile: reuse the existing 140ms `sheetUp` animation for opening; no exit animation
 - Derive the displayed label/title/counter from `PROJECTS` at render time rather than storing them — only the index needs to live in state
 - Real screenshots already used for thumbnails double as the lightbox image (no separate hi-res asset needed) unless sharper detail is wanted at the larger display size (~400px tall on desktop, remaining screen height on mobile)
 

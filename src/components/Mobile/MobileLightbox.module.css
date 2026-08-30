@@ -1,7 +1,6 @@
-/* Nav bar is still deliberately minimal — see MobileLightbox.tsx. Header and
-   image area now match WindowScreen/bodyPanel's own real chrome (gradient,
-   icon chip, title truncation, sunken recessed panel) rather than inventing
-   new values. */
+/* Header and image area match WindowScreen/bodyPanel's own real chrome
+   (gradient, icon chip, title truncation, sunken recessed panel) rather than
+   inventing new values. */
 
 .overlay {
   position: fixed;
@@ -12,6 +11,15 @@
   background: var(--color-wallpaper);
   display: flex;
   flex-direction: column;
+  /* Entrance only — same shared keyframe WindowScreen/GoToTray use (each at
+     their own duration), no exit since the component just unmounts. */
+  animation: sheetUp 140ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
 }
 
 .header {
