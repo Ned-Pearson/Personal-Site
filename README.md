@@ -75,8 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Desktop: reuse the existing 90ms `menuOpen` animation for the backdrop fade/pop-in; no exit animation
-- Mobile: full-screen overlay (`inset:0`, z-index 9900) rather than a floating window, matching the one-surface-at-a-time mobile pattern
 - Mobile: 44px header with navy gradient, the project's category-colour icon chip, truncated title, and a 34×30 beveled ✕
 - Mobile: image area is the same sunken `#d4d0c8` recessed-panel treatment window bodies already use, with an 8px teal-wallpaper margin — not a blacked-out photo-viewer look
 - Mobile: nav bar (Media only, hidden for the single Overview shot) — full 3D-bevelled "‹ Prev" / "Next ›" buttons (64×44) flanking a flexible sunken mono counter field
