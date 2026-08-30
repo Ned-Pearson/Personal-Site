@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { ProjectContent } from '../../data'
 import styles from './Lightbox.module.css'
 
@@ -16,13 +17,21 @@ interface LightboxProps {
 // title-bar gradient) rather than inventing new ones. Prev/Next and the
 // counter only render for Media items — the Overview shot isn't part of the
 // media[] array, so there's nothing to page through — but the dismiss hint
-// applies either way. Dismiss-on-Esc and the open/close animation are still
-// outstanding — later checklist points.
+// applies either way. The open/close animation is still outstanding — a
+// later checklist point.
 export function Lightbox({ title, project, index, onIndexChange, onClose }: LightboxProps) {
   const isOverview = index === -1
   const total = project.media.length
   const src = isOverview ? project.screenshotSrc : project.media[index].src
   const caption = isOverview ? undefined : project.media[index].caption
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
 
   return (
     <div className={styles.backdrop} onClick={onClose}>

@@ -75,7 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Desktop: dismiss via ✕, backdrop click, or Esc (global keydown listener added on mount, removed on unmount)
 - Desktop: reuse the existing 90ms `menuOpen` animation for the backdrop fade/pop-in; no exit animation
 - Mobile: full-screen overlay (`inset:0`, z-index 9900) rather than a floating window, matching the one-surface-at-a-time mobile pattern
 - Mobile: 44px header with navy gradient, the project's category-colour icon chip, truncated title, and a 34×30 beveled ✕
