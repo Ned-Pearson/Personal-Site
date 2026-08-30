@@ -75,7 +75,6 @@ npm run dev
 
 ### 16. Media viewer
 
-- Mobile: image area is the same sunken `#d4d0c8` recessed-panel treatment window bodies already use, with an 8px teal-wallpaper margin — not a blacked-out photo-viewer look
 - Mobile: nav bar (Media only, hidden for the single Overview shot) — full 3D-bevelled "‹ Prev" / "Next ›" buttons (64×44) flanking a flexible sunken mono counter field
 - Mobile: dismiss via ✕ only — no Esc, no swipe-to-dismiss, no backdrop-tap
 - Mobile: reuse the existing 140ms `sheetUp` animation for opening; no exit animation
