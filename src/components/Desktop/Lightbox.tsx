@@ -10,11 +10,14 @@ interface LightboxProps {
   onClose: () => void
 }
 
-// Backdrop, window shell, and title bar match Plan.md's "Media Viewer" spec
-// (README.md section 16) exactly, reusing Window.module.css's own chrome
-// values (border, bevels, drop-shadow, navy title-bar gradient) rather than
-// inventing new ones. Nav buttons/footer/dismiss-on-Esc/animation are still
-// the plain placeholders from the first pass — later checklist points.
+// Backdrop, window shell, title bar, nav buttons, image area, and footer all
+// match Plan.md's "Media Viewer" spec (README.md section 16), reusing
+// Window.module.css's own chrome values (border, bevels, drop-shadow, navy
+// title-bar gradient) rather than inventing new ones. Prev/Next and the
+// counter only render for Media items — the Overview shot isn't part of the
+// media[] array, so there's nothing to page through — but the dismiss hint
+// applies either way. Dismiss-on-Esc and the open/close animation are still
+// outstanding — later checklist points.
 export function Lightbox({ title, project, index, onIndexChange, onClose }: LightboxProps) {
   const isOverview = index === -1
   const total = project.media.length
@@ -38,18 +41,19 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
               ‹
             </button>
           )}
-          <img className={styles.image} src={src} alt={caption ?? title} />
+          <div className={styles.imageArea}>
+            <img className={styles.image} src={src} alt={caption ?? title} />
+          </div>
           {!isOverview && (
             <button className={styles.navButton} onClick={() => onIndexChange((index + 1) % total)}>
               ›
             </button>
           )}
         </div>
-        {!isOverview && (
-          <div className={styles.footer}>
-            {index + 1} / {total}
-          </div>
-        )}
+        <div className={styles.footer}>
+          <span>{!isOverview && `${index + 1} / ${total}`}</span>
+          <span>Esc or click outside to close</span>
+        </div>
       </div>
     </div>
   )
