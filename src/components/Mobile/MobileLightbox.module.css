@@ -1,0 +1,123 @@
+/* Header and image area match WindowScreen/bodyPanel's own real chrome
+   (gradient, icon chip, title truncation, sunken recessed panel) rather than
+   inventing new values. */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9900;
+  /* Teal wallpaper, not chrome — the image area's sunken panel is what reads
+     as "chrome" here, same as the wallpaper margin around any window body. */
+  background: var(--color-wallpaper);
+  display: flex;
+  flex-direction: column;
+  /* Entrance only — same shared keyframe WindowScreen/GoToTray use (each at
+     their own duration), no exit since the component just unmounts. */
+  animation: sheetUp 140ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
+}
+
+.header {
+  flex: none;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-8) 0 10px;
+  background: linear-gradient(90deg, var(--color-title-navy), var(--color-title-blue));
+  color: #fff;
+  font: 600 var(--text-chrome-base) var(--font-chrome);
+}
+
+.iconChip {
+  width: 14px;
+  height: 12px;
+  border: 1px solid var(--color-doc-edge);
+  flex: none;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.closeButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 34px;
+  height: 30px;
+  font-size: var(--text-chrome-base);
+  cursor: default;
+}
+
+.closeButton:active {
+  box-shadow: var(--bevel-sunken-strong);
+  transform: translate(1px, 1px);
+}
+
+.imageArea {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-8);
+  display: flex;
+}
+
+.panel {
+  flex: 1;
+  min-width: 0;
+  background: var(--color-chrome);
+  box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 var(--color-bevel-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.navBar {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-8);
+  padding: var(--space-8);
+  /* Explicit, not inherited — the overlay itself is teal wallpaper now that
+     the image area owns its own sunken panel. */
+  background: var(--color-chrome);
+}
+
+.navButton {
+  background: var(--color-chrome);
+  box-shadow: var(--bevel-raised-strong);
+  border: none;
+  flex: none;
+  width: 64px;
+  height: 44px;
+  font-size: var(--text-chrome-base);
+  cursor: default;
+}
+
+.counter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  box-shadow: var(--bevel-sunken);
+  font: 500 var(--text-mono-sm) var(--font-mono);
+  color: var(--color-ink-muted);
+}

@@ -9,6 +9,8 @@ interface MobileProjectContentProps {
   name: string
   project: ProjectContent
   onSelectTab: (index: number) => void
+  /** -1 for the Overview screenshot; otherwise an index into project.media. */
+  onOpenLightbox: (index: number) => void
 }
 
 // Mobile adaptation of the desktop ProjectWindow (README.md section 14):
@@ -17,7 +19,7 @@ interface MobileProjectContentProps {
 // out when set, otherwise it's an inert "No source available" button; Live
 // demo only renders when there's actually a URL for it — same as desktop's
 // ProjectWindow. Media tab only shows up once there's actually media.
-export function MobileProjectContent({ tab, name, project, onSelectTab }: MobileProjectContentProps) {
+export function MobileProjectContent({ tab, name, project, onSelectTab, onOpenLightbox }: MobileProjectContentProps) {
   const tabs = project.media.length > 0 ? [...BASE_TABS, 'Media'] : BASE_TABS
   return (
     <>
@@ -37,6 +39,7 @@ export function MobileProjectContent({ tab, name, project, onSelectTab }: Mobile
                   className={`${styles.screenshot} ${styles.screenshotImage}`}
                   src={project.screenshotSrc}
                   alt={`${name} overview`}
+                  onClick={() => onOpenLightbox(-1)}
                 />
               ) : (
                 <div className={`${styles.screenshot} ${styles.screenshotPlaceholder}`}>screenshot — 800×260</div>
@@ -80,7 +83,12 @@ export function MobileProjectContent({ tab, name, project, onSelectTab }: Mobile
               {project.media.map((item, i) => (
                 <div key={i} className={styles.mediaTile}>
                   <div className={styles.mediaImageBox}>
-                    <img className={styles.mediaImage} src={item.src} alt={item.caption} />
+                    <img
+                      className={styles.mediaImage}
+                      src={item.src}
+                      alt={item.caption}
+                      onClick={() => onOpenLightbox(i)}
+                    />
                   </div>
                   <div className={styles.mediaCaption}>{item.caption}</div>
                 </div>
