@@ -80,7 +80,6 @@ npm run dev
 ### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Desktop icons: `tabIndex`, Enter opens, Space selects, focus-visible outline distinct from the existing hover dotted-outline
 - Menus (Start menu + flyouts, desktop context menu, View dropdown): arrow-key navigation between items, focus trapped while open, focus returns to the trigger element on close
 - Tabs (Project/About window `TabBar`): WAI-ARIA tablist pattern — roving tabindex, ←/→ to move+activate, Home/End
 - Folder window rows/grid cells: arrow-key selection (2D navigation in grid view), Enter to open
