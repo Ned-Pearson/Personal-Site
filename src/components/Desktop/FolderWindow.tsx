@@ -1,9 +1,11 @@
+import { useEffect, useRef, type KeyboardEvent } from 'react'
 import type { Node } from '../../data'
 import type { WindowView } from './useWindows'
 import { FolderGlyph } from './glyphs/FolderGlyph'
 import { DocumentGlyph } from './glyphs/DocumentGlyph'
 import { ProjectGlyph } from './glyphs/ProjectGlyph'
 import { activateOnKey } from '../../utils/activateOnKey'
+import { focusAdjacentMenuItem, focusFirstMenuItem } from '../../utils/menuNavigation'
 import styles from './FolderWindow.module.css'
 
 function rowGlyph(item: Node) {
@@ -52,6 +54,40 @@ export function FolderWindow({
   onSelectRow,
   onOpenRow,
 }: FolderWindowProps) {
+  const viewTriggerRef = useRef<HTMLSpanElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Autofocus the first item whenever the dropdown opens — matches the
+  // context menu and Start menu, so a keyboard user landing here never has
+  // to blindly Tab/arrow around to discover where focus went.
+  useEffect(() => {
+    if (menuOpen) focusFirstMenuItem(dropdownRef.current)
+  }, [menuOpen])
+
+  function closeViewMenuAndRestoreFocus() {
+    onToggleMenu()
+    viewTriggerRef.current?.focus()
+  }
+
+  function handleDropdownKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+      e.preventDefault()
+      focusAdjacentMenuItem(e.currentTarget, 1)
+    } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+      e.preventDefault()
+      focusAdjacentMenuItem(e.currentTarget, -1)
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      closeViewMenuAndRestoreFocus()
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      const menuItems = [...e.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]:not([aria-disabled])')]
+      const index = menuItems.indexOf(document.activeElement as HTMLElement)
+      if (index === 0) onSetView('list')
+      else if (index === 1) onSetView('grid')
+    }
+  }
+
   return (
     <>
       <div className={styles.menuBar}>
@@ -62,20 +98,34 @@ export function FolderWindow({
           <u>E</u>dit
         </span>
         <span
+          ref={viewTriggerRef}
           className={menuOpen ? `${styles.menuItem} ${styles.menuItemOpen}` : styles.menuItem}
+          role="button"
+          tabIndex={0}
+          aria-haspopup="menu"
+          aria-expanded={menuOpen}
           onClick={(e) => {
             e.stopPropagation()
             onToggleMenu()
           }}
+          onKeyDown={activateOnKey(onToggleMenu)}
         >
           <u>V</u>iew
         </span>
-        <span className={styles.menuItem} onClick={onOpenReadme}>
+        <span className={styles.menuItem} role="button" tabIndex={0} onClick={onOpenReadme} onKeyDown={activateOnKey(onOpenReadme)}>
           <u>H</u>elp
         </span>
         {menuOpen && (
-          <div className={styles.viewDropdown} onMouseDown={(e) => e.stopPropagation()}>
+          <div
+            ref={dropdownRef}
+            className={styles.viewDropdown}
+            role="menu"
+            onMouseDown={(e) => e.stopPropagation()}
+            onKeyDown={handleDropdownKeyDown}
+          >
             <div
+              role="menuitem"
+              tabIndex={-1}
               className={styles.dropdownItem}
               onClick={(e) => {
                 e.stopPropagation()
@@ -87,6 +137,8 @@ export function FolderWindow({
               <span>≣</span>
             </div>
             <div
+              role="menuitem"
+              tabIndex={-1}
               className={styles.dropdownItem}
               onClick={(e) => {
                 e.stopPropagation()
@@ -98,7 +150,7 @@ export function FolderWindow({
               <span>▦</span>
             </div>
             <div className={styles.dropdownDivider} />
-            <div className={`${styles.dropdownItem} ${styles.dropdownItemDisabled}`}>
+            <div className={`${styles.dropdownItem} ${styles.dropdownItemDisabled}`} aria-disabled="true">
               <span className={styles.check} />
               <span className={styles.dropdownLabel}>Refresh</span>
             </div>
