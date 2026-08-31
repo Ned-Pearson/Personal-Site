@@ -9,6 +9,14 @@
   outline: 1px dotted rgba(255, 255, 255, 0.5);
 }
 
+/* Solid + navy-then-white (see index.css/tokens.css) already reads as
+   distinct from the dotted white hover outline above; white specifically
+   because the default navy ring has weak contrast against the teal
+   wallpaper these icons sit on. */
+.icon:focus-visible {
+  outline-color: var(--color-focus-ring-contrast);
+}
+
 .label {
   font: var(--text-chrome-sm) var(--font-chrome);
   color: #fff;
