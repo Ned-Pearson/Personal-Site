@@ -3,6 +3,7 @@ import type { WindowView } from './useWindows'
 import { FolderGlyph } from './glyphs/FolderGlyph'
 import { DocumentGlyph } from './glyphs/DocumentGlyph'
 import { ProjectGlyph } from './glyphs/ProjectGlyph'
+import { activateOnKey } from '../../utils/activateOnKey'
 import styles from './FolderWindow.module.css'
 
 function rowGlyph(item: Node) {
@@ -107,7 +108,10 @@ export function FolderWindow({
       <div className={styles.toolbar}>
         <div
           className={`${styles.toolbarButton} ${canGoBack ? styles.toolbarButtonActive : styles.toolbarButtonDisabled}`}
+          role="button"
+          tabIndex={canGoBack ? 0 : undefined}
           onClick={canGoBack ? onBack : undefined}
+          onKeyDown={canGoBack ? activateOnKey(onBack) : undefined}
         >
           ← Back
         </div>
@@ -116,13 +120,23 @@ export function FolderWindow({
         <div className={styles.pathField}>{path}</div>
         <div
           className={view === 'list' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
+          role="button"
+          tabIndex={0}
+          aria-label="List view"
+          aria-pressed={view === 'list'}
           onClick={() => onSetView('list')}
+          onKeyDown={activateOnKey(() => onSetView('list'))}
         >
           ≣
         </div>
         <div
           className={view === 'grid' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
+          role="button"
+          tabIndex={0}
+          aria-label="Icon grid view"
+          aria-pressed={view === 'grid'}
           onClick={() => onSetView('grid')}
+          onKeyDown={activateOnKey(() => onSetView('grid'))}
         >
           ▦
         </div>
