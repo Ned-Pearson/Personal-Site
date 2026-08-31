@@ -80,7 +80,6 @@ npm run dev
 ### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Menus (Start menu + flyouts, desktop context menu, View dropdown): arrow-key navigation between items, focus trapped while open, focus returns to the trigger element on close
 - Tabs (Project/About window `TabBar`): WAI-ARIA tablist pattern — roving tabindex, ←/→ to move+activate, Home/End
 - Folder window rows/grid cells: arrow-key selection (2D navigation in grid view), Enter to open
 - Window-level tab order: Tab stays within the focused window; background windows excluded via `inert` or manual tabIndex management — the trickiest part, since the current z-order model doesn't use native DOM focus at all

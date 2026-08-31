@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   getNode,
   getChildren,
@@ -184,6 +184,24 @@ export function Desktop() {
   // media[]. Title isn't stored — it's derived from projId at render time,
   // same as the counter is derived from index/media.length.
   const [lightbox, setLightbox] = useState<{ projId: string; index: number } | null>(null)
+  // Where keyboard focus was right before the context menu opened (a bare
+  // right-click, not a fixed trigger button) — restored on Escape so
+  // dismissing it without picking anything doesn't strand focus on a menu
+  // that no longer exists.
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+
+  function closeContextMenuAndRestoreFocus() {
+    setContextMenu(null)
+    previousFocusRef.current?.focus()
+  }
+
+  // The Start button is a fixed, always-present trigger (unlike the context
+  // menu), so it can just be looked up directly rather than needing a saved
+  // ref — same pattern Window.tsx already uses to find its taskbar button.
+  function closeStartMenuAndRestoreFocus() {
+    setStartOpen(false)
+    document.querySelector<HTMLElement>('[aria-label="Start"]')?.focus()
+  }
   const {
     windows,
     focused,
@@ -253,6 +271,7 @@ export function Desktop() {
       }}
       onContextMenu={(e) => {
         e.preventDefault()
+        previousFocusRef.current = document.activeElement as HTMLElement
         setContextMenu({
           x: Math.min(e.clientX, window.innerWidth - 200),
           y: Math.min(e.clientY, window.innerHeight - 190),
@@ -385,9 +404,12 @@ export function Desktop() {
             closeAll()
             setStartOpen(false)
           }}
+          onClose={closeStartMenuAndRestoreFocus}
         />
       )}
-      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} />}
+      {contextMenu && (
+        <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} onClose={closeContextMenuAndRestoreFocus} />
+      )}
     </div>
   )
 }
