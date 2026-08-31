@@ -29,6 +29,19 @@
   --color-accent-red: #c1443c;
   --color-accent-green: #2f7a35;
 
+  /* Focus ring — invented for README.md section 17 (Keyboard accessibility);
+     Plan.md doesn't spec one. Navy is the default outline colour (see
+     index.css) — matches the existing "selected/active" semantic used for
+     selected rows and menu hover, and reads fine against chrome/white.
+     -contrast (white) is for controls on a dark background (navy title bar,
+     teal wallpaper) where navy-on-navy/teal would be invisible; applied as a
+     per-control outline-color override at each control as it's wired for
+     keyboard support, not globally. Distinct from the existing dotted hover
+     outline on purpose, so mouse hover and keyboard focus never look
+     identical. */
+  --color-focus-ring: #0a246a;
+  --color-focus-ring-contrast: #ffffff;
+
   /* Spacing scale (px) */
   --space-2: 2px;
   --space-3: 3px;
