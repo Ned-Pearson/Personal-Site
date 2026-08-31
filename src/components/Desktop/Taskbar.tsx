@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { formatClock } from '../../utils/formatClock'
+import { activateOnKey } from '../../utils/activateOnKey'
 import styles from './Taskbar.module.css'
 
 export interface TaskButtonInfo {
@@ -37,10 +38,15 @@ export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClic
     <div className={styles.taskbar}>
       <div
         className={startOpen ? `${styles.startButton} ${styles.startButtonOpen}` : styles.startButton}
+        role="button"
+        tabIndex={0}
+        aria-label="Start"
+        aria-expanded={startOpen}
         onClick={(e) => {
           e.stopPropagation()
           onStartClick()
         }}
+        onKeyDown={activateOnKey(onStartClick)}
       >
         <div className={styles.colourGrid}>
           <div className={styles.cell} style={{ background: '#c1443c' }} />
@@ -56,10 +62,13 @@ export function Taskbar({ taskButtons, onTaskButtonClick, startOpen, onStartClic
           key={tb.id}
           data-task-id={tb.id}
           className={tb.active ? `${styles.taskButton} ${styles.taskButtonActive}` : styles.taskButton}
+          role="button"
+          tabIndex={0}
           onClick={(e) => {
             e.stopPropagation()
             onTaskButtonClick(tb.id, tb.active)
           }}
+          onKeyDown={activateOnKey(() => onTaskButtonClick(tb.id, tb.active))}
         >
           <div className={styles.taskIconChip} style={{ background: tb.iconColor }} />
           <div className={styles.taskLabel}>{tb.label}</div>

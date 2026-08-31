@@ -1,5 +1,6 @@
 import type { AboutContent } from '../../data'
 import { TabBar } from './TabBar'
+import { activateOnKey } from '../../utils/activateOnKey'
 import styles from './AboutWindow.module.css'
 
 const TABS = ['General', 'Skills', 'Contact']
@@ -98,10 +99,10 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: 
         </div>
       </div>
       <div className={styles.windowFooter}>
-        <div className={styles.button} onClick={onClose}>
+        <div className={styles.button} role="button" tabIndex={0} onClick={onClose} onKeyDown={activateOnKey(onClose)}>
           OK
         </div>
-        <div className={styles.button} onClick={onClose}>
+        <div className={styles.button} role="button" tabIndex={0} onClick={onClose} onKeyDown={activateOnKey(onClose)}>
           Cancel
         </div>
       </div>

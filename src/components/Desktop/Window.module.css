@@ -56,6 +56,12 @@
   background: #e0dcd4;
 }
 
+/* The default navy focus ring (see index.css) would sit invisibly against
+   this title bar's own navy/blue gradient — white reads on both. */
+.button:focus-visible {
+  outline-color: var(--color-focus-ring-contrast);
+}
+
 .button:active {
   box-shadow: var(--bevel-sunken-strong);
   transform: translate(1px, 1px);
