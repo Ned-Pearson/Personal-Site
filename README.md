@@ -80,7 +80,6 @@ npm run dev
 ### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Focus-visible style foundation: a theme-consistent focus ring (new design token) — Plan.md doesn't spec one, so this needs inventing
 - Buttons: `tabIndex` + Enter/Space activation + focus-visible on window title-bar buttons, toolbar buttons, taskbar buttons, and dialog buttons (OK/Cancel, Source/Live demo, view toggles)
 - Desktop icons: `tabIndex`, Enter opens, Space selects, focus-visible outline distinct from the existing hover dotted-outline
 - Menus (Start menu + flyouts, desktop context menu, View dropdown): arrow-key navigation between items, focus trapped while open, focus returns to the trigger element on close
