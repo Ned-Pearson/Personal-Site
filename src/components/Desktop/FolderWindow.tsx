@@ -69,6 +69,60 @@ export function FolderWindow({
     viewTriggerRef.current?.focus()
   }
 
+  // Arrow keys change selection only — Enter is the separate "open" step,
+  // unlike the tablist/menu patterns above where moving also activates.
+  // Roving tabindex defaults to index 0 when nothing is selected yet, so the
+  // list/grid is still Tab-reachable on a freshly opened folder window.
+  function focusOption(container: HTMLElement, index: number) {
+    const options = [...container.querySelectorAll<HTMLElement>('[role="option"]')]
+    options[index]?.focus()
+  }
+
+  function currentIndex() {
+    const found = items.findIndex((item) => item.id === selectedRow)
+    return found === -1 ? 0 : found
+  }
+
+  function handleListKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    const current = currentIndex()
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      onOpenRow(items[current])
+      return
+    }
+    let next = current
+    if (e.key === 'ArrowDown') next = Math.min(items.length - 1, current + 1)
+    else if (e.key === 'ArrowUp') next = Math.max(0, current - 1)
+    else return
+    e.preventDefault()
+    onSelectRow(items[next].id)
+    focusOption(e.currentTarget, next)
+  }
+
+  // Grid view needs actual 2D math since it's a real CSS grid, not just a
+  // list styled to wrap — Up/Down move by a full row's worth of items. The
+  // column count isn't fixed (repeat(auto-fill, minmax(104px,1fr))), so it's
+  // read back from the resolved computed style rather than assumed.
+  function handleGridKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    const current = currentIndex()
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      onOpenRow(items[current])
+      return
+    }
+    const columns = getComputedStyle(e.currentTarget).gridTemplateColumns.split(' ').length
+    let next = current
+    if (e.key === 'ArrowRight') next = current + 1
+    else if (e.key === 'ArrowLeft') next = current - 1
+    else if (e.key === 'ArrowDown') next = current + columns
+    else if (e.key === 'ArrowUp') next = current - columns
+    else return
+    if (next < 0 || next >= items.length) return
+    e.preventDefault()
+    onSelectRow(items[next].id)
+    focusOption(e.currentTarget, next)
+  }
+
   function handleDropdownKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
       e.preventDefault()
@@ -195,15 +249,18 @@ export function FolderWindow({
       </div>
       <div className={styles.filePane}>
         {view === 'list' ? (
-          <div className={styles.listView}>
+          <div className={styles.listView} role="listbox" onKeyDown={handleListKeyDown}>
             <div className={styles.listHeader}>
               <div className={styles.headerName}>Name</div>
               <div className={styles.headerType}>Type</div>
               <div className={styles.headerModified}>Modified</div>
             </div>
-            {items.map((item) => (
+            {items.map((item, i) => (
               <div
                 key={item.id}
+                role="option"
+                aria-selected={item.id === selectedRow}
+                tabIndex={i === currentIndex() ? 0 : -1}
                 className={item.id === selectedRow ? `${styles.row} ${styles.rowSelected}` : styles.row}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -222,10 +279,13 @@ export function FolderWindow({
             ))}
           </div>
         ) : (
-          <div className={styles.iconGrid}>
-            {items.map((item) => (
+          <div className={styles.iconGrid} role="listbox" onKeyDown={handleGridKeyDown}>
+            {items.map((item, i) => (
               <div
                 key={item.id}
+                role="option"
+                aria-selected={item.id === selectedRow}
+                tabIndex={i === currentIndex() ? 0 : -1}
                 className={item.id === selectedRow ? `${styles.gridCell} ${styles.rowSelected}` : styles.gridCell}
                 onClick={(e) => {
                   e.stopPropagation()
