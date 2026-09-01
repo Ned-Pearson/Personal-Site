@@ -158,7 +158,7 @@ export function Window({
           <div
             className={styles.button}
             role="button"
-            tabIndex={0}
+            tabIndex={focused ? 0 : -1}
             aria-label="Minimise"
             onClick={onMinimize}
             onKeyDown={activateOnKey(onMinimize)}
@@ -168,7 +168,7 @@ export function Window({
           <div
             className={styles.button}
             role="button"
-            tabIndex={0}
+            tabIndex={focused ? 0 : -1}
             aria-label={maximized ? 'Restore' : 'Maximise'}
             onClick={onToggleMax}
             onKeyDown={activateOnKey(onToggleMax)}
@@ -178,7 +178,7 @@ export function Window({
           <div
             className={styles.button}
             role="button"
-            tabIndex={0}
+            tabIndex={focused ? 0 : -1}
             aria-label="Close"
             onClick={onClose}
             onKeyDown={activateOnKey(onClose)}

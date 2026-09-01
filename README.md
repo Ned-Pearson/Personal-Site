@@ -80,7 +80,6 @@ npm run dev
 ### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Window-level tab order: Tab stays within the focused window; background windows excluded via `inert` or manual tabIndex management — the trickiest part, since the current z-order model doesn't use native DOM focus at all
 - Escape closes the focused window (Escape-closes-menus is already covered by section 13's menu-close behaviour)
 - Accessible names (`aria-label`) for icon-only controls — minimise/maximise glyphs currently have no text alternative; close's "✕" is borderline
 

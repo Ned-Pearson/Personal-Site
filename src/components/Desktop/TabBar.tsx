@@ -7,6 +7,11 @@ interface TabBarProps {
   onSelect: (index: number) => void
   /** Mobile's Project/About windows stretch tabs to fill the bar equally; desktop tabs fit their content. */
   fullWidth?: boolean
+  /** False while a different desktop window is focused, pulling the active
+   * tab out of the Tab order too (README.md section 17's window-level tab
+   * order). Defaults to true since mobile has no background-window concept
+   * — only one screen is ever visible there. */
+  windowFocused?: boolean
 }
 
 // Shared by project windows (Overview/Write-up/Media) and the About Me
@@ -16,7 +21,7 @@ interface TabBarProps {
 // automatic activation — ←/→/Home/End both move focus and select in one
 // step, so there's no separate Enter needed to confirm a tab reached via
 // arrow keys.
-export function TabBar({ labels, activeIndex, onSelect, fullWidth }: TabBarProps) {
+export function TabBar({ labels, activeIndex, onSelect, fullWidth, windowFocused = true }: TabBarProps) {
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     let next = activeIndex
     if (e.key === 'ArrowRight') next = (activeIndex + 1) % labels.length
@@ -48,7 +53,7 @@ export function TabBar({ labels, activeIndex, onSelect, fullWidth }: TabBarProps
             key={label}
             role="tab"
             aria-selected={active}
-            tabIndex={active ? 0 : -1}
+            tabIndex={windowFocused && active ? 0 : -1}
             className={className}
             onClick={(e) => {
               e.stopPropagation()
