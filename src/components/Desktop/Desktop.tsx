@@ -108,6 +108,7 @@ function windowMinHeight(win: WindowState): number | undefined {
 
 function windowBody(
   win: WindowState,
+  windowFocused: boolean,
   openWindow: (node: string, kind: WindowKind) => void,
   toggleMenu: (id: number) => void,
   patch: (id: number, updates: Partial<WindowState>) => void,
@@ -122,6 +123,7 @@ function windowBody(
     const selectedRow = selectedIcon?.startsWith(rowPrefix) ? selectedIcon.slice(rowPrefix.length) : null
     return (
       <FolderWindow
+        windowFocused={windowFocused}
         view={win.view}
         menuOpen={win.menu}
         path={folderPath(win.node)}
@@ -146,6 +148,7 @@ function windowBody(
       const name = getNode(win.node)?.name ?? win.node
       return (
         <ProjectWindow
+          windowFocused={windowFocused}
           tab={win.tab}
           name={name}
           project={project}
@@ -158,6 +161,7 @@ function windowBody(
   if (win.kind === 'about') {
     return (
       <AboutWindow
+        windowFocused={windowFocused}
         tab={win.tab}
         about={getAbout()}
         shippedCount={getShippedProjectCount()}
@@ -331,7 +335,7 @@ export function Desktop() {
             onClose={() => close(win.id)}
             onInterrupt={() => patch(win.id, { phase: null })}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, index) =>
+            {windowBody(win, focused === win.id, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, index) =>
               setLightbox({ projId, index })
             )}
           </Window>

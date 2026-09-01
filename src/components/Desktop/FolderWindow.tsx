@@ -21,6 +21,11 @@ function gridGlyph(item: Node) {
 }
 
 interface FolderWindowProps {
+  /** False while a different window is focused — pulls every control here
+   * out of the Tab order (README.md section 17's "window-level tab order")
+   * without touching pointer interaction, so clicking a background window
+   * still refocuses it. */
+  windowFocused: boolean
   view: WindowView
   menuOpen: boolean
   path: string
@@ -40,6 +45,7 @@ interface FolderWindowProps {
 // File and Edit are permanently inert (no dropdown, ever) — they still get
 // hover feedback, matching a genuine retro menu bar.
 export function FolderWindow({
+  windowFocused,
   view,
   menuOpen,
   path,
@@ -155,7 +161,7 @@ export function FolderWindow({
           ref={viewTriggerRef}
           className={menuOpen ? `${styles.menuItem} ${styles.menuItemOpen}` : styles.menuItem}
           role="button"
-          tabIndex={0}
+          tabIndex={windowFocused ? 0 : -1}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
           onClick={(e) => {
@@ -166,7 +172,13 @@ export function FolderWindow({
         >
           <u>V</u>iew
         </span>
-        <span className={styles.menuItem} role="button" tabIndex={0} onClick={onOpenReadme} onKeyDown={activateOnKey(onOpenReadme)}>
+        <span
+          className={styles.menuItem}
+          role="button"
+          tabIndex={windowFocused ? 0 : -1}
+          onClick={onOpenReadme}
+          onKeyDown={activateOnKey(onOpenReadme)}
+        >
           <u>H</u>elp
         </span>
         {menuOpen && (
@@ -215,7 +227,7 @@ export function FolderWindow({
         <div
           className={`${styles.toolbarButton} ${canGoBack ? styles.toolbarButtonActive : styles.toolbarButtonDisabled}`}
           role="button"
-          tabIndex={canGoBack ? 0 : undefined}
+          tabIndex={windowFocused && canGoBack ? 0 : -1}
           onClick={canGoBack ? onBack : undefined}
           onKeyDown={canGoBack ? activateOnKey(onBack) : undefined}
         >
@@ -227,7 +239,7 @@ export function FolderWindow({
         <div
           className={view === 'list' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
           role="button"
-          tabIndex={0}
+          tabIndex={windowFocused ? 0 : -1}
           aria-label="List view"
           aria-pressed={view === 'list'}
           onClick={() => onSetView('list')}
@@ -238,7 +250,7 @@ export function FolderWindow({
         <div
           className={view === 'grid' ? `${styles.viewToggle} ${styles.viewToggleActive}` : styles.viewToggle}
           role="button"
-          tabIndex={0}
+          tabIndex={windowFocused ? 0 : -1}
           aria-label="Icon grid view"
           aria-pressed={view === 'grid'}
           onClick={() => onSetView('grid')}
@@ -260,7 +272,7 @@ export function FolderWindow({
                 key={item.id}
                 role="option"
                 aria-selected={item.id === selectedRow}
-                tabIndex={i === currentIndex() ? 0 : -1}
+                tabIndex={windowFocused && i === currentIndex() ? 0 : -1}
                 className={item.id === selectedRow ? `${styles.row} ${styles.rowSelected}` : styles.row}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -285,7 +297,7 @@ export function FolderWindow({
                 key={item.id}
                 role="option"
                 aria-selected={item.id === selectedRow}
-                tabIndex={i === currentIndex() ? 0 : -1}
+                tabIndex={windowFocused && i === currentIndex() ? 0 : -1}
                 className={item.id === selectedRow ? `${styles.gridCell} ${styles.rowSelected}` : styles.gridCell}
                 onClick={(e) => {
                   e.stopPropagation()

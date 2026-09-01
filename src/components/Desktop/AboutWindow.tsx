@@ -6,6 +6,9 @@ import styles from './AboutWindow.module.css'
 const TABS = ['General', 'Skills', 'Contact']
 
 interface AboutWindowProps {
+  /** False while a different window is focused — see TabBar's own prop doc
+   * and README.md section 17's "window-level tab order". */
+  windowFocused: boolean
   tab: number
   about: AboutContent
   shippedCount: number
@@ -14,10 +17,10 @@ interface AboutWindowProps {
 }
 
 // Tab bar + body shell (About's own padding/gap — distinct from ProjectWindow's).
-export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: AboutWindowProps) {
+export function AboutWindow({ windowFocused, tab, about, shippedCount, onSelectTab, onClose }: AboutWindowProps) {
   return (
     <>
-      <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} />
+      <TabBar labels={TABS} activeIndex={tab} onSelect={onSelectTab} windowFocused={windowFocused} />
       <div className={styles.bodyPanel}>
         <div className={styles.sheet}>
           {tab === 0 && (
@@ -80,17 +83,28 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: 
                 <div className={styles.factLabel}>Email</div>
                 <div>{about.email}</div>
                 <div className={styles.factLabel}>GitHub</div>
-                <a className={styles.link} href={about.githubUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  className={styles.link}
+                  href={about.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabIndex={windowFocused ? undefined : -1}
+                >
                   {about.github}
                 </a>
                 <div className={styles.factLabel}>Location</div>
                 <div>{about.location}</div>
               </div>
               <div className={styles.footer}>
-                <a className={styles.button} href={`mailto:${about.email}`}>
+                <a className={styles.button} href={`mailto:${about.email}`} tabIndex={windowFocused ? undefined : -1}>
                   Send email
                 </a>
-                <a className={styles.button} href={about.resumeUrl} download="Edward Pearson CV.pdf">
+                <a
+                  className={styles.button}
+                  href={about.resumeUrl}
+                  download="Edward Pearson CV.pdf"
+                  tabIndex={windowFocused ? undefined : -1}
+                >
                   Resume.pdf
                 </a>
               </div>
@@ -99,10 +113,22 @@ export function AboutWindow({ tab, about, shippedCount, onSelectTab, onClose }: 
         </div>
       </div>
       <div className={styles.windowFooter}>
-        <div className={styles.button} role="button" tabIndex={0} onClick={onClose} onKeyDown={activateOnKey(onClose)}>
+        <div
+          className={styles.button}
+          role="button"
+          tabIndex={windowFocused ? 0 : -1}
+          onClick={onClose}
+          onKeyDown={activateOnKey(onClose)}
+        >
           OK
         </div>
-        <div className={styles.button} role="button" tabIndex={0} onClick={onClose} onKeyDown={activateOnKey(onClose)}>
+        <div
+          className={styles.button}
+          role="button"
+          tabIndex={windowFocused ? 0 : -1}
+          onClick={onClose}
+          onKeyDown={activateOnKey(onClose)}
+        >
           Cancel
         </div>
       </div>
