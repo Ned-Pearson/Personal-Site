@@ -5,6 +5,9 @@ import styles from './ProjectWindow.module.css'
 const BASE_TABS = ['Overview', 'Write-up']
 
 interface ProjectWindowProps {
+  /** False while a different window is focused — see TabBar's own prop doc
+   * and README.md section 17's "window-level tab order". */
+  windowFocused: boolean
   tab: number
   name: string
   project: ProjectContent
@@ -21,11 +24,11 @@ interface ProjectWindowProps {
 // needs to shrink (see windowMinWidth there). Media tab only shows up once
 // there's actually media — until then there's nothing for tab index 2 to
 // select into, so it can never be reached.
-export function ProjectWindow({ tab, name, project, onSelectTab, onOpenLightbox }: ProjectWindowProps) {
+export function ProjectWindow({ windowFocused, tab, name, project, onSelectTab, onOpenLightbox }: ProjectWindowProps) {
   const tabs = project.media.length > 0 ? [...BASE_TABS, 'Media'] : BASE_TABS
   return (
     <>
-      <TabBar labels={tabs} activeIndex={tab} onSelect={onSelectTab} />
+      <TabBar labels={tabs} activeIndex={tab} onSelect={onSelectTab} windowFocused={windowFocused} />
       <div className={styles.bodyPanel}>
         <div className={styles.sheet}>
           {tab === 0 && (
@@ -56,14 +59,26 @@ export function ProjectWindow({ tab, name, project, onSelectTab, onOpenLightbox 
               </div>
               <div className={styles.footer}>
                 {project.sourceUrl ? (
-                  <a className={styles.button} href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className={styles.button}
+                    href={project.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={windowFocused ? undefined : -1}
+                  >
                     Source
                   </a>
                 ) : (
                   <div className={`${styles.button} ${styles.buttonDisabled}`}>No source available</div>
                 )}
                 {project.liveUrl && (
-                  <a className={styles.button} href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className={styles.button}
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={windowFocused ? undefined : -1}
+                  >
                     Live demo
                   </a>
                 )}

@@ -34,7 +34,7 @@ export function MobileLightbox({ title, iconColor, project, index, onIndexChange
         <span className={styles.title}>
           {title} — {isOverview ? 'Overview shot' : 'Media'}
         </span>
-        <button className={styles.closeButton} onClick={onClose}>
+        <button className={styles.closeButton} aria-label="Close" onClick={onClose}>
           ✕
         </button>
       </div>

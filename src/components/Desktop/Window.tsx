@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react'
 import { PHASE_ANIMATION, type WindowPhase } from './useWindows'
+import { activateOnKey } from '../../utils/activateOnKey'
 import styles from './Window.module.css'
 
 interface WindowProps {
@@ -154,13 +155,34 @@ export function Window({
         <div className={styles.iconChip} style={{ background: iconColor }} />
         <div className={styles.title}>{title}</div>
         <div className={styles.buttons}>
-          <div className={styles.button} onClick={onMinimize}>
+          <div
+            className={styles.button}
+            role="button"
+            tabIndex={focused ? 0 : -1}
+            aria-label="Minimise"
+            onClick={onMinimize}
+            onKeyDown={activateOnKey(onMinimize)}
+          >
             <span className={styles.minGlyph} />
           </div>
-          <div className={styles.button} onClick={onToggleMax}>
+          <div
+            className={styles.button}
+            role="button"
+            tabIndex={focused ? 0 : -1}
+            aria-label={maximized ? 'Restore' : 'Maximise'}
+            onClick={onToggleMax}
+            onKeyDown={activateOnKey(onToggleMax)}
+          >
             <span className={styles.maxGlyph} />
           </div>
-          <div className={styles.button} onClick={onClose}>
+          <div
+            className={styles.button}
+            role="button"
+            tabIndex={focused ? 0 : -1}
+            aria-label="Close"
+            onClick={onClose}
+            onKeyDown={activateOnKey(onClose)}
+          >
             ✕
           </div>
         </div>

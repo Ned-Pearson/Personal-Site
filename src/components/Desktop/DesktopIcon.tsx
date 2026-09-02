@@ -16,6 +16,8 @@ export function DesktopIcon({ label, glyph, selected, onSelect, onOpen }: Deskto
   return (
     <div
       className={styles.icon}
+      role="button"
+      tabIndex={0}
       onClick={(e) => {
         e.stopPropagation()
         onSelect()
@@ -23,6 +25,18 @@ export function DesktopIcon({ label, glyph, selected, onSelect, onOpen }: Deskto
       onDoubleClick={(e) => {
         e.stopPropagation()
         onOpen()
+      }}
+      onKeyDown={(e) => {
+        // Enter opens (matches double-click); Space selects (matches
+        // single-click) — deliberately different keys for different actions,
+        // unlike the plain single-action buttons elsewhere.
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          onOpen()
+        } else if (e.key === ' ') {
+          e.preventDefault()
+          onSelect()
+        }
       }}
     >
       {glyph === 'folder' ? <FolderGlyph /> : <DocumentGlyph />}
