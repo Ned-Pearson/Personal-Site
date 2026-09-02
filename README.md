@@ -83,4 +83,4 @@ npm run dev
 
 ### 18. Deployment
 
-- Add analytics (Vercel Analytics)
+- Done
