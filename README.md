@@ -79,8 +79,7 @@ npm run dev
 
 ### 17. Keyboard accessibility
 
-- No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Accessible names (`aria-label`) for icon-only controls — minimise/maximise glyphs currently have no text alternative; close's "✕" is borderline
+- Done
 
 ### 18. Deployment
 
