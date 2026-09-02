@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   getNode,
   getChildren,
@@ -221,6 +221,25 @@ export function Desktop() {
     toggleMenu,
     closeMenus,
   } = useWindows()
+
+  // Escape closes the focused window — but only when nothing else is
+  // already claiming it. Menus/the lightbox each handle their own Escape
+  // (section 13's existing menu-close behaviour, plus the Start
+  // menu/context menu/View dropdown/lightbox handlers added above), so this
+  // explicitly checks all of their open-state directly rather than relying
+  // on event propagation order between several independent handlers to sort
+  // out precedence.
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Escape') return
+      if (lightbox || startOpen || contextMenu) return
+      if (windows.some((w) => w.menu)) return
+      if (focused === null) return
+      close(focused)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [lightbox, startOpen, contextMenu, windows, focused, close])
 
   const q = query.trim().toLowerCase()
   const searchRows: FlyoutItem[] = q
