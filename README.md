@@ -80,7 +80,6 @@ npm run dev
 ### 17. Keyboard accessibility
 
 - No control currently has any keyboard support (every interactive element is a plain `<div onClick>`, no `tabIndex` anywhere) — this section is a full retrofit, not a light pass, and is deliberately sequenced after everything else
-- Escape closes the focused window (Escape-closes-menus is already covered by section 13's menu-close behaviour)
 - Accessible names (`aria-label`) for icon-only controls — minimise/maximise glyphs currently have no text alternative; close's "✕" is borderline
 
 ### 18. Deployment
