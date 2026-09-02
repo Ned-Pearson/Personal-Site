@@ -83,7 +83,4 @@ npm run dev
 
 ### 18. Deployment
 
-- Choose hosting (Vercel/Netlify/GitHub Pages/etc.)
-- Configure custom domain (nedpearson.dev)
-- Production build check (fonts self-hosted, no dev-only warnings, bundle size sanity check)
-- Basic SEO/meta tags, favicon, social preview image
+- Done
