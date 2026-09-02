@@ -11,6 +11,9 @@ import todoAppAddTask from '../assets/projects/todo-app/add-task.jpg'
 import todoAppHistory from '../assets/projects/todo-app/history.jpg'
 import todoAppNotes from '../assets/projects/todo-app/notes.jpg'
 import todoAppStats from '../assets/projects/todo-app/stats.jpg'
+import colorectalModelComparison from '../assets/projects/colorectal-cancer-classification/model-comparison.png'
+import wildfireF1Comparison from '../assets/projects/wildfire-intensity-prediction/f1-comparison.png'
+import airbnbModelComparison from '../assets/projects/airbnb-price-prediction/model-comparison.png'
 
 export type ProjectStatus = 'shipped' | 'in progress' | 'archived'
 
@@ -67,6 +70,8 @@ export const PROJECTS: Record<string, ProjectContent> = {
     id: 'colorectal-cancer-classification',
     date: 'Sem 1 2026',
     status: 'archived',
+    screenshotSrc: colorectalModelComparison,
+    screenshotAspect: 1660 / 590,
     blurb:
       'A histopathology image classifier comparing five approaches, from logistic regression to a CNN with transfer learning, built for an RMIT machine learning course.',
     tags: ['Python', 'scikit-learn', 'PyTorch'],
@@ -81,6 +86,8 @@ export const PROJECTS: Record<string, ProjectContent> = {
     id: 'wildfire-intensity-prediction',
     date: 'Sem 1 2026',
     status: 'archived',
+    screenshotSrc: wildfireF1Comparison,
+    screenshotAspect: 1326 / 416,
     blurb:
       'A comparison of Decision Tree, SVM, and neural network classifiers for predicting wildfire intensity from historical data, built for an RMIT course.',
     tags: ['Python', 'scikit-learn'],
@@ -94,6 +101,8 @@ export const PROJECTS: Record<string, ProjectContent> = {
     id: 'airbnb-price-prediction',
     date: 'Sem 1 2026',
     status: 'archived',
+    screenshotSrc: airbnbModelComparison,
+    screenshotAspect: 1289 / 495,
     blurb: 'A price-prediction model for Airbnb listings, covering the full pipeline from data cleaning through to model evaluation.',
     tags: ['Python', 'scikit-learn'],
     writeUp: [
