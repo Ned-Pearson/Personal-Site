@@ -20,7 +20,7 @@ export function WindowScreen({ title, iconColor, onClose, children }: WindowScre
       <div className={styles.titleBar}>
         <div className={styles.iconChip} style={{ background: iconColor }} />
         <div className={styles.title}>{title}</div>
-        <div className={styles.closeButton} onClick={onClose}>
+        <div className={styles.closeButton} role="button" aria-label="Close" onClick={onClose}>
           ✕
         </div>
       </div>

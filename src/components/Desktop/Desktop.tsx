@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   getNode,
   getChildren,
@@ -108,6 +108,7 @@ function windowMinHeight(win: WindowState): number | undefined {
 
 function windowBody(
   win: WindowState,
+  windowFocused: boolean,
   openWindow: (node: string, kind: WindowKind) => void,
   toggleMenu: (id: number) => void,
   patch: (id: number, updates: Partial<WindowState>) => void,
@@ -122,6 +123,7 @@ function windowBody(
     const selectedRow = selectedIcon?.startsWith(rowPrefix) ? selectedIcon.slice(rowPrefix.length) : null
     return (
       <FolderWindow
+        windowFocused={windowFocused}
         view={win.view}
         menuOpen={win.menu}
         path={folderPath(win.node)}
@@ -146,6 +148,7 @@ function windowBody(
       const name = getNode(win.node)?.name ?? win.node
       return (
         <ProjectWindow
+          windowFocused={windowFocused}
           tab={win.tab}
           name={name}
           project={project}
@@ -158,6 +161,7 @@ function windowBody(
   if (win.kind === 'about') {
     return (
       <AboutWindow
+        windowFocused={windowFocused}
         tab={win.tab}
         about={getAbout()}
         shippedCount={getShippedProjectCount()}
@@ -184,6 +188,24 @@ export function Desktop() {
   // media[]. Title isn't stored — it's derived from projId at render time,
   // same as the counter is derived from index/media.length.
   const [lightbox, setLightbox] = useState<{ projId: string; index: number } | null>(null)
+  // Where keyboard focus was right before the context menu opened (a bare
+  // right-click, not a fixed trigger button) — restored on Escape so
+  // dismissing it without picking anything doesn't strand focus on a menu
+  // that no longer exists.
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+
+  function closeContextMenuAndRestoreFocus() {
+    setContextMenu(null)
+    previousFocusRef.current?.focus()
+  }
+
+  // The Start button is a fixed, always-present trigger (unlike the context
+  // menu), so it can just be looked up directly rather than needing a saved
+  // ref — same pattern Window.tsx already uses to find its taskbar button.
+  function closeStartMenuAndRestoreFocus() {
+    setStartOpen(false)
+    document.querySelector<HTMLElement>('[aria-label="Start"]')?.focus()
+  }
   const {
     windows,
     focused,
@@ -199,6 +221,25 @@ export function Desktop() {
     toggleMenu,
     closeMenus,
   } = useWindows()
+
+  // Escape closes the focused window — but only when nothing else is
+  // already claiming it. Menus/the lightbox each handle their own Escape
+  // (section 13's existing menu-close behaviour, plus the Start
+  // menu/context menu/View dropdown/lightbox handlers added above), so this
+  // explicitly checks all of their open-state directly rather than relying
+  // on event propagation order between several independent handlers to sort
+  // out precedence.
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Escape') return
+      if (lightbox || startOpen || contextMenu) return
+      if (windows.some((w) => w.menu)) return
+      if (focused === null) return
+      close(focused)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [lightbox, startOpen, contextMenu, windows, focused, close])
 
   const q = query.trim().toLowerCase()
   const searchRows: FlyoutItem[] = q
@@ -253,6 +294,7 @@ export function Desktop() {
       }}
       onContextMenu={(e) => {
         e.preventDefault()
+        previousFocusRef.current = document.activeElement as HTMLElement
         setContextMenu({
           x: Math.min(e.clientX, window.innerWidth - 200),
           y: Math.min(e.clientY, window.innerHeight - 190),
@@ -312,7 +354,7 @@ export function Desktop() {
             onClose={() => close(win.id)}
             onInterrupt={() => patch(win.id, { phase: null })}
           >
-            {windowBody(win, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, index) =>
+            {windowBody(win, focused === win.id, openWindow, toggleMenu, patch, selectedIcon, setSelectedIcon, close, (projId, index) =>
               setLightbox({ projId, index })
             )}
           </Window>
@@ -385,9 +427,12 @@ export function Desktop() {
             closeAll()
             setStartOpen(false)
           }}
+          onClose={closeStartMenuAndRestoreFocus}
         />
       )}
-      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} />}
+      {contextMenu && (
+        <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} onClose={closeContextMenuAndRestoreFocus} />
+      )}
     </div>
   )
 }

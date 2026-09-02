@@ -42,13 +42,17 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
           <span className={styles.title}>
             {title} — {isOverview ? 'Overview shot' : 'Media'}
           </span>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button className={styles.closeButton} aria-label="Close" onClick={onClose}>
             ✕
           </button>
         </div>
         <div className={styles.body}>
           {showNav && (
-            <button className={styles.navButton} onClick={() => onIndexChange((index - 1 + total) % total)}>
+            <button
+              className={styles.navButton}
+              aria-label="Previous"
+              onClick={() => onIndexChange((index - 1 + total) % total)}
+            >
               ‹
             </button>
           )}
@@ -56,7 +60,11 @@ export function Lightbox({ title, project, index, onIndexChange, onClose }: Ligh
             <img className={styles.image} src={src} alt={caption ?? title} />
           </div>
           {showNav && (
-            <button className={styles.navButton} onClick={() => onIndexChange((index + 1) % total)}>
+            <button
+              className={styles.navButton}
+              aria-label="Next"
+              onClick={() => onIndexChange((index + 1) % total)}
+            >
               ›
             </button>
           )}

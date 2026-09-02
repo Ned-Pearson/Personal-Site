@@ -23,3 +23,25 @@ html {
   /* Global pixel cursor; resize grips keep nwse-resize, text inputs keep text */
   cursor: var(--cursor-pixel);
 }
+
+/* Foundation for README.md section 17 (Keyboard accessibility). Outline only
+   — not box-shadow — deliberately: almost every interactive element in this
+   app already uses box-shadow for its bevel (raised/sunken), and box-shadow
+   is a single property, so a global box-shadow ring here would just get
+   silently clobbered by each component's own bevel rather than combining
+   with it. Outline is a separate box-model layer that never conflicts with
+   box-shadow, so it's the only ring shape safe to apply globally like this.
+   Elements sitting on a dark background (title bars, wallpaper) may need a
+   light outline-color override instead of this navy default — added at each
+   control as it's wired for keyboard support in later checklist points,
+   since that's where the actual background context is known. Only
+   :focus-visible gets the ring — mouse/touch-triggered focus stays bare, so
+   clicking a button doesn't leave it looking "stuck" highlighted. */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
