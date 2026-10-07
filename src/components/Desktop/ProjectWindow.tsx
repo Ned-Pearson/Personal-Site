@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics'
 import type { ProjectContent } from '../../data'
 import { TabBar } from './TabBar'
 import styles from './ProjectWindow.module.css'
@@ -65,6 +66,7 @@ export function ProjectWindow({ windowFocused, tab, name, project, onSelectTab, 
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={windowFocused ? undefined : -1}
+                    onClick={() => track('Project Source Click', { project: project.id })}
                   >
                     Source
                   </a>
@@ -78,6 +80,7 @@ export function ProjectWindow({ windowFocused, tab, name, project, onSelectTab, 
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex={windowFocused ? undefined : -1}
+                    onClick={() => track('Project Live Demo Click', { project: project.id })}
                   >
                     Live demo
                   </a>

@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics'
 import type { AboutContent } from '../../data'
 import { TabBar } from './TabBar'
 import { activateOnKey } from '../../utils/activateOnKey'
@@ -104,6 +105,7 @@ export function AboutWindow({ windowFocused, tab, about, shippedCount, onSelectT
                   href={about.resumeUrl}
                   download="Edward Pearson CV.pdf"
                   tabIndex={windowFocused ? undefined : -1}
+                  onClick={() => track('Resume Download', { source: 'about-window' })}
                 >
                   Resume.pdf
                 </a>

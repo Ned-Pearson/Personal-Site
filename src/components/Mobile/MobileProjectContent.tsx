@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics'
 import type { ProjectContent } from '../../data'
 import { TabBar } from '../Desktop/TabBar'
 import styles from './MobileProjectContent.module.css'
@@ -54,14 +55,26 @@ export function MobileProjectContent({ tab, name, project, onSelectTab, onOpenLi
               </div>
               <div className={styles.footer}>
                 {project.sourceUrl ? (
-                  <a className={styles.button} href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className={styles.button}
+                    href={project.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => track('Project Source Click', { project: project.id })}
+                  >
                     Source
                   </a>
                 ) : (
                   <div className={`${styles.button} ${styles.buttonDisabled}`}>No source available</div>
                 )}
                 {project.liveUrl && (
-                  <a className={styles.button} href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                  <a
+                    className={styles.button}
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => track('Project Live Demo Click', { project: project.id })}
+                  >
                     Live demo
                   </a>
                 )}
