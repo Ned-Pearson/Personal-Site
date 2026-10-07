@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics'
 import type { AboutContent } from '../../data'
 import { TabBar } from '../Desktop/TabBar'
 import styles from './MobileAboutContent.module.css'
@@ -104,7 +105,12 @@ export function MobileAboutContent({ tab, about, shippedCount, onSelectTab }: Mo
                 <a className={styles.button} href={`mailto:${about.email}`}>
                   Send email
                 </a>
-                <a className={styles.button} href={about.resumeUrl} download="Edward Pearson CV.pdf">
+                <a
+                  className={styles.button}
+                  href={about.resumeUrl}
+                  download="Edward Pearson CV.pdf"
+                  onClick={() => track('Resume Download', { source: 'mobile-about' })}
+                >
                   Resume.pdf
                 </a>
               </div>

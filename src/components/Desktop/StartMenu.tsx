@@ -1,4 +1,5 @@
 import { useEffect, useRef, type KeyboardEvent } from 'react'
+import { track } from '@vercel/analytics'
 import type { WindowKind } from './useWindows'
 import { focusAdjacentMenuItem, focusFirstMenuItem } from '../../utils/menuNavigation'
 import styles from './StartMenu.module.css'
@@ -51,6 +52,7 @@ const SUB_FLYOUT_BOTTOM_OTHER = 92
 // invisible) anchor is synthesized here to get "Edward Pearson CV.pdf"
 // instead of the hashed build filename in the recruiter's downloads folder.
 function downloadResume(url: string) {
+  track('Resume Download', { source: 'start-menu' })
   const link = document.createElement('a')
   link.href = url
   link.download = 'Edward Pearson CV.pdf'

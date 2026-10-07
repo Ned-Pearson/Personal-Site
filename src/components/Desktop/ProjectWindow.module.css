@@ -150,10 +150,12 @@
   flex-direction: column;
 }
 
-/* aspect-ratio, not a fixed height: all 12 media screenshots share the same
-   16:9 shape, so the box's own shape can just match it. Height then scales
-   with the grid column's width instead of staying fixed, so there's no
-   width/height mismatch to letterbox at any window size. */
+/* Fixed 16:9 box so grid tiles stay aligned regardless of each image's own
+   aspect ratio — app screenshots happen to be 16:9 already, but report
+   figures/charts vary widely (seen as low as ~1.1:1 and as high as ~3.6:1
+   for the Adult Income project), so object-fit must be `contain` rather
+   than `cover`: contain letterboxes against the dark background, cover
+   would crop into axis labels/legends on anything that isn't ~16:9. */
 .mediaImageBox {
   aspect-ratio: 16 / 9;
   background: #111;
@@ -167,7 +169,7 @@
 .mediaImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Fixed height regardless of content, so a tile with no caption still
