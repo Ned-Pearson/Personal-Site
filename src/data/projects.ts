@@ -151,5 +151,6 @@ export const PROJECTS: Record<string, ProjectContent> = {
       { caption: 'Subgroup selection rate and true positive rate by sex and race', src: adultIncomeFairness },
       { caption: 'Equal opportunity thresholding: accuracy cost and TPR gap', src: adultIncomeMitigation },
     ],
+    sourceUrl: 'https://github.com/Ned-Pearson/Adult-Income-Classification',
   },
 }
