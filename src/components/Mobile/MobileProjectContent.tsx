@@ -95,7 +95,10 @@ export function MobileProjectContent({ tab, name, project, onSelectTab, onOpenLi
             <div className={styles.media}>
               {project.media.map((item, i) => (
                 <div key={i} className={styles.mediaTile}>
-                  <div className={styles.mediaImageBox}>
+                  <div
+                    className={styles.mediaImageBox}
+                    style={project.mediaMatte === 'white' ? { background: '#fff' } : undefined}
+                  >
                     <img
                       className={styles.mediaImage}
                       src={item.src}

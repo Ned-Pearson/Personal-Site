@@ -1,6 +1,5 @@
 // Static content for project windows (Overview / Write-up / Media tabs).
 // Keyed by the same id as the matching 'project' node in NODES.
-// Placeholder copy — see Plan.md "Content status": replace before launch.
 
 import todoAppOverview from '../assets/projects/todo-app/main-view.jpg'
 import todoAppMyDay from '../assets/projects/todo-app/my-day.jpg'
@@ -42,6 +41,11 @@ export interface ProjectContent {
    * of needing to shrink. Required whenever screenshotSrc is set. */
   screenshotAspect?: number
   media: { caption: string; src: string }[]
+  /** Letterbox colour behind media-grid images whose aspect ratio doesn't
+   * match the tile's fixed 16:9 box. Defaults to black (a photo-viewer
+   * frame) — set to 'white' when the media are white-background charts/
+   * figures, so the matte disappears instead of reading as a dark border. */
+  mediaMatte?: 'black' | 'white'
   sourceUrl?: string
   liveUrl?: string
 }
@@ -151,6 +155,7 @@ export const PROJECTS: Record<string, ProjectContent> = {
       { caption: 'Subgroup selection rate and true positive rate by sex and race', src: adultIncomeFairness },
       { caption: 'Equal opportunity thresholding: accuracy cost and TPR gap', src: adultIncomeMitigation },
     ],
+    mediaMatte: 'white',
     sourceUrl: 'https://github.com/Ned-Pearson/Adult-Income-Classification',
   },
 }
