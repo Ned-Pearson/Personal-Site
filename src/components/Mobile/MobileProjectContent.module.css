@@ -162,10 +162,11 @@
   object-fit: contain;
 }
 
-/* Fixed height regardless of content, so a tile with no caption still
-   lines up with its neighbours in the grid. */
+/* min-height, not height — see ProjectWindow.module.css's mediaCaption for
+   why: a wrapped two-line caption needs to grow the tile instead of
+   overflowing into the row below. */
 .mediaCaption {
-  height: 1.6em;
+  min-height: 1.6em;
   padding-top: 5px;
   text-align: center;
   font: 500 var(--text-mono-sm) var(--font-mono);

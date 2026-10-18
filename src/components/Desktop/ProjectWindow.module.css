@@ -154,8 +154,11 @@
    aspect ratio — app screenshots happen to be 16:9 already, but report
    figures/charts vary widely (seen as low as ~1.1:1 and as high as ~3.6:1
    for the Adult Income project), so object-fit must be `contain` rather
-   than `cover`: contain letterboxes against the dark background, cover
-   would crop into axis labels/legends on anything that isn't ~16:9. */
+   than `cover`: contain letterboxes against the background, cover would
+   crop into axis labels/legends on anything that isn't ~16:9. Background
+   defaults to a dark photo-viewer matte; ProjectWindow.tsx overrides it
+   to white per-project (project.mediaMatte) for white-background charts,
+   where a dark matte would show as a frame instead of just disappearing. */
 .mediaImageBox {
   aspect-ratio: 16 / 9;
   background: #111;
@@ -172,10 +175,13 @@
   object-fit: contain;
 }
 
-/* Fixed height regardless of content, so a tile with no caption still
-   lines up with its neighbours in the grid. */
+/* min-height, not height: a tile with no caption (or a short one) still
+   lines up with its row neighbour at one line tall, but a caption that
+   wraps to two lines (narrow window) grows the box instead of overflowing
+   into the row below — grid's default row stretch then keeps both tiles
+   in that row the same height. */
 .mediaCaption {
-  height: 1.6em;
+  min-height: 1.6em;
   padding-top: 5px;
   text-align: center;
   font: 500 var(--text-mono-sm) var(--font-mono);
